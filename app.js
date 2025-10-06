@@ -18,7 +18,7 @@ app.set('views', path.join(__dirname, 'src/views'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Session configuration - MUST be before passport
+// Session configuration
 const sessionConfig = {
     secret: "magicWord",
     resave: false,

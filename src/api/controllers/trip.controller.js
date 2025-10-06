@@ -9,46 +9,58 @@ module.exports.renderHomePage = (req, res) => {
 
 module.exports.generateTripPlan = async (req, res) => {
     try {
-        // console.log("Form data received:", req.body);
-        
-        // Process form data - handle interests whether it's a string or array
-        let interests;
-        if (Array.isArray(req.body.interests)) {
-            // If interests is already an array, use it directly
-            interests = req.body.interests;
-        } else {
-            // If interests is a string, split it by commas
-            interests = req.body.interests ? req.body.interests.split(',').map(item => item.trim()) : [];
-        }
-        
+        // Process form data
         const formData = {
-            country: "Sri Lanka", // Fixed to Sri Lanka
+            country: "Sri Lanka",
             duration: parseInt(req.body.duration),
             interests: Array.isArray(req.body.interests) ? req.body.interests : req.body.interests.split(',').map(item => item.trim()),
             budget: req.body.budget,
-            cities: req.body.cities // Add the cities from the form
+            cities: req.body.cities,
+            includeHiddenPlace: req.body.includeHiddenPlace === 'on' // Checkbox values come as 'on' when checked
         };
         
-        // console.log("Processed form data:", formData);
+        // Store formData in session for use in showTripResults
+        req.session.formData = formData;
         
-        // Call the service function with the processed form data
+        // Call AI service
         const tripPlan = await AiPlan.getTripPlan(formData);
         
-        // Render the results page
-        res.render('results', { 
-            tripPlan: tripPlan.tripPlan || [],
-            status: tripPlan.status || "success",
-            message: tripPlan.message || ""
-        });
+        // Store the plan in session
+        req.session.tripPlan = tripPlan;
+        
+        // Redirect to results page
+        res.redirect('/trip-results');
+        
     } catch (error) {
         console.error("Error:", error);
-        res.status(500).render('results', {
-            tripPlan: [],
+        // Store error in session
+        req.session.error = {
             status: "error",
-            message: error.message || "Failed to generate trip plan"
-        });
+            message: error.message
+        };
+        res.redirect('/trip-results');
     }
 };
+
+module.exports.showTripResults = (req, res) => {
+    // Get data from session
+    const tripPlan = req.session.tripPlan || { tripPlan: [] };
+    const formData = req.session.formData || {};
+    const error = req.session.error || {};
+    
+    // Render the results page
+    res.render('results', { 
+        tripPlan: tripPlan.tripPlan || [],
+        status: tripPlan.status || error.status || "success",
+        message: tripPlan.message || error.message || "",
+        citiesString: formData.cities || ""
+    });
+    
+    // Clear session data after rendering
+    req.session.tripPlan = null;
+    req.session.error = null;
+};
+
 module.exports.getTextMessage = (req, res) => {
     res.json({ message: 'Hello from controller!!' });
 }

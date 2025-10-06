@@ -3,99 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Trip Plan</title>
+    <title>Your Sri Lanka Trip Plan</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
-<body>
-    <div class="container mt-5 mb-5">
-        <h1 class="mb-4 text-center">Your Trip Plan</h1>
+<body class="bg-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="/generate-trip">
+                <i class="bi bi-globe-asia-australia me-2"></i>
+                Sri Lanka Trip Planner
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/generate-trip">New Trip</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Define user cities BEFORE using them -->
+        <% 
+        // Get user cities and AI-suggested cities
+        const userCities = citiesString ? citiesString.split(',').map(city => city.trim().toLowerCase()) : [];
+        let allCities = [];
+        let suggestedCities = [];
         
+        if (tripPlan && tripPlan.length > 0) {
+            allCities = [...new Set(tripPlan.map(day => day.location))];
+            suggestedCities = allCities.filter(city => 
+                !userCities.some(userCity => city.toLowerCase().includes(userCity))
+            );
+        }
+        %>
+
+        <!-- Hero Section with Trip Summary -->
+        <div class="p-5 mb-4 bg-success bg-opacity-10 rounded-3">
+            <div class="container-fluid py-3">
+                <h1 class="display-5 fw-bold text-success text-center mb-4">Your Sri Lanka Adventure</h1>
+                <p class="fs-4 text-center">
+                    <i class="bi bi-calendar3 me-2 text-success"></i><%= tripPlan.length %> days
+                    <span class="mx-3">|</span>
+                    <i class="bi bi-geo-alt me-2 text-success"></i><%= allCities.join(', ') %>
+                </p>
+            </div>
+        </div>
+
+        <!-- Error Handling -->
+        <% if (typeof status !== 'undefined' && status === "error") { %>
+            <div class="alert alert-danger">
+                <h4 class="alert-heading"><i class="bi bi-exclamation-triangle-fill me-2"></i>Error occurred</h4>
+                <p><%= message %></p>
+            </div>
+        <% } %>
+        
+        <!-- Show AI suggested cities -->
+        <% if (suggestedCities.length > 0) { %>
+            <div class="alert alert-info mb-4">
+                <h5 class="alert-heading"><i class="bi bi-lightbulb me-2"></i>Additional Suggested Destinations</h5>
+                <p>Based on your interests, we've included these additional places to create a more comprehensive itinerary:</p>
+                <ul class="mb-0">
+                    <% suggestedCities.forEach(city => { %>
+                        <li><strong><%= city %></strong></li>
+                    <% }); %>
+                </ul>
+            </div>
+        <% } %>
+        
+        <!-- Trip Plan -->
         <% if (tripPlan && tripPlan.length > 0) { %>
+            <!-- Itinerary Navigation -->
+            <div class="mb-4 d-none d-md-block">
+                <div class="d-flex justify-content-between align-items-center bg-white p-3 rounded shadow-sm">
+                    <strong class="text-success">Quick Navigation:</strong>
+                    <div>
+                        <% tripPlan.forEach(day => { 
+                            const currentCity = day.location.toLowerCase();
+                            const isSuggested = !userCities.some(city => currentCity.includes(city));
+                        %>
+                            <a href="#day<%= day.day %>" class="btn btn-sm <%= isSuggested ? 'btn-outline-warning' : 'btn-outline-success' %> me-2">
+                                Day <%= day.day %>
+                                <% if (isSuggested) { %>
+                                    <i class="bi bi-star-fill text-warning ms-1" title="AI suggested location"></i>
+                                <% } %>
+                            </a>
+                        <% }); %>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-success" onclick="window.print()">
+                            <i class="bi bi-printer me-1"></i> Print
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
             <div class="row">
+                <!-- Daily Itineraries -->
                 <div class="col-12">
-                    <% if (typeof status !== 'undefined' && status === "error") { %>
-                        <div class="alert alert-danger">
-                            <h4 class="alert-heading">Error occurred</h4>
-                            <p><%= message %></p>
-                        </div>
-                    <% } %>
-                    
                     <% tripPlan.forEach(day => { %>
-                        <div class="card mb-4 shadow">
-                            <div class="card-header bg-primary text-white">
-                                <h2>Day <%= day.day %>: <%= day.location %></h2>
+                        <div id="day<%= day.day %>" class="card mb-4 shadow-sm border-0">
+                            <div class="card-header bg-success bg-gradient text-white py-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h2 class="mb-0 fs-4">
+                                        <span class="badge bg-white text-success me-2">Day <%= day.day %></span>
+                                        <%= day.location %>
+                                        
+                                        <% 
+                                        const currentCity = day.location.toLowerCase();
+                                        const isSuggested = !userCities.some(city => currentCity.includes(city));
+                                        
+                                        if (isSuggested) { %>
+                                            <span class="badge bg-warning text-dark ms-2 fs-6">AI Suggested</span>
+                                        <% } %>
+                                    </h2>
+                                    <span class="badge bg-light text-success">
+                                        <i class="bi bi-geo-alt-fill text-success"></i> <%= day.location %>
+                                    </span>
+                                </div>
                             </div>
+                            
+                            <!-- Rest of your code remains the same -->
                             <div class="card-body">
-                                <h3 class="card-title">Overview</h3>
-                                <p class="card-text"><%= day.description %></p>
+                                <!-- Overview Section -->
+                                <div class="mb-4">
+                                    <h3 class="card-title h5 text-success">
+                                        <i class="bi bi-info-circle me-2"></i>Daily Overview
+                                    </h3>
+                                    <p class="card-text text-muted"><%= day.description %></p>
+                                </div>
                                 
                                 <hr>
                                 
-                                <h3 class="mb-3">Activities</h3>
-                                <div class="list-group mb-4">
-                                    <% day.activities.forEach(activity => { %>
-                                        <div class="list-group-item">
-                                            <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                            <%= activity %>
-                                        </div>
-                                    <% }); %>
+                                <!-- Activities Section -->
+                                <div class="mb-4">
+                                    <h3 class="h5 text-success">
+                                        <i class="bi bi-calendar-check me-2"></i>Activities
+                                    </h3>
+                                    <div class="list-group mb-4">
+                                        <% day.activities.forEach((activity, index) => { %>
+                                            <div class="list-group-item border-start border-3">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h6 class="mb-1">
+                                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                                        <%= activity %>
+                                                    </h6>
+                                                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill">Activity <%= index + 1 %></span>
+                                                </div>
+                                            </div>
+                                        <% }); %>
+                                    </div>
                                 </div>
                                 
+                                <!-- Meals Section -->
                                 <% if (day.meals) { %>
-                                    <h3 class="mb-3">Meals</h3>
-                                    <div class="row mb-4">
-                                        <div class="col-md-4 mb-3 mb-md-0">
-                                            <div class="card border-success h-100">
-                                                <div class="card-header bg-light">
-                                                    <strong>Breakfast</strong>
-                                                </div>
-                                                <div class="card-body">
-                                                    <%= day.meals.breakfast %>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 mb-3 mb-md-0">
-                                            <div class="card border-success h-100">
-                                                <div class="card-header bg-light">
-                                                    <strong>Lunch</strong>
-                                                </div>
-                                                <div class="card-body">
-                                                    <%= day.meals.lunch %>
+                                    <div class="mb-4">
+                                        <h3 class="h5 text-success">
+                                            <i class="bi bi-cup-hot me-2"></i>Meals
+                                        </h3>
+                                        <div class="row g-3 mb-4">
+                                            <div class="col-md-4">
+                                                <div class="card h-100 border-0 shadow-sm">
+                                                    <div class="card-header bg-warning bg-opacity-10 border-bottom-0">
+                                                        <strong><i class="bi bi-sunrise me-2"></i>Breakfast</strong>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <%= day.meals.breakfast %>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="card border-success h-100">
-                                                <div class="card-header bg-light">
-                                                    <strong>Dinner</strong>
+                                            <div class="col-md-4">
+                                                <div class="card h-100 border-0 shadow-sm">
+                                                    <div class="card-header bg-danger bg-opacity-10 border-bottom-0">
+                                                        <strong><i class="bi bi-sun me-2 text-success"></i>Lunch</strong>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <%= day.meals.lunch %>
+                                                    </div>
                                                 </div>
-                                                <div class="card-body">
-                                                    <%= day.meals.dinner %>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="card h-100 border-0 shadow-sm">
+                                                    <div class="card-header bg-info bg-opacity-10 border-bottom-0">
+                                                        <strong><i class="bi bi-moon me-2 text-success"></i>Dinner</strong>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <%= day.meals.dinner %>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 <% } %>
                                 
-                                <div class="row mb-3">
-                                    <div class="col-md-6 mb-3 mb-md-0">
-                                        <h3>Accommodation</h3>
-                                        <div class="card border-primary">
+                                <!-- Accommodation & Transportation -->
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="card h-100 border-0 shadow-sm">
+                                            <div class="card-header bg-primary bg-opacity-10 border-bottom-0">
+                                                <h3 class="h5 mb-0">
+                                                    <i class="bi bi-house-door me-2"></i>Accommodation
+                                                </h3>
+                                            </div>
                                             <div class="card-body">
-                                                <%= day.accommodation %>
+                                                <p class="card-text"><%= day.accommodation %></p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <h3>Transportation Tips</h3>
-                                        <div class="card bg-light">
+                                        <div class="card h-100 border-0 shadow-sm">
+                                            <div class="card-header bg-primary bg-opacity-10 border-bottom-0">
+                                                <h3 class="h5 mb-0 ">
+                                                    <i class="bi bi-bus-front me-2"></i>Transportation Tips
+                                                </h3>
+                                            </div>
                                             <div class="card-body">
-                                                <%= day.transportationTips %>
+                                                <p class="card-text"><%= day.transportationTips %></p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                
+                                <!-- Hidden Gem Section -->
+                                <% if (day.hiddenPlaces && day.hiddenPlaces.length > 0) { %>
+                                    <div class="mt-4">
+                                        <div class="card border-0 shadow-sm">
+                                            <div class="card-header bg-danger bg-opacity-10 text-dark">
+                                                <h3 class="h5 mb-0">
+                                                    <i class="bi bi-gem text-dark"></i>Hidden Places
+                                                </h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <ul class="list-group list-group-flush">
+                                                    <% day.hiddenPlaces.forEach(place => { %>
+                                                        <li class="list-group-item px-0 py-2 border-bottom">
+                                                            <div class="d-flex align-items-center">
+                                                                <span class="badge bg-light me-2">
+                                                                    <i class="bi bi-compass text-dark"></i>
+                                                                </span>
+                                                                <span><%= place %></span>
+                                                            </div>
+                                                        </li>
+                                                    <% }); %>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% } else if (day.hiddenPlace) { %>
+                                    <!-- Fallback for old format -->
+                                    <div class="mt-4">
+                                        <div class="card border-0 shadow-sm">
+                                            <div class="card-header bg-success bg-gradient text-white">
+                                                <h3 class="h5 mb-0">
+                                                    <i class="bi bi-gem me-2"></i>Hidden Place
+                                                </h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="badge bg-light me-2">
+                                                        <i class="bi bi-compass text-dark"></i>
+                                                    </span>
+                                                    <span><%= day.hiddenPlace %></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <div class="card-footer bg-white text-end border-top-0">
+                                <a href="#" class="btn btn-sm btn-outline-success">Back to Top</a>
                             </div>
                         </div>
                     <% }); %>
@@ -108,9 +291,20 @@
             </div>
         <% } %>
         
-        <div class="text-center mt-4 mb-5">
-            <a href="/generate-trip" class="btn btn-primary btn-lg">Plan Another Trip</a>
+        <div class="text-center my-5">
+            <a href="/generate-trip" class="btn btn-success btn-lg px-4 gap-3">
+                <i class="bi bi-plus-circle me-2"></i>Plan Another Trip
+            </a>
         </div>
     </div>
+    
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3 bg-success text-white">
+        <div class="container text-center">
+            <span>© 2025 Sri Lanka Trip Planner</span>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
