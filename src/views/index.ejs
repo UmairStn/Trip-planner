@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TripPlanner</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="row">
+        <div class="col-6 offset-3 mt-5">
+            <!-- Add novalidate to prevent browser validation -->
+            <form action="/generate-trip" method="POST" class="validated-form" novalidate>
+                <h1 class="text-center mb-4">Trip Planner</h1>
+                <div class="mb-3">
+                    <div class="mb-3">
+                        <label for="country" class="form-label">Cities</label>
+                        <input type="text" class="form-control" id="cities" name="cities" placeholder="Enter your cities" required>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please input a city.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="duration" class="form-label">Duration</label>
+                        <input type="number" class="form-control" id="duration" name="duration" placeholder="Enter how many days" required>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please input a duration.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="interests" class="form-label">Interests</label>
+                        <input type="text" class="form-control" id="interests" name="interests" placeholder="Enter interests (comma separated)" required>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please input interests.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="budget" class="form-label">Budget</label>
+                        <select class="form-select" id="budget" name="budget" required>
+                            <option value="" selected disabled>Select your budget</option>
+                            <option value="budget">Budget</option>
+                            <option value="moderate">Moderate</option>
+                            <option value="luxury">Luxury</option>
+                        </select>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please select a budget.</div>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <button type="submit" class="btn btn-success">Generate Trip Plan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/validateForm.js"></script>
+</body>
+</html>
