@@ -4,7 +4,7 @@
 const AiPlan = require('../services/ai.services.js');
 
 module.exports.renderHomePage = (req, res) => {
-    res.render('index');
+    res.render('home');
 }
 
 module.exports.generateTripPlan = async (req, res) => {
@@ -57,9 +57,11 @@ module.exports.showTripResults = (req, res) => {
     });
     
     // Clear session data after rendering
-    req.session.tripPlan = null;
-    req.session.error = null;
+    // req.session.tripPlan = null;
+    // req.session.error = null;
 };
+
+
 
 module.exports.getTextMessage = (req, res) => {
     res.json({ message: 'Hello from controller!!' });

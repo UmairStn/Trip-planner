@@ -19,9 +19,43 @@
             border-color: #198754;
             box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
         }
+/*-----------------------------------------------------------------------------------*/
+        /* Add loading overlay styles */
+        #loadingOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-content {
+            text-align: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+/*-----------------------------------------------------------------------------------*/
     </style>
 </head>
 <body>
+    <!-- Add loading overlay at the start of body -->
+    <div id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner-border text-success" style="width: 4rem; height: 4rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <h3 class="text-success mt-4">Generating Your Trip Plan</h3>
+            <p class="text-muted">Please wait while we create your personalized itinerary...</p>
+        </div>
+    </div>
+<!-- ---------------------------------------------------------------------------------->
     <div class="row">
         <div class="col-6 offset-3 mt-5">
             <!-- Add novalidate to prevent browser validation -->
@@ -76,5 +110,27 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/validateForm.js"></script>
+    <script>
+        const loader = document.getElementById("loadingOverlay");
+        const form = document.querySelector(".validated-form");
+        window.addEventListener("load", function() {
+            loader.style.display = "none";
+        });
+        //show loader on form submit
+        form.addEventListener("submit", function() {
+            if(this.checkValidity()) {
+                loader.style.display = "flex";
+            } else{
+                e.preventDefault();
+                e.stopPropagation();
+                this.classList.add('was-validated');
+            }
+        });
+        window.onpageshow = function(event) {
+            if (event.persisted) {
+                loader.style.display = "none";
+            }
+        };
+    </script>
 </body>
 </html>

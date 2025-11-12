@@ -3,6 +3,7 @@ const router = express.Router();
 const generate = require('../controllers/trip.controller.js');
 
 
+router.get('/', generate.renderHomePage);
 // GET route to display the form
 router.get('/generate-trip', generate.renderHomePage);
 

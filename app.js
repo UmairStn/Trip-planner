@@ -2,6 +2,7 @@ require('dotenv').config();
 const ejsMate = require('ejs-mate');
 const path = require('path');
 
+const mongoose = require('mongoose');
 const express = require('express');
 const session = require('express-session');
 const tripRoutes = require('./src/api/routes/trip.route.js'); // 1. Import your new router
@@ -9,6 +10,17 @@ const tripRoutes = require('./src/api/routes/trip.route.js'); // 1. Import your 
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+async function connectToDatabase(){
+    try{
+        await mongoose.connect('mongodb://127.0.0.1:27017/tripPlannerDb');
+        console.log("MONGO CONNECTION OPEN!!");
+    } catch (error) {
+        console.error("MONGO CONNECTION ERROR!!");
+        console.error(error);
+    }
+}
+connectToDatabase();
 
 app.engine('ejs', ejsMate)
 
