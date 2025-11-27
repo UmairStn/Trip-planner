@@ -2,38 +2,54 @@
 // They receive input from the request, process it (often by calling services),
 // and return a response.
 const AiPlan = require('../services/ai.services.js');
+const UserInputs = require('../models/UserInputs.js');
 
 module.exports.renderHomePage = (req, res) => {
     res.render('home');
 }
-
+module.exports.renderIndexPage = (req, res) => {
+    res.render('index');
+}
+module.exports.renderDestinationsPage = (req, res) => {
+    res.render('destinations');
+}
 module.exports.generateTripPlan = async (req, res) => {
     try {
-        // Process form data
-        const formData = {
-            country: "Sri Lanka",
-            duration: parseInt(req.body.duration),
-            interests: Array.isArray(req.body.interests) ? req.body.interests : req.body.interests.split(',').map(item => item.trim()),
-            budget: req.body.budget,
-            cities: req.body.cities,
-            includeHiddenPlace: req.body.includeHiddenPlace === 'on' // Checkbox values come as 'on' when checked
+        // 1. Extract data from the request body
+        // Note: HTML text inputs are grouped under 'userInputs', but checkboxes are separate
+        const rawInputs = req.body.userInputs; 
+        
+        // 2. Process the data to match your Mongoose Schema
+        const processedData = {
+            cities: rawInputs.cities,
+            duration: parseInt(rawInputs.duration),
+            budget: rawInputs.budget,
+            // Convert comma-separated string to an Array for the DB
+            interests: rawInputs.interests.split(',').map(item => item.trim()),
+            // Checkboxes send 'on' if checked, undefined if not. Convert to Boolean.
+            includeHiddenPlace: req.body.includeHiddenPlace === 'on',
+            allowAiSuggestions: req.body.allowAiSuggestions === 'on'
         };
+
+        // 3. Save to MongoDB
+        // const dbEntry = new UserInputs(processedData);
+        // await dbEntry.save();
+        // console.log("User inputs saved to DB with ID:", dbEntry._id);
+
+        // 4. Store formData in session (using the clean processed data)
+        req.session.formData = processedData;
         
-        // Store formData in session for use in showTripResults
-        req.session.formData = formData;
+        // 5. Call AI service using the processed data
+        const tripPlan = await AiPlan.getTripPlan(processedData);
         
-        // Call AI service
-        const tripPlan = await AiPlan.getTripPlan(formData);
-        
-        // Store the plan in session
+        // 6. Store the AI result in session
         req.session.tripPlan = tripPlan;
         
-        // Redirect to results page
+        // 7. Redirect to results
         res.redirect('/trip-results');
         
     } catch (error) {
         console.error("Error:", error);
-        // Store error in session
         req.session.error = {
             status: "error",
             message: error.message
@@ -53,7 +69,8 @@ module.exports.showTripResults = (req, res) => {
         tripPlan: tripPlan.tripPlan || [],
         status: tripPlan.status || error.status || "success",
         message: tripPlan.message || error.message || "",
-        citiesString: formData.cities || ""
+        citiesString: formData.cities || "",
+        unsplashApiKey: process.env.UNSPLASH_API_KEY || ""
     });
     
     // Clear session data after rendering

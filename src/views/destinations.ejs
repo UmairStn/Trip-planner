@@ -1,0 +1,482 @@
+<% layout('layout/boilerplate') %>
+
+<!-- Hero Section -->
+<div class="relative h-[50vh] min-h-[400px] w-full overflow-hidden">
+    <div class="absolute inset-0">
+        <img src="https://images.unsplash.com/photo-1586861635167-e5223aeb4227?q=80&w=2000&auto=format&fit=crop" 
+             alt="Sri Lanka Destinations" 
+             class="w-full h-full object-cover object-center" />
+        <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-gray-50 dark:to-slate-900"></div>
+    </div>
+    <div class="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center text-center">
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-lg tracking-tight">
+            Explore <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-300">Sri Lanka</span>
+        </h1>
+        <p class="text-lg md:text-xl text-gray-200 max-w-2xl font-light leading-relaxed drop-shadow-md">
+            Discover the island's most captivating destinations, from ancient cities to pristine beaches.
+        </p>
+    </div>
+</div>
+
+<!-- Destinations Grid -->
+<section class="py-16 bg-gray-50 dark:bg-slate-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Filter/Categories -->
+        <div class="flex flex-wrap justify-center gap-4 mb-12" id="filterButtons">
+            <button data-filter="all" class="filter-btn active px-6 py-2 rounded-full bg-cyan-600 text-white font-bold shadow-md hover:bg-cyan-700 transition-colors">All</button>
+            <button data-filter="beaches" class="filter-btn px-6 py-2 rounded-full bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-300 border border-gray-200 dark:border-slate-700 font-medium hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">Beaches</button>
+            <button data-filter="mountains" class="filter-btn px-6 py-2 rounded-full bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-300 border border-gray-200 dark:border-slate-700 font-medium hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">Mountains</button>
+            <!-- <button data-filter="culture" class="filter-btn px-6 py-2 rounded-full bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-300 border border-gray-200 dark:border-slate-700 font-medium hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">Culture</button> -->
+            <button data-filter="wildlife" class="filter-btn px-6 py-2 rounded-full bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-300 border border-gray-200 dark:border-slate-700 font-medium hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">Wildlife</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="destinationsGrid">
+            
+            <!-- Sigiriya -->
+            <div class="destination-card group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer" 
+                 data-category="culture"
+                 data-title="Sigiriya"
+                 data-image="https://images.unsplash.com/photo-1625736300986-f951336540c0?q=80&w=800&auto=format&fit=crop"
+                 data-location="Central"
+                 data-description="The 'Lion Rock' is an ancient rock fortress known for its massive column of rock nearly 200 meters high. A UNESCO World Heritage site featuring ancient frescoes and the Mirror Wall."
+                 data-best-time="January to April"
+                 data-tips="Climb early morning to avoid heat and crowds. Wear comfortable shoes.">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1625736300986-f951336540c0?q=80&w=800&auto=format&fit=crop" alt="Sigiriya" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute top-4 right-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-cyan-700 dark:text-cyan-400 shadow-sm">
+                        <i class="bi bi-star-fill text-yellow-400 mr-1"></i> Must Visit
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Sigiriya</h3>
+                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Central</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">The 'Lion Rock' is an ancient rock fortress known for its massive column of rock nearly 200 meters high. A UNESCO World Heritage site.</p>
+                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
+                        View Details <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Ella -->
+            <div class="destination-card group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+                 data-category="mountains"
+                 data-title="Ella"
+                 data-image="https://images.unsplash.com/photo-1588258524675-55d6563e4147?q=80&w=800&auto=format&fit=crop"
+                 data-location="Badulla"
+                 data-description="Famous for the Nine Arch Bridge, Little Adam's Peak, and stunning tea plantations. A hiker's paradise with cool climate and laid-back vibe."
+                 data-best-time="January to March"
+                 data-tips="Take the scenic train ride from Kandy. Try the local cafes.">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1588258524675-55d6563e4147?q=80&w=800&auto=format&fit=crop" alt="Ella" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Ella</h3>
+                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Badulla</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">Famous for the Nine Arch Bridge, Little Adam's Peak, and stunning tea plantations. A hiker's paradise with cool climate.</p>
+                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
+                        View Details <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Galle Fort -->
+            <div class="destination-card group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+                 data-category="culture"
+                 data-title="Galle Fort"
+                 data-image="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=800&auto=format&fit=crop"
+                 data-location="South"
+                 data-description="A historic Dutch colonial town featuring a fortified old city founded by Portuguese colonists in the 16th century. Cobblestone streets lined with cafes and boutiques."
+                 data-best-time="December to April"
+                 data-tips="Walk the ramparts at sunset. Visit the lighthouse.">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=800&auto=format&fit=crop" alt="Galle Fort" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Galle Fort</h3>
+                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> South</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">A historic Dutch colonial town featuring a fortified old city founded by Portuguese colonists in the 16th century.</p>
+                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
+                        View Details <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mirissa -->
+            <div class="destination-card group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+                 data-category="beaches"
+                 data-title="Mirissa"
+                 data-image="https://images.unsplash.com/photo-1534531688091-a45825f20bc8?q=80&w=800&auto=format&fit=crop"
+                 data-location="South Coast"
+                 data-description="Known for its beautiful beaches, whale watching tours, and vibrant nightlife. The perfect spot for relaxation and ocean adventures."
+                 data-best-time="November to April"
+                 data-tips="Book a whale watching tour early. Visit Coconut Tree Hill for photos.">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1534531688091-a45825f20bc8?q=80&w=800&auto=format&fit=crop" alt="Mirissa" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Mirissa</h3>
+                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> South Coast</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">Known for its beautiful beaches, whale watching tours, and vibrant nightlife. The perfect spot for relaxation and ocean adventures.</p>
+                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
+                        View Details <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Nuwara Eliya -->
+            <div class="destination-card group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+                 data-category="mountains"
+                 data-title="Nuwara Eliya"
+                 data-image="https://images.unsplash.com/photo-1546525848-3ce03ca516f6?q=80&w=800&auto=format&fit=crop"
+                 data-location="Central Highlands"
+                 data-description="Often called 'Little England', this city is famous for its temperate, cool climate, colonial architecture, and endless tea estates."
+                 data-best-time="February to May"
+                 data-tips="Bring warm clothes. Visit a tea factory.">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1546525848-3ce03ca516f6?q=80&w=800&auto=format&fit=crop" alt="Nuwara Eliya" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Nuwara Eliya</h3>
+                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Central Highlands</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">Often called 'Little England', this city is famous for its temperate, cool climate, colonial architecture, and endless tea estates.</p>
+                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
+                        View Details <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Yala National Park -->
+            <div class="destination-card group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+                 data-category="wildlife"
+                 data-title="Yala National Park"
+                 data-image="https://images.unsplash.com/photo-1535338454770-8be927b5a00b?q=80&w=800&auto=format&fit=crop"
+                 data-location="Southeast"
+                 data-description="The most visited and second largest national park in Sri Lanka, famous for its high density of leopards and herds of elephants."
+                 data-best-time="February to July"
+                 data-tips="Book a full-day safari for better chances of spotting leopards.">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1535338454770-8be927b5a00b?q=80&w=800&auto=format&fit=crop" alt="Yala National Park" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Yala National Park</h3>
+                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Southeast</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">The most visited and second largest national park in Sri Lanka, famous for its high density of leopards and herds of elephants.</p>
+                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
+                        View Details <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Anuradhapura -->
+            <div class="destination-card group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+                 data-category="culture"
+                 data-title="Anuradhapura"
+                 data-image="https://images.unsplash.com/photo-1590053160983-e758700ce7c2?q=80&w=800&auto=format&fit=crop"
+                 data-location="North Central"
+                 data-description="One of the ancient capitals of Sri Lanka, famous for its well-preserved ruins of an ancient Sinhala civilization. Home to the sacred Bodhi Tree."
+                 data-best-time="April to September"
+                 data-tips="Dress modestly when visiting temples. Rent a bicycle to explore.">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1590053160983-e758700ce7c2?q=80&w=800&auto=format&fit=crop" alt="Anuradhapura" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Anuradhapura</h3>
+                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> North Central</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">One of the ancient capitals of Sri Lanka, famous for its well-preserved ruins of an ancient Sinhala civilization.</p>
+                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
+                        View Details <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Polonnaruwa -->
+            <div class="destination-card group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+                 data-category="culture"
+                 data-title="Polonnaruwa"
+                 data-image="https://images.unsplash.com/photo-1580910527788-b695e869733d?q=80&w=800&auto=format&fit=crop"
+                 data-location="North Central"
+                 data-description="The second most ancient of Sri Lanka's kingdoms, featuring the monumental ruins of the fabulous garden-city created by Parakramabahu I."
+                 data-best-time="May to September"
+                 data-tips="Explore the Gal Vihara rock statues.">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1580910527788-b695e869733d?q=80&w=800&auto=format&fit=crop" alt="Polonnaruwa" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Polonnaruwa</h3>
+                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> North Central</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">The second most ancient of Sri Lanka's kingdoms, featuring the monumental ruins of the fabulous garden-city created by Parakramabahu I.</p>
+                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
+                        View Details <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Kandy -->
+            <div class="destination-card group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+                 data-category="culture"
+                 data-title="Kandy"
+                 data-image="https://images.unsplash.com/photo-1588258219511-64eb629cb833?q=80&w=800&auto=format&fit=crop"
+                 data-location="Central"
+                 data-description="A large city in central Sri Lanka. It's set on a plateau surrounded by mountains, which are home to tea plantations and biodiverse rainforest. Home to the Temple of the Tooth Relic."
+                 data-best-time="December to April"
+                 data-tips="Visit the Temple of the Tooth during a puja ceremony. Walk around Kandy Lake.">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1588258219511-64eb629cb833?q=80&w=800&auto=format&fit=crop" alt="Kandy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Kandy</h3>
+                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Central</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">A large city in central Sri Lanka. It's set on a plateau surrounded by mountains, which are home to tea plantations and biodiverse rainforest.</p>
+                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
+                        View Details <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Footer -->
+<section class="py-20 bg-cyan-700 relative overflow-hidden">
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+    <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+        <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Ready to Experience These Places?</h2>
+        <p class="text-xl text-cyan-100 mb-10">Create your custom itinerary today and start your adventure.</p>
+        <a href="/generate-trip" class="inline-block px-10 py-4 bg-white text-cyan-700 font-bold text-lg rounded-full shadow-xl hover:bg-gray-100 transform hover:scale-105 transition-all">
+            Plan My Trip Now
+        </a>
+    </div>
+</section>
+
+<!-- Details Modal -->
+<div id="detailsModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity opacity-0" id="modalBackdrop"></div>
+
+    <div class="flex min-h-screen items-center justify-center p-4 text-center sm:p-0">
+        <div class="relative transform overflow-hidden rounded-3xl bg-white dark:bg-slate-800 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-2xl opacity-0 scale-95" id="modalPanel">
+            <!-- Close Button -->
+            <button type="button" class="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/20 hover:bg-black/40 text-white transition-colors focus:outline-none" id="closeModal">
+                <i class="bi bi-x-lg text-lg"></i>
+            </button>
+
+            <!-- Image -->
+            <div class="h-64 sm:h-80 w-full relative">
+                <img id="modalImage" src="" alt="" class="h-full w-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-6 sm:p-8">
+                    <h3 class="text-3xl font-bold text-white drop-shadow-md" id="modalTitle"></h3>
+                    <p class="text-cyan-300 font-medium flex items-center mt-2">
+                        <i class="bi bi-geo-alt-fill mr-2"></i> <span id="modalLocation"></span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="p-6 sm:p-8">
+                <div class="prose dark:prose-invert max-w-none">
+                    <p id="modalDescription" class="text-gray-600 dark:text-slate-300 text-lg leading-relaxed mb-6"></p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-cyan-50 dark:bg-cyan-900/20 p-4 rounded-xl border border-cyan-100 dark:border-cyan-800">
+                            <h4 class="font-bold text-cyan-900 dark:text-cyan-300 mb-2 flex items-center">
+                                <i class="bi bi-calendar-check mr-2"></i> Best Time to Visit
+                            </h4>
+                            <p id="modalBestTime" class="text-sm text-cyan-800 dark:text-cyan-200"></p>
+                        </div>
+                        <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-xl border border-yellow-100 dark:border-yellow-800">
+                            <h4 class="font-bold text-yellow-900 dark:text-yellow-300 mb-2 flex items-center">
+                                <i class="bi bi-lightbulb mr-2"></i> Travel Tip
+                            </h4>
+                            <p id="modalTips" class="text-sm text-yellow-800 dark:text-yellow-200"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end">
+                    <a href="/generate-trip" id="saveItineraryBtn" class="inline-flex justify-center rounded-xl bg-cyan-600 px-6 py-3 text-base font-bold text-white shadow-sm hover:bg-cyan-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 transition-all transform hover:scale-105">
+                        Add to My Trip
+                    </a>
+                </div>
+            </div>
+
+            <!-- Popup Modal (Hidden by default) -->
+            <div id="featurePopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 max-w-md mx-4 shadow-2xl transform transition-all duration-300 scale-95">
+                    <div class="text-center">
+                        <div class="mb-4">
+                            <i class="bi bi-tools text-cyan-600 text-4xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Feature Coming Soon!</h3>
+                        <p class="text-gray-600 dark:text-slate-300 mb-6">We're working hard to bring you the ability to save your trip plans. This feature will be available soon!</p>
+                        <button id="closePopup" class="inline-flex items-center px-6 py-3 bg-cyan-600 text-white font-bold rounded-full hover:bg-cyan-700 transition-colors duration-300">
+                            <i class="bi bi-check-circle mr-2"></i>
+                            Got it
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Filter Functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const destinationCards = document.querySelectorAll('.destination-card');
+    const saveBtn = document.getElementById('saveItineraryBtn');
+    const popup = document.getElementById('featurePopup');
+    const closeBtn = document.getElementById('closePopup');
+
+     // Show popup when Save button is clicked
+    saveBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        popup.classList.remove('hidden');
+        // Add animation
+        setTimeout(() => {
+            popup.querySelector('div').classList.remove('scale-95');
+            popup.querySelector('div').classList.add('scale-100');
+        }, 10);
+    });
+
+    // Close popup when "Got it" button is clicked
+    closeBtn.addEventListener('click', function() {
+        popup.querySelector('div').classList.remove('scale-100');
+        popup.querySelector('div').classList.add('scale-95');
+        setTimeout(() => {
+            popup.classList.add('hidden');
+        }, 300);
+    });
+    
+    // Close popup when clicking outside the modal
+    popup.addEventListener('click', function(e) {
+        if (e.target === popup) {
+            popup.querySelector('div').classList.remove('scale-100');
+            popup.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                popup.classList.add('hidden');
+            }, 300);
+        }
+    });
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterButtons.forEach(b => {
+                b.classList.remove('bg-cyan-600', 'text-white', 'shadow-md');
+                b.classList.add('bg-white', 'dark:bg-slate-800', 'text-gray-700', 'dark:text-slate-300');
+            });
+
+            // Add active class to clicked button
+            btn.classList.remove('bg-white', 'dark:bg-slate-800', 'text-gray-700', 'dark:text-slate-300');
+            btn.classList.add('bg-cyan-600', 'text-white', 'shadow-md');
+
+            const filterValue = btn.getAttribute('data-filter');
+
+            destinationCards.forEach(card => {
+                if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                    card.classList.remove('hidden');
+                    // Add animation
+                    card.classList.add('animate-fade-in');
+                    setTimeout(() => card.classList.remove('animate-fade-in'), 500);
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        });
+    });
+
+    // Modal Functionality
+    const modal = document.getElementById('detailsModal');
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalPanel = document.getElementById('modalPanel');
+    const closeModalBtn = document.getElementById('closeModal');
+    
+    // Modal Content Elements
+    const modalImage = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalLocation = document.getElementById('modalLocation');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalBestTime = document.getElementById('modalBestTime');
+    const modalTips = document.getElementById('modalTips');
+
+    function openModal(card) {
+        // Populate data
+        modalImage.src = card.getAttribute('data-image');
+        modalTitle.textContent = card.getAttribute('data-title');
+        modalLocation.textContent = card.getAttribute('data-location');
+        modalDescription.textContent = card.getAttribute('data-description');
+        modalBestTime.textContent = card.getAttribute('data-best-time');
+        modalTips.textContent = card.getAttribute('data-tips');
+
+        // Show modal
+        modal.classList.remove('hidden');
+        
+        // Animate in
+        // Small delay to allow display:block to apply before opacity transition
+        requestAnimationFrame(() => {
+            modalBackdrop.classList.remove('opacity-0');
+            modalPanel.classList.remove('opacity-0', 'scale-95');
+            modalPanel.classList.add('opacity-100', 'scale-100');
+        });
+        
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+
+    function closeModal() {
+        // Animate out
+        modalBackdrop.classList.add('opacity-0');
+        modalPanel.classList.remove('opacity-100', 'scale-100');
+        modalPanel.classList.add('opacity-0', 'scale-95');
+
+        // Hide after animation
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            document.body.style.overflow = ''; // Restore scrolling
+        }, 300);
+    }
+
+    // Attach click event to cards
+    destinationCards.forEach(card => {
+        card.addEventListener('click', () => openModal(card));
+    });
+
+    // Close modal events
+    closeModalBtn.addEventListener('click', closeModal);
+    
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target === modalBackdrop) {
+            closeModal();
+        }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            closeModal();
+        }
+    });
+});
+</script>

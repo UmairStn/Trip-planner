@@ -7,122 +7,122 @@ const axios = require('axios');
 const TEST_MODE = false; // Toggle this to true when you want to skip API calls
 
 // Sample trip plan for testing
-const sampleTripPlan = {
-  tripPlan: [
-    {
-      day: 1,
-      location: "Colombo",
-      description: "Your journey begins in the vibrant capital city of Colombo. After checking into your hotel, spend the day exploring the colonial architecture and bustling markets. Visit the historic Fort area with its mix of modern businesses and colonial-era buildings. Enjoy a leisurely stroll along Galle Face Green in the evening as the sun sets over the Indian Ocean, where locals gather to fly kites, play cricket, and enjoy street food.",
-      activities: [
-        "Explore Gangaramaya Temple, a unique Buddhist complex with eclectic architecture",
-        "Visit the National Museum to learn about Sri Lankan history and culture",
-        "Shop at Pettah Market, a maze of streets filled with vendors and local goods",
-        "Evening walk along Galle Face Green promenade"
-      ],
-      meals: {
-        breakfast: "Traditional Sri Lankan hoppers and egg curry at Palmyrah Restaurant",
-        lunch: "Rice and curry at Upali's by Nawaloka, known for authentic local cuisine",
-        dinner: "Seafood dinner at Ministry of Crab in the historic Dutch Hospital complex"
-      },
-      accommodation: "Cinnamon Grand Colombo - Luxury city hotel with multiple restaurants and a pool (₹12,000-15,000 per night)",
-      transportationTips: "Use metered tuk-tuks or ride-hailing apps like PickMe for getting around Colombo. For longer distances, hire a private car or use the efficient public bus system.",
-      hiddenPlaces: [
-        "Attanagalla Rajamaha Viharaya - Ancient temple with peaceful gardens away from tourist crowds",
-        "Barefoot Garden Café - Hidden courtyard café with live jazz on Sundays"
-      ]
-    },
-    {
-      day: 2,
-      location: "Kandy",
-      description: "Travel to Kandy, the last capital of the Sri Lankan kings and a UNESCO World Heritage site. Visit the Temple of the Tooth Relic, one of the most sacred Buddhist sites in the world. Explore the Royal Botanical Gardens in Peradeniya, home to a vast collection of plants and trees. In the evening, enjoy a cultural show featuring traditional Sri Lankan dance and music.",
-      activities: [
-        "Morning visit to the Temple of the Tooth Relic",
-        "Explore the Royal Botanical Gardens in Peradeniya",
-        "Visit the Kandy Lake and enjoy a boat ride",
-        "Evening cultural show at the Kandy Lake Club"
-      ],
-      meals: {
-        breakfast: "Buffet breakfast at the hotel",
-        lunch: "Traditional Sri Lankan rice and curry at a local restaurant",
-        dinner: "Kandyan Muslim Hotel for authentic biryani and other local dishes"
-      },
-      accommodation: "Earl's Regency Hotel - Luxury hotel with stunning views of the Mahaweli River (₹10,000-12,000 per night)",
-      transportationTips: "Take a scenic train ride from Colombo to Kandy. In Kandy, use tuk-tuks or walk to explore the city.",
-      hiddenPlaces: [
-        "Gadaladeniya Temple - 14th-century Buddhist temple with intricate stone carvings",
-        "Lankatilaka Temple - Stunning temple with panoramic views, located a bit off the tourist trail"
-      ]
-    },
-    {
-      day: 3,
-      location: "Sigiriya",
-      description: "Drive to Sigiriya, home to the famous Sigiriya Rock Fortress, a UNESCO World Heritage site. Climb the rock for breathtaking views and explore the ancient frescoes and ruins. In the afternoon, visit the nearby Dambulla Cave Temple, another UNESCO site, known for its impressive cave paintings and Buddha statues.",
-      activities: [
-        "Morning climb to Sigiriya Rock Fortress",
-        "Explore the ruins and frescoes at Sigiriya",
-        "Visit the Dambulla Cave Temple in the afternoon",
-        "Evening at leisure or explore the local area"
-      ],
-      meals: {
-        breakfast: "At the hotel in Kandy",
-        lunch: "Local restaurant in Sigiriya for fresh farm-to-table cuisine",
-        dinner: "The Village Hotel in Sigiriya for a cultural dance and dinner experience"
-      },
-      accommodation: "Sigiriya Jungles - Eco-friendly hotel with luxury tents and tree houses (₹8,000-10,000 per night)",
-      transportationTips: "Private car or taxi from Kandy to Sigiriya. In Sigiriya, use bicycles or tuk-tuks to get around.",
-      hiddenPlaces: [
-        "Pidurangala Rock - Less crowded than Sigiriya, offers equally stunning views",
-        "Kaludiya Pokuna - Ancient pond and meditation site, great for a quiet retreat"
-      ]
-    },
-    {
-      day: 4,
-      location: "Polonnaruwa",
-      description: "Visit the ancient city of Polonnaruwa, a UNESCO World Heritage site, known for its well-preserved ruins and impressive archaeological sites. Explore the Royal Palace, Gal Vihara with its massive Buddha statues, and the Parakrama Samudra, an ancient reservoir. In the evening, return to Sigiriya.",
-      activities: [
-        "Full-day exploration of Polonnaruwa's archaeological sites",
-        "Visit the Royal Palace and Gal Vihara",
-        "Explore the ancient irrigation system at Parakrama Samudra",
-        "Evening at leisure in Sigiriya"
-      ],
-      meals: {
-        breakfast: "At the hotel in Sigiriya",
-        lunch: "Local restaurant in Polonnaruwa for traditional Sri Lankan meals",
-        dinner: "Back in Sigiriya, dine at a local restaurant or hotel"
-      },
-      accommodation: "Sigiriya Jungles - Continued stay in your luxury tent or tree house",
-      transportationTips: "Private car or taxi for the day to explore Polonnaruwa. Bicycles are also available for rent at the site.",
-      hiddenPlaces: [
-        "Kiri Vehera - Less visited stupa with beautiful frescoes and peaceful surroundings",
-        "Nissanka Latha Mandapaya - Unique stone pavilion with intricate carvings"
-      ]
-    },
-    {
-      day: 5,
-      location: "Anuradhapura",
-      description: "Travel to Anuradhapura, one of the ancient capitals of Sri Lanka and a UNESCO World Heritage site. Explore the well-preserved ruins, including the Sri Maha Bodhi tree, Ruwanwelisaya stupa, and the ancient hospital. Learn about the rich history and archaeological significance of the site.",
-      activities: [
-        "Full-day exploration of Anuradhapura's ancient ruins",
-        "Visit the Sri Maha Bodhi tree, believed to be the oldest living tree in the world",
-        "Explore the Ruwanwelisaya stupa and other significant sites",
-        "Evening at leisure or visit a local market"
-      ],
-      meals: {
-        breakfast: "At the hotel in Sigiriya",
-        lunch: "Local restaurant in Anuradhapura for authentic Sri Lankan cuisine",
-        dinner: "Heritage Hotel's restaurant for a mix of local and international dishes"
-      },
-      accommodation: "Heritage Hotel, Anuradhapura - Comfortable hotel with modern amenities (₹6,000-8,000 per night)",
-      transportationTips: "Private car or taxi for the day. Anuradhapura is spread out, so hiring a vehicle is recommended.",
-      hiddenPlaces: [
-        "Isurumuniya Temple - Ancient rock temple with beautiful carvings and a tranquil setting",
-        "The Samadhi Buddha Statue - A serene and less crowded site to reflect and meditate"
-      ]
-    }
-  ],
-  status: "success",
-  message: ""
-};
+// const sampleTripPlan = {
+//   tripPlan: [
+//     {
+//       day: 1,
+//       location: "Colombo",
+//       description: "Your journey begins in the vibrant capital city of Colombo. After checking into your hotel, spend the day exploring the colonial architecture and bustling markets. Visit the historic Fort area with its mix of modern businesses and colonial-era buildings. Enjoy a leisurely stroll along Galle Face Green in the evening as the sun sets over the Indian Ocean, where locals gather to fly kites, play cricket, and enjoy street food.",
+//       activities: [
+//         "Explore Gangaramaya Temple, a unique Buddhist complex with eclectic architecture",
+//         "Visit the National Museum to learn about Sri Lankan history and culture",
+//         "Shop at Pettah Market, a maze of streets filled with vendors and local goods",
+//         "Evening walk along Galle Face Green promenade"
+//       ],
+//       meals: {
+//         breakfast: "Traditional Sri Lankan hoppers and egg curry at Palmyrah Restaurant",
+//         lunch: "Rice and curry at Upali's by Nawaloka, known for authentic local cuisine",
+//         dinner: "Seafood dinner at Ministry of Crab in the historic Dutch Hospital complex"
+//       },
+//       accommodation: "Cinnamon Grand Colombo - Luxury city hotel with multiple restaurants and a pool (₹12,000-15,000 per night)",
+//       transportationTips: "Use metered tuk-tuks or ride-hailing apps like PickMe for getting around Colombo. For longer distances, hire a private car or use the efficient public bus system.",
+//       hiddenPlaces: [
+//         "Attanagalla Rajamaha Viharaya - Ancient temple with peaceful gardens away from tourist crowds",
+//         "Barefoot Garden Café - Hidden courtyard café with live jazz on Sundays"
+//       ]
+//     },
+//     {
+//       day: 2,
+//       location: "Kandy",
+//       description: "Travel to Kandy, the last capital of the Sri Lankan kings and a UNESCO World Heritage site. Visit the Temple of the Tooth Relic, one of the most sacred Buddhist sites in the world. Explore the Royal Botanical Gardens in Peradeniya, home to a vast collection of plants and trees. In the evening, enjoy a cultural show featuring traditional Sri Lankan dance and music.",
+//       activities: [
+//         "Morning visit to the Temple of the Tooth Relic",
+//         "Explore the Royal Botanical Gardens in Peradeniya",
+//         "Visit the Kandy Lake and enjoy a boat ride",
+//         "Evening cultural show at the Kandy Lake Club"
+//       ],
+//       meals: {
+//         breakfast: "Buffet breakfast at the hotel",
+//         lunch: "Traditional Sri Lankan rice and curry at a local restaurant",
+//         dinner: "Kandyan Muslim Hotel for authentic biryani and other local dishes"
+//       },
+//       accommodation: "Earl's Regency Hotel - Luxury hotel with stunning views of the Mahaweli River (₹10,000-12,000 per night)",
+//       transportationTips: "Take a scenic train ride from Colombo to Kandy. In Kandy, use tuk-tuks or walk to explore the city.",
+//       hiddenPlaces: [
+//         "Gadaladeniya Temple - 14th-century Buddhist temple with intricate stone carvings",
+//         "Lankatilaka Temple - Stunning temple with panoramic views, located a bit off the tourist trail"
+//       ]
+//     },
+//     {
+//       day: 3,
+//       location: "Sigiriya",
+//       description: "Drive to Sigiriya, home to the famous Sigiriya Rock Fortress, a UNESCO World Heritage site. Climb the rock for breathtaking views and explore the ancient frescoes and ruins. In the afternoon, visit the nearby Dambulla Cave Temple, another UNESCO site, known for its impressive cave paintings and Buddha statues.",
+//       activities: [
+//         "Morning climb to Sigiriya Rock Fortress",
+//         "Explore the ruins and frescoes at Sigiriya",
+//         "Visit the Dambulla Cave Temple in the afternoon",
+//         "Evening at leisure or explore the local area"
+//       ],
+//       meals: {
+//         breakfast: "At the hotel in Kandy",
+//         lunch: "Local restaurant in Sigiriya for fresh farm-to-table cuisine",
+//         dinner: "The Village Hotel in Sigiriya for a cultural dance and dinner experience"
+//       },
+//       accommodation: "Sigiriya Jungles - Eco-friendly hotel with luxury tents and tree houses (₹8,000-10,000 per night)",
+//       transportationTips: "Private car or taxi from Kandy to Sigiriya. In Sigiriya, use bicycles or tuk-tuks to get around.",
+//       hiddenPlaces: [
+//         "Pidurangala Rock - Less crowded than Sigiriya, offers equally stunning views",
+//         "Kaludiya Pokuna - Ancient pond and meditation site, great for a quiet retreat"
+//       ]
+//     },
+//     {
+//       day: 4,
+//       location: "Polonnaruwa",
+//       description: "Visit the ancient city of Polonnaruwa, a UNESCO World Heritage site, known for its well-preserved ruins and impressive archaeological sites. Explore the Royal Palace, Gal Vihara with its massive Buddha statues, and the Parakrama Samudra, an ancient reservoir. In the evening, return to Sigiriya.",
+//       activities: [
+//         "Full-day exploration of Polonnaruwa's archaeological sites",
+//         "Visit the Royal Palace and Gal Vihara",
+//         "Explore the ancient irrigation system at Parakrama Samudra",
+//         "Evening at leisure in Sigiriya"
+//       ],
+//       meals: {
+//         breakfast: "At the hotel in Sigiriya",
+//         lunch: "Local restaurant in Polonnaruwa for traditional Sri Lankan meals",
+//         dinner: "Back in Sigiriya, dine at a local restaurant or hotel"
+//       },
+//       accommodation: "Sigiriya Jungles - Continued stay in your luxury tent or tree house",
+//       transportationTips: "Private car or taxi for the day to explore Polonnaruwa. Bicycles are also available for rent at the site.",
+//       hiddenPlaces: [
+//         "Kiri Vehera - Less visited stupa with beautiful frescoes and peaceful surroundings",
+//         "Nissanka Latha Mandapaya - Unique stone pavilion with intricate carvings"
+//       ]
+//     },
+//     {
+//       day: 5,
+//       location: "Anuradhapura",
+//       description: "Travel to Anuradhapura, one of the ancient capitals of Sri Lanka and a UNESCO World Heritage site. Explore the well-preserved ruins, including the Sri Maha Bodhi tree, Ruwanwelisaya stupa, and the ancient hospital. Learn about the rich history and archaeological significance of the site.",
+//       activities: [
+//         "Full-day exploration of Anuradhapura's ancient ruins",
+//         "Visit the Sri Maha Bodhi tree, believed to be the oldest living tree in the world",
+//         "Explore the Ruwanwelisaya stupa and other significant sites",
+//         "Evening at leisure or visit a local market"
+//       ],
+//       meals: {
+//         breakfast: "At the hotel in Sigiriya",
+//         lunch: "Local restaurant in Anuradhapura for authentic Sri Lankan cuisine",
+//         dinner: "Heritage Hotel's restaurant for a mix of local and international dishes"
+//       },
+//       accommodation: "Heritage Hotel, Anuradhapura - Comfortable hotel with modern amenities (₹6,000-8,000 per night)",
+//       transportationTips: "Private car or taxi for the day. Anuradhapura is spread out, so hiring a vehicle is recommended.",
+//       hiddenPlaces: [
+//         "Isurumuniya Temple - Ancient rock temple with beautiful carvings and a tranquil setting",
+//         "The Samadhi Buddha Statue - A serene and less crowded site to reflect and meditate"
+//       ]
+//     }
+//   ],
+//   status: "success",
+//   message: ""
+// };
 
 
 const getTripPlan = async (userInput) => {
@@ -141,15 +141,17 @@ const getTripPlan = async (userInput) => {
         const citiesString = userInput.cities ? userInput.cities.split(',').map(city => city.trim()).join(', ') : "major cities";
 
         //1. Get the api key and url
-        const apiKey = process.env.GEMINI_API_KEY;
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`
+        const geminiApiKey = process.env.GEMINI_API_KEY;
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`
 
         //2. create the prompt
         const generatePrompt = `Create a detailed trip plan for a ${duration}-day trip to ${country} visiting these cities: ${citiesString}. The trip should be suitable for a ${budget} budget. The traveler is primarily interested in exploring ${interString}.`;
 
         //3. Create a combined prompt
         const citiesArray = citiesString.split(',').map(city => city.trim());
-        const needMoreCities = (citiesArray.length <= 2 && duration > 3);
+        
+        // MODIFIED LOGIC: Only suggest more cities if the user ALLOWS it AND the logic deems it necessary
+        const needMoreCities = userInput.allowAiSuggestions && (citiesArray.length <= 2 && duration > 3);
 
         const combinedPrompt = `You are an expert travel agent creating a personalized itinerary for Sri Lanka. 
                                 Your response MUST be ONLY valid JSON with no additional text or markdown. 

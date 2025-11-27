@@ -1,136 +1,245 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TripPlanner</title>
+<% layout('layout/boilerplate') %>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+    #loadingOverlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        z-index: 50;
+        justify-content: center;
+        align-items: center;
+    }
     
-    <!-- Add custom styles for green switch -->
-    <style>
-        .form-check-input:checked {
-            background-color: #198754;  /* Bootstrap's green color */
-            border-color: #198754;
-        }
-        
-        .form-check-input:focus {
-            border-color: #198754;
-            box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
-        }
-/*-----------------------------------------------------------------------------------*/
-        /* Add loading overlay styles */
-        #loadingOverlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-        }
+    /* Toggle switch styling */
+    .toggle-checkbox:checked {
+        right: 0;
+        border-color: #0891b2;
+    }
+    .toggle-checkbox:checked + .toggle-label {
+        background-color: #0891b2;
+    }
+    
+    /* Background image for left section */
+    .hero-bg {
+        /* background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1470'); */
+        background-image: url('/images/ellaCover.jpg');
+        background-size: cover;
+        background-position: center;
+    }
 
-        .loading-content {
-            text-align: center;
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-/*-----------------------------------------------------------------------------------*/
-    </style>
-</head>
-<body>
-    <!-- Add loading overlay at the start of body -->
-    <div id="loadingOverlay">
-        <div class="loading-content">
-            <div class="spinner-border text-success" style="width: 4rem; height: 4rem;" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-            <h3 class="text-success mt-4">Generating Your Trip Plan</h3>
-            <p class="text-muted">Please wait while we create your personalized itinerary...</p>
-        </div>
+    .custom-shadow {
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Fix for Chrome/Edge Autofill in Dark Mode */
+    .dark input:-webkit-autofill,
+    .dark input:-webkit-autofill:hover, 
+    .dark input:-webkit-autofill:focus, 
+    .dark input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px #334155 inset !important; /* Matches bg-slate-700 */
+        -webkit-text-fill-color: white !important;
+        caret-color: white;
+    }
+</style>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="dark:bg-slate-900/95">
+    <div class="text-center p-8 bg-white dark:bg-slate-800 rounded-xl shadow-2xl">
+        <div class="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-cyan-600 mb-4"></div>
+        <h3 class="text-cyan-700 dark:text-slate-400 text-xl font-bold">Generating Your Trip Plan</h3>
+        <p class="text-gray-500 dark:text-slate-400 mt-2">Please wait while we create your personalized itinerary...</p>
     </div>
-<!-- ---------------------------------------------------------------------------------->
-    <div class="row">
-        <div class="col-6 offset-3 mt-5">
-            <!-- Add novalidate to prevent browser validation -->
-            <form action="/generate-trip" method="POST" class="validated-form" novalidate>
-                <h1 class="text-center mb-4">Trip Planner</h1>
-                <div class="mb-3">
-                    <div class="mb-3">
-                        <label for="country" class="form-label">Cities</label>
-                        <input type="text" class="form-control" id="cities" name="cities" placeholder="Enter your cities" required>
-                        <div class="valid-feedback">Looks good!</div>
-                        <div class="invalid-feedback">Please input a city.</div>
+</div>
+
+<div class="min-h-screen flex items-center justify-center py-10 px-4">
+    <div class="w-full max-w-7xl bg-white dark:bg-slate-800 rounded-3xl custom-shadow overflow-hidden transition-colors duration-300">
+        <div class="grid grid-cols-1 lg:grid-cols-5">
+            <!-- Left Section - Hero Image -->
+            <div class="hero-bg relative hidden lg:block lg:col-span-2">
+                <div class="absolute inset-0 bg-gradient-to-br from-cyan-900/40 to-cyan-600/40"></div>
+                <div class="relative h-full flex items-center justify-center p-12">
+                    <div class="text-white text-center">
+                        <h2 class="text-4xl font-bold mb-4 drop-shadow-lg">Discover Sri Lanka</h2>
+                        <p class="text-lg text-green-50 drop-shadow-md">Experience the pearl of the Indian Ocean</p>
                     </div>
-                    <div class="mb-3">
-                        <label for="duration" class="form-label">Duration</label>
-                        <input type="number" class="form-control" id="duration" name="duration" placeholder="Enter how many days" required>
-                        <div class="valid-feedback">Looks good!</div>
-                        <div class="invalid-feedback">Please input a duration.</div>
+                </div>
+            </div>
+            
+            <!-- Right Section - Form -->
+            <div class="bg-white dark:bg-slate-900 p-8 lg:p-12 lg:col-span-3 transition-colors duration-300">
+                <div class="mb-8">
+                    <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-3">Plan Your Dream Trip to Sri Lanka</h1>
+                    <p class="text-teal-600 dark:text-teal-400 text-base">Fill in your preferences below, and we'll craft a personalized itinerary just for you.</p>
+                </div>
+                
+                <form action="/generate-trip" method="POST" class="validated-form space-y-6 dark:from-slate-900 dark:to-slate-900" novalidate>
+                    <!-- Cities Input -->
+                    <div class="relative">
+                        <label for="cities" class="block text-sm font-semibold text-gray-800 dark:text-slate-200 mb-2">Cities to Visit</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="bi bi-geo-alt text-gray-400 dark:text-slate-500 text-lg"></i>
+                            </div>
+                            <input type="text" name="userInputs[cities]" id="cities" required
+                                class="block w-full pl-11 pr-4 py-3.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:outline-none focus:border-cyan-600 text-sm transition bg-white dark:bg-slate-700 dark:text-white shadow-sm dark:placeholder-slate-400" 
+                                placeholder="e.g., Kandy, Ella, Galle">
+                        </div>
+                        <!-- Absolute positioned error message -->
+                        <p id="citiesError" class="absolute -bottom-5 left-0 text-red-500 text-xs italic hidden">Please enter at least one city.</p>
                     </div>
-                    <div class="mb-3">
-                        <label for="interests" class="form-label">Interests</label>
-                        <input type="text" class="form-control" id="interests" name="interests" placeholder="Enter interests (comma separated)" required>
-                        <div class="valid-feedback">Looks good!</div>
-                        <div class="invalid-feedback">Please input interests.</div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Duration Input -->
+                        <div class="relative">
+                            <label for="duration" class="block text-sm font-semibold text-gray-800 dark:text-slate-200 mb-2">Duration (Days)</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <i class="bi bi-calendar3 text-gray-400 dark:text-slate-500 text-lg"></i>
+                                </div>
+                                <input type="number" name="userInputs[duration]" id="duration" required min="1"
+                                    class="block w-full pl-11 pr-4 py-3.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:outline-none focus:border-cyan-600 text-sm bg-white dark:bg-slate-700 dark:text-white shadow-sm transition dark:placeholder-slate-400" 
+                                    placeholder="e.g., 7">
+                            </div>
+                            <p id="durationError" class="absolute -bottom-5 left-0 text-red-500 text-xs italic hidden">Min 1 day.</p>
+                        </div>
+
+                        <!-- Budget Input -->
+                        <div class="relative">
+                            <label for="budget" class="block text-sm font-semibold text-gray-800 dark:text-slate-200 mb-2">Budget</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                                    <i class="bi bi-wallet2 text-gray-400 dark:text-slate-500 text-lg"></i>
+                                </div>
+                                <select id="budget" name="userInputs[budget]" required
+                                    class="block w-full pl-11 pr-4 py-3.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:outline-none focus:border-cyan-600 text-sm bg-white dark:bg-slate-700 dark:text-white appearance-none shadow-sm cursor-pointer transition">
+                                    <option value="" selected disabled>Select budget</option>
+                                    <option value="budget">Budget</option>
+                                    <option value="moderate">Moderate</option>
+                                    <option value="luxury">Luxury</option>
+                                </select>
+                                <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                                    <i class="bi bi-chevron-down text-gray-400 dark:text-slate-500 text-sm"></i>
+                                </div>
+                            </div>
+                            <p id="budgetError" class="absolute -bottom-5 left-0 text-red-500 text-xs italic hidden">Select a budget.</p>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="budget" class="form-label">Budget</label>
-                        <select class="form-select" id="budget" name="budget" required>
-                            <option value="" selected disabled>Select your budget</option>
-                            <option value="budget">Budget</option>
-                            <option value="moderate">Moderate</option>
-                            <option value="luxury">Luxury</option>
-                        </select>
-                        <div class="valid-feedback">Looks good!</div>
-                        <div class="invalid-feedback">Please select a budget.</div>
+
+                    <!-- Interests Input -->
+                    <div class="relative">
+                        <label for="interests" class="block text-sm font-semibold text-gray-800 dark:text-slate-200 mb-2">What are your interests?</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="bi bi-heart text-gray-400 dark:text-slate-500 text-lg"></i>
+                            </div>
+                            <input type="text" name="userInputs[interests]" id="interests" required
+                                class="block w-full pl-11 pr-4 py-3.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:outline-none focus:border-cyan-600 text-sm bg-white dark:bg-slate-700 dark:text-white shadow-sm transition dark:placeholder-slate-400" 
+                                placeholder="e.g., Beaches, Hiking, History, Culture">
+                        </div>
+                        <p id="interestsError" class="absolute -bottom-5 left-0 text-red-500 text-xs italic hidden">Enter interests.</p>
                     </div>
                     
-                    <!-- Add Hidden Gems Toggle Switch -->
-                    <div class="mb-3 form-check form-switch mt-4">
-                        <input class="form-check-input" type="checkbox" id="includeHiddenPlace" name="includeHiddenPlace" checked>
-                        <label class="form-check-label" for="includeHiddenPlace">
-                            <i class="bi bi-gem me-2"></i>Suggest Hidden Place
-                        </label>
-                        <div class="form-text text-muted">Get recommendations for lesser-known spots that tourists usually miss</div>
+                    <!-- Hidden Gems Toggle -->
+                    <div class="flex items-center justify-between bg-white dark:bg-slate-700/50 p-5 rounded-xl border border-gray-200 dark:border-slate-600 shadow-sm hover:shadow-md transition-all">
+                        <div>
+                            <label for="includeHiddenPlace" class="font-semibold text-gray-900 dark:text-white flex items-center cursor-pointer">
+                                <i class="bi bi-gem text-cyan-600 dark:text-cyan-400 mr-2 text-lg"></i>Suggest Hidden Places
+                            </label>
+                            <p class="text-xs text-gray-500 dark:text-slate-400 mt-1">Get recommendations for lesser-known spots</p>
+                        </div>
+                        <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" name="includeHiddenPlace" id="includeHiddenPlace" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300" checked/>
+                            <label for="includeHiddenPlace" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-slate-600 cursor-pointer transition-colors duration-300"></label>
+                        </div>
                     </div>
-                </div>
-                <div class="mb-4">
-                    <button type="submit" class="btn btn-success">Generate Trip Plan</button>
-                </div>
-            </form>
+
+                    <!-- AI Suggestions Toggle -->
+                    <div class="flex items-center justify-between bg-white dark:bg-slate-700/50 p-5 rounded-xl border border-gray-200 dark:border-slate-600 shadow-sm hover:shadow-md transition-all">
+                        <div>
+                            <label for="allowAiSuggestions" class="font-semibold text-gray-900 dark:text-white flex items-center cursor-pointer">
+                                <i class="bi bi-magic text-cyan-600 dark:text-cyan-400 mr-2 text-lg"></i>Allow AI Suggestions
+                            </label>
+                            <p class="text-xs text-gray-500 dark:text-slate-400 mt-1">Let AI suggest extra cities if your trip is long</p>
+                        </div>
+                        <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" name="allowAiSuggestions" id="allowAiSuggestions" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300" checked/>
+                            <label for="allowAiSuggestions" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-slate-600 cursor-pointer transition-colors duration-300"></label>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="w-full flex justify-center items-center py-4 px-6 border border-transparent rounded-xl shadow-lg text-base font-bold text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 transition-all duration-200 transform hover:scale-[1.02]">
+                            Plan My Trip <i class="bi bi-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/validateForm.js"></script>
-    <script>
-        const loader = document.getElementById("loadingOverlay");
-        const form = document.querySelector(".validated-form");
-        window.addEventListener("load", function() {
+<script>
+    const loader = document.getElementById("loadingOverlay");
+    const form = document.querySelector(".validated-form");
+    
+    // Validation Logic
+    const fields = [
+        { el: document.getElementById('cities'),     err: document.getElementById('citiesError'),     validate: v => v.trim().length > 0 },
+        { el: document.getElementById('duration'),   err: document.getElementById('durationError'),   validate: v => v.trim() !== '' && Number(v) >= 1 },
+        { el: document.getElementById('budget'),     err: document.getElementById('budgetError'),     validate: v => v.trim() !== '' },
+        { el: document.getElementById('interests'),  err: document.getElementById('interestsError'),  validate: v => v.trim().length > 0 }
+    ];
+
+    function setState(field, valid) {
+        // Reset classes
+        field.el.classList.remove('border-red-500', 'border-cyan-600');
+        
+        if (valid) {
+            field.err.classList.add('hidden');
+            field.el.classList.add('border-cyan-600'); // Valid state (optional: could be green)
+        } else {
+            field.err.classList.remove('hidden');
+            field.el.classList.add('border-red-500');
+        }
+    }
+
+    // Attach listeners
+    fields.forEach(f => {
+        ['input', 'change', 'blur'].forEach(evt => {
+            f.el.addEventListener(evt, () => {
+                const ok = f.validate(f.el.value);
+                setState(f, ok);
+            });
+        });
+    });
+
+    window.addEventListener("load", function() {
+        loader.style.display = "none";
+    });
+    
+    form.addEventListener("submit", function(e) {
+        let allOK = true;
+        fields.forEach(f => {
+            const ok = f.validate(f.el.value);
+            setState(f, ok);
+            if (!ok) allOK = false;
+        });
+
+        if(allOK) {
+            loader.style.display = "flex";
+        } else {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+    
+    window.onpageshow = function(event) {
+        if (event.persisted) {
             loader.style.display = "none";
-        });
-        //show loader on form submit
-        form.addEventListener("submit", function() {
-            if(this.checkValidity()) {
-                loader.style.display = "flex";
-            } else{
-                e.preventDefault();
-                e.stopPropagation();
-                this.classList.add('was-validated');
-            }
-        });
-        window.onpageshow = function(event) {
-            if (event.persisted) {
-                loader.style.display = "none";
-            }
-        };
-    </script>
-</body>
-</html>
+        }
+    };
+</script>

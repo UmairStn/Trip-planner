@@ -11,16 +11,16 @@ const tripRoutes = require('./src/api/routes/trip.route.js'); // 1. Import your 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-async function connectToDatabase(){
-    try{
-        await mongoose.connect('mongodb://127.0.0.1:27017/tripPlannerDb');
-        console.log("MONGO CONNECTION OPEN!!");
-    } catch (error) {
-        console.error("MONGO CONNECTION ERROR!!");
-        console.error(error);
-    }
-}
-connectToDatabase();
+// async function connectToDatabase() {
+//     try {
+//         await mongoose.connect('mongodb://127.0.0.1:27017/tripPlannerDb');
+//         console.log("MONGO CONNECTION OPEN!!");
+//     } catch (error) {
+//         console.error("MONGO CONNECTION ERROR!!");
+//         console.error(error);
+//     }
+// }
+// connectToDatabase();
 
 app.engine('ejs', ejsMate)
 
@@ -48,9 +48,9 @@ app.use(express.static(path.join(__dirname, 'src/public')));
 app.use('/', tripRoutes); // 2. Use the router for API routes
 
 app.get('/test', (req, res) => {
-  res.send('API is working');
+    res.send('API is working');
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 })

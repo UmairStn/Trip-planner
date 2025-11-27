@@ -1,10 +1,451 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Welcome to TripPlanner</h1>
-</body>
-</html>
+<% layout('layout/boilerplate') %>
+
+<!-- Hero Section -->
+<div class="relative h-[80vh] min-h-[600px] w-full overflow-hidden">
+    <!-- Background Image with Overlay -->
+    <div class="absolute inset-0">
+        <img src="https://media.istockphoto.com/id/1288609237/photo/spectacular-view-of-the-lion-rock-surrounded-by-green-rich-vegetation-picture-taken-from.jpg?s=612x612&w=is&k=20&c=G-sE7kD97zRDzDPeu8bqPWYbV_2qj2kkT4RBTdXADX8=" 
+             alt="Sri Lanka Landscape" 
+             class="w-full h-full object-cover object-center" />
+        <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-gray-50 dark:to-slate-900"></div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center text-center">
+        <span class="inline-block py-1 px-3 rounded-full bg-cyan-600/90 text-white text-sm font-bold tracking-wider mb-6 animate-fade-in backdrop-blur-sm">
+            WELCOME TO PARADISE
+        </span>
+        <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 drop-shadow-lg tracking-tight">
+            Discover the Wonder of <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-300">Sri Lanka</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-200 mb-10 max-w-2xl font-light leading-relaxed drop-shadow-md">
+            From golden beaches to misty mountains, plan your perfect journey through the pearl of the Indian Ocean.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+            <a href="/generate-trip" class="px-8 py-4 bg-cyan-600 hover:bg-cyan-700 text-white text-lg font-bold rounded-full transition-all transform hover:scale-105 shadow-lg hover:shadow-cyan-500/50 flex items-center justify-center">
+                Start Planning <i class="bi bi-arrow-right ml-2"></i>
+            </a>
+            <a href="#destinations" class="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white text-lg font-bold rounded-full transition-all border border-white/30 flex items-center justify-center">
+                Explore Places
+            </a>
+        </div>
+    </div>
+    
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-white/70">
+        <i class="bi bi-chevron-down text-3xl"></i>
+    </div>
+</div>
+
+<!-- Top Destinations Section -->
+<section id="destinations" class="py-20 bg-gray-50 dark:bg-slate-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 relative">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Top Destinations</h2>
+            <p class="text-lg text-gray-600 dark:text-slate-400 max-w-2xl mx-auto mb-6">Explore the most breathtaking locations that make Sri Lanka a world-class travel destination.</p>
+            <a href="/destinations" class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors group">
+                See More Destinations <i class="bi bi-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Card 1: Sigiriya -->
+            <div class="destination-card group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer" 
+                 data-category="culture"
+                 data-title="Sigiriya"
+                 data-image="https://images.unsplash.com/photo-1625736300986-f951336540c0?q=80&w=800&auto=format&fit=crop"
+                 data-location="Central"
+                 data-description="The 'Lion Rock' is an ancient rock fortress known for its massive column of rock nearly 200 meters high. A UNESCO World Heritage site featuring ancient frescoes and the Mirror Wall."
+                 data-best-time="January to April"
+                 data-tips="Climb early morning to avoid heat and crowds. Wear comfortable shoes.">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1625736300986-f951336540c0?q=80&w=800&auto=format&fit=crop" alt="Sigiriya" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute top-4 right-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-cyan-700 dark:text-cyan-400 shadow-sm">
+                        <i class="bi bi-star-fill text-yellow-400 mr-1"></i> Must Visit
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Sigiriya</h3>
+                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Central</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">The 'Lion Rock' is an ancient rock fortress known for its massive column of rock nearly 200 meters high. A UNESCO World Heritage site.</p>
+                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
+                        View Details <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Card 2: Ella -->
+            <div class="destination-card group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+                 data-category="mountains"
+                 data-title="Ella"
+                 data-image="https://images.unsplash.com/photo-1588258524675-55d6563e4147?q=80&w=800&auto=format&fit=crop"
+                 data-location="Badulla"
+                 data-description="Famous for the Nine Arch Bridge, Little Adam's Peak, and stunning tea plantations. A hiker's paradise with cool climate and laid-back vibe."
+                 data-best-time="January to March"
+                 data-tips="Take the scenic train ride from Kandy. Try the local cafes.">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1588258524675-55d6563e4147?q=80&w=800&auto=format&fit=crop" alt="Ella" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Ella</h3>
+                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Badulla</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">Famous for the Nine Arch Bridge, Little Adam's Peak, and stunning tea plantations. A hiker's paradise with cool climate.</p>
+                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
+                        View Details <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Card 3: Galle Fort -->
+             <div class="destination-card group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+                 data-category="culture"
+                 data-title="Galle Fort"
+                 data-image="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=800&auto=format&fit=crop"
+                 data-location="South"
+                 data-description="A historic Dutch colonial town featuring a fortified old city founded by Portuguese colonists in the 16th century. Cobblestone streets lined with cafes and boutiques."
+                 data-best-time="December to April"
+                 data-tips="Walk the ramparts at sunset. Visit the lighthouse.">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=800&auto=format&fit=crop" alt="Galle Fort" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Galle Fort</h3>
+                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> South</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">A historic Dutch colonial town featuring a fortified old city founded by Portuguese colonists in the 16th century.</p>
+                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
+                        View Details <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- <div class="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=800&auto=format&fit=crop" alt="Galle Fort" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Galle Fort</h3>
+                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> South</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-2">Galle Fort, in the Bay of Galle on the southwest coast of Sri Lanka, was built first in 1588 by the Portuguese.</p>
+                    <a href="/generate-trip" class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
+                        Plan a trip here <i class="bi bi-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+
+    <!-- Destination Details Modal (Add this) -->
+    <div id="detailsModal" class="fixed inset-0 z-50 hidden">
+        <div id="modalBackdrop" class="absolute inset-0 bg-black bg-opacity-50 opacity-0 transition-opacity duration-300"></div>
+        <div class="relative min-h-screen flex items-center justify-center p-4">
+            <div id="modalPanel" class="bg-white dark:bg-slate-800 rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl transform opacity-0 scale-95 transition-all duration-300">
+                <!-- Modal Header -->
+                <div class="relative h-64 overflow-hidden">
+                    <img id="modalImage" src="" alt="" class="w-full h-full object-cover">
+                    <button id="closeModal" class="absolute top-4 right-4 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center text-gray-600 hover:text-gray-900 transition-all">
+                        <i class="bi bi-x text-xl"></i>
+                    </button>
+                </div>
+                
+                <!-- Modal Content -->
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 id="modalTitle" class="text-3xl font-bold text-gray-900 dark:text-white"></h2>
+                        <span id="modalLocation" class="text-gray-500 dark:text-slate-400 flex items-center">
+                            <i class="bi bi-geo-alt mr-1"></i>
+                        </span>
+                    </div>
+                    
+                    <p id="modalDescription" class="text-gray-600 dark:text-slate-300 mb-6 leading-relaxed"></p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-cyan-50 dark:bg-slate-700/50 p-4 rounded-xl">
+                            <h4 class="font-bold text-cyan-900 dark:text-cyan-400 mb-2 flex items-center">
+                                <i class="bi bi-calendar-event mr-2"></i>Best Time to Visit
+                            </h4>
+                            <p id="modalBestTime" class="text-gray-700 dark:text-slate-300"></p>
+                        </div>
+                        
+                        <div class="bg-orange-50 dark:bg-slate-700/50 p-4 rounded-xl">
+                            <h4 class="font-bold text-orange-900 dark:text-orange-400 mb-2 flex items-center">
+                                <i class="bi bi-lightbulb mr-2"></i>Travel Tips
+                            </h4>
+                            <p id="modalTips" class="text-gray-700 dark:text-slate-300"></p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-center mt-8">
+                        <a href="/generate-trip" class="px-8 py-3 bg-cyan-600 text-white font-bold rounded-full hover:bg-cyan-700 transition-colors">
+                            Plan a Trip Here
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Popular Activities Section -->
+<section class="py-20 bg-white dark:bg-slate-800 transition-colors duration-300 relative overflow-hidden">
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 left-0 w-64 h-64 bg-cyan-100 dark:bg-cyan-900/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-teal-100 dark:bg-teal-900/20 rounded-full blur-3xl translate-x-1/3 translate-y-1/3"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+            <div class="max-w-2xl">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Unforgettable Experiences</h2>
+                <p class="text-lg text-gray-600 dark:text-slate-400">Immerse yourself in the diverse activities Sri Lanka has to offer, from thrill-seeking adventures to serene cultural moments.</p>
+            </div>
+            <a href="/generate-trip" class="hidden md:inline-flex items-center px-6 py-3 border border-gray-200 dark:border-slate-600 rounded-full text-sm font-bold text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors mt-4 md:mt-0">
+                View All Activities <i class="bi bi-arrow-right ml-2"></i>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <!-- Activity 1 -->
+            <div class="group p-6 bg-gray-50 dark:bg-slate-700/50 rounded-2xl border border-gray-100 dark:border-slate-600 hover:border-cyan-200 dark:hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg text-center cursor-pointer">
+                <div class="w-16 h-16 mx-auto bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shadow-sm mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <i class="bi bi-water text-3xl text-cyan-600 dark:text-cyan-400"></i>
+                </div>
+                <h3 class="font-bold text-gray-900 dark:text-white mb-1">Surfing</h3>
+                <p class="text-sm text-gray-500 dark:text-slate-400">Arugam Bay & South Coast</p>
+            </div>
+
+            <!-- Activity 2 -->
+            <div class="group p-6 bg-gray-50 dark:bg-slate-700/50 rounded-2xl border border-gray-100 dark:border-slate-600 hover:border-green-200 dark:hover:border-green-500/50 transition-all duration-300 hover:shadow-lg text-center cursor-pointer">
+                <div class="w-16 h-16 mx-auto bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shadow-sm mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <i class="bi bi-tree text-3xl text-green-600 dark:text-green-400"></i>
+                </div>
+                <h3 class="font-bold text-gray-900 dark:text-white mb-1">Wildlife Safari</h3>
+                <p class="text-sm text-gray-500 dark:text-slate-400">Yala & Udawalawe</p>
+            </div>
+
+            <!-- Activity 3 -->
+            <div class="group p-6 bg-gray-50 dark:bg-slate-700/50 rounded-2xl border border-gray-100 dark:border-slate-600 hover:border-orange-200 dark:hover:border-orange-500/50 transition-all duration-300 hover:shadow-lg text-center cursor-pointer">
+                <div class="w-16 h-16 mx-auto bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shadow-sm mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <i class="bi bi-bank text-3xl text-orange-600 dark:text-orange-400"></i>
+                </div>
+                <h3 class="font-bold text-gray-900 dark:text-white mb-1">Cultural Tours</h3>
+                <p class="text-sm text-gray-500 dark:text-slate-400">Kandy & Anuradhapura</p>
+            </div>
+
+            <!-- Activity 4 -->
+            <div class="group p-6 bg-gray-50 dark:bg-slate-700/50 rounded-2xl border border-gray-100 dark:border-slate-600 hover:border-purple-200 dark:hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg text-center cursor-pointer">
+                <div class="w-16 h-16 mx-auto bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shadow-sm mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <i class="bi bi-activity text-3xl text-purple-600 dark:text-purple-400"></i>
+                </div>
+                <h3 class="font-bold text-gray-900 dark:text-white mb-1">Hiking</h3>
+                <p class="text-sm text-gray-500 dark:text-slate-400">Knuckles & Adam's Peak</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Top Restaurants Section -->
+<section class="py-20 bg-gray-50 dark:bg-slate-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Culinary Delights</h2>
+            <p class="text-lg text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">Savor the flavors of the island at these world-renowned dining establishments.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Restaurant 1 -->
+            <div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+                <div class="h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=800&auto=format&fit=crop" alt="Ministry of Crab" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">Ministry of Crab</h3>
+                        <div class="flex text-yellow-400 text-sm">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-slate-400 mb-4">Colombo • Seafood</p>
+                    <p class="text-gray-600 dark:text-slate-300 text-sm mb-4">World-famous crab restaurant housed in a preserved Dutch hospital.</p>
+                    <button class="w-full py-2 rounded-lg border border-gray-200 dark:border-slate-600 text-gray-700 dark:text-slate-300 font-semibold hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">View Details</button>
+                </div>
+            </div>
+
+            <!-- Restaurant 2 -->
+            <div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+                <div class="h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop" alt="The Gallery Cafe" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">The Gallery Café</h3>
+                        <div class="flex text-yellow-400 text-sm">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-slate-400 mb-4">Colombo • Fusion</p>
+                    <p class="text-gray-600 dark:text-slate-300 text-sm mb-4">Elegant dining in the former office of world-renowned architect Geoffrey Bawa.</p>
+                    <button class="w-full py-2 rounded-lg border border-gray-200 dark:border-slate-600 text-gray-700 dark:text-slate-300 font-semibold hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">View Details</button>
+                </div>
+            </div>
+
+            <!-- Restaurant 3 -->
+            <div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+                <div class="h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=800&auto=format&fit=crop" alt="Nuga Gama" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">Nuga Gama</h3>
+                        <div class="flex text-yellow-400 text-sm">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-slate-400 mb-4">Colombo • Traditional</p>
+                    <p class="text-gray-600 dark:text-slate-300 text-sm mb-4">A rustic village in the city serving authentic Sri Lankan cuisine under a Banyan tree.</p>
+                    <button class="w-full py-2 rounded-lg border border-gray-200 dark:border-slate-600 text-gray-700 dark:text-slate-300 font-semibold hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">View Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Footer -->
+<section class="py-20 bg-cyan-700 relative overflow-hidden">
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+    <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+        <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Ready to Experience Sri Lanka?</h2>
+        <p class="text-xl text-cyan-100 mb-10">Let us help you plan the perfect itinerary tailored to your interests, budget, and schedule.</p>
+        <a href="/generate-trip" class="inline-block px-10 py-4 bg-white text-cyan-700 font-bold text-lg rounded-full shadow-xl hover:bg-gray-100 transform hover:scale-105 transition-all">
+            Start Your Journey Now
+        </a>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Filter Functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const destinationCards = document.querySelectorAll('.destination-card');
+    const saveBtn = document.getElementById('saveItineraryBtn');
+    const popup = document.getElementById('featurePopup');
+    const closeBtn = document.getElementById('closePopup');
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+        // Remove active class from all buttons
+        filterButtons.forEach(b => {
+            b.classList.remove('bg-cyan-600', 'text-white', 'shadow-md');
+            b.classList.add('bg-white', 'dark:bg-slate-800', 'text-gray-700', 'dark:text-slate-300');
+        });
+
+        // Add active class to clicked button
+        btn.classList.remove('bg-white', 'dark:bg-slate-800', 'text-gray-700', 'dark:text-slate-300');
+        btn.classList.add('bg-cyan-600', 'text-white', 'shadow-md');
+
+        const filterValue = btn.getAttribute('data-filter');
+
+        destinationCards.forEach(card => {
+            if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                card.classList.remove('hidden');
+                // Add animation
+                card.classList.add('animate-fade-in');
+                setTimeout(() => card.classList.remove('animate-fade-in'), 500);
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+    });
+    });
+
+    // Modal Functionality
+    const modal = document.getElementById('detailsModal');
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalPanel = document.getElementById('modalPanel');
+    const closeModalBtn = document.getElementById('closeModal');
+    
+    // Modal Content Elements
+    const modalImage = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalLocation = document.getElementById('modalLocation');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalBestTime = document.getElementById('modalBestTime');
+    const modalTips = document.getElementById('modalTips');
+
+    function openModal(card) {
+        // Populate data
+        modalImage.src = card.getAttribute('data-image');
+        modalTitle.textContent = card.getAttribute('data-title');
+        modalLocation.textContent = card.getAttribute('data-location');
+        modalDescription.textContent = card.getAttribute('data-description');
+        modalBestTime.textContent = card.getAttribute('data-best-time');
+        modalTips.textContent = card.getAttribute('data-tips');
+
+        // Show modal
+        modal.classList.remove('hidden');
+        
+        // Animate in
+        // Small delay to allow display:block to apply before opacity transition
+        requestAnimationFrame(() => {
+            modalBackdrop.classList.remove('opacity-0');
+            modalPanel.classList.remove('opacity-0', 'scale-95');
+            modalPanel.classList.add('opacity-100', 'scale-100');
+        });
+        
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+
+    function closeModal() {
+        // Animate out
+        modalBackdrop.classList.add('opacity-0');
+        modalPanel.classList.remove('opacity-100', 'scale-100');
+        modalPanel.classList.add('opacity-0', 'scale-95');
+
+        // Hide after animation
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            document.body.style.overflow = ''; // Restore scrolling
+        }, 300);
+    }
+
+    // Attach click event to cards
+    destinationCards.forEach(card => {
+        card.addEventListener('click', () => openModal(card));
+    });
+
+    // Close modal events
+    closeModalBtn.addEventListener('click', closeModal);
+    
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target === modalBackdrop) {
+            closeModal();
+        }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            closeModal();
+        }
+    });
+});
+</script>

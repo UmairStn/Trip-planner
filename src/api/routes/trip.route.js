@@ -4,8 +4,9 @@ const generate = require('../controllers/trip.controller.js');
 
 
 router.get('/', generate.renderHomePage);
+router.get('/destinations', generate.renderDestinationsPage);
 // GET route to display the form
-router.get('/generate-trip', generate.renderHomePage);
+router.get('/generate-trip', generate.renderIndexPage);
 
 // POST route to handle form submission - simplified
 router.post('/generate-trip', generate.generateTripPlan);

@@ -1,310 +1,345 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Sri Lanka Trip Plan</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-</head>
-<body class="bg-light">
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success mb-4">
-        <div class="container">
-            <a class="navbar-brand" href="/generate-trip">
-                <i class="bi bi-globe-asia-australia me-2"></i>
-                Sri Lanka Trip Planner
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
+<% layout('layout/boilerplate') %>
+
+<!-- Main Content - Increased width to max-w-7xl -->
+<div class="max-w-7xl mx-auto mb-12 px-4 sm:px-6">
+    <!-- Define user cities BEFORE using them -->
+    <% 
+    const userCities = citiesString ? citiesString.split(',').map(city => city.trim().toLowerCase()) : [];
+    let allCities = [];
+    let suggestedCities = [];
+    
+    if (tripPlan && tripPlan.length > 0) {
+        allCities = [...new Set(tripPlan.map(day => day.location))];
+        suggestedCities = allCities.filter(city => 
+            !userCities.some(userCity => city.toLowerCase().includes(userCity))
+        );
+    }
+    %>
+
+    <!-- Hero Section -->
+    <div class="text-center mb-12 relative">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-4 tracking-tight transition-colors duration-300">Your <%= tripPlan.length %>-Day Tropical Escape</h1>
+        <p class="text-lg text-cyan-700 dark:text-cyan-300 font-medium transition-colors duration-300">A curated journey from coastal bliss to misty mountains.</p>
+        
+        <div class="mt-8 flex justify-center space-x-4">
+            <button id="saveItineraryBtn" class="inline-flex items-center px-6 py-2.5 border border-transparent text-sm font-bold rounded-full shadow-sm text-white bg-cyan-700 hover:bg-cyan-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 transition-all transform hover:scale-105">
+                <i class="bi bi-bookmark-fill mr-2"></i> Save Itinerary
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/generate-trip">New Trip</a>
-                    </li>
-                </ul>
+            <button id="shareBtn" class="inline-flex items-center px-6 py-2.5 border border-gray-200 dark:border-transparent text-sm font-bold rounded-full shadow-sm text-gray-700 dark:text-slate-900 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition-all">
+                <i class="bi bi-share-fill mr-2 text-cyan-600"></i> Share
+            </button>
+        </div>
+    </div>
+
+    <!-- Error Handling -->
+    <% if (typeof status !== 'undefined' && status === "error") { %>
+        <div class="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-4 mb-8 rounded-r-xl shadow-sm dark:backdrop-blur-sm transition-colors duration-300">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="bi bi-exclamation-triangle-fill text-red-500 dark:text-red-400"></i>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-red-800 dark:text-red-300">Error occurred</h3>
+                    <div class="mt-2 text-sm text-red-700 dark:text-red-200"><%= message %></div>
+                </div>
             </div>
         </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Define user cities BEFORE using them -->
-        <% 
-        // Get user cities and AI-suggested cities
-        const userCities = citiesString ? citiesString.split(',').map(city => city.trim().toLowerCase()) : [];
-        let allCities = [];
-        let suggestedCities = [];
-        
-        if (tripPlan && tripPlan.length > 0) {
-            allCities = [...new Set(tripPlan.map(day => day.location))];
-            suggestedCities = allCities.filter(city => 
-                !userCities.some(userCity => city.toLowerCase().includes(userCity))
-            );
-        }
-        %>
-
-        <!-- Hero Section with Trip Summary -->
-        <div class="p-5 mb-4 bg-success bg-opacity-10 rounded-3">
-            <div class="container-fluid py-3">
-                <h1 class="display-5 fw-bold text-success text-center mb-4">Your Sri Lanka Adventure</h1>
-                <p class="fs-4 text-center">
-                    <i class="bi bi-calendar3 me-2 text-success"></i><%= tripPlan.length %> days
-                    <span class="mx-3">|</span>
-                    <i class="bi bi-geo-alt me-2 text-success"></i><%= allCities.join(', ') %>
+    <% } %>
+    
+    <!-- Suggested Cities Alert -->
+    <% if (suggestedCities.length > 0) { %>
+        <div class="bg-gradient-to-r from-cyan-50 to-white dark:from-slate-800/50 dark:to-slate-800/50 border border-cyan-100 dark:border-cyan-500/30 rounded-xl p-5 mb-10 flex items-start shadow-sm dark:shadow-lg dark:backdrop-blur-md transition-all duration-300">
+            <div class="bg-cyan-100 dark:bg-cyan-500/20 p-2 rounded-full mr-4 transition-colors duration-300">
+                <i class="bi bi-lightbulb-fill text-cyan-600 dark:text-cyan-400 text-xl"></i>
+            </div>
+            <div>
+                <h3 class="text-sm font-bold text-cyan-900 dark:text-cyan-300 transition-colors duration-300">AI Suggestions Added</h3>
+                <p class="text-sm text-cyan-700 dark:text-slate-300 mt-1 transition-colors duration-300">We've included these extra stops to enhance your route: 
+                    <% suggestedCities.forEach((city, i) => { %>
+                        <span class="font-semibold bg-cyan-100 dark:bg-cyan-500/20 text-cyan-800 dark:text-cyan-300 px-2 py-0.5 rounded text-xs ml-1 dark:border dark:border-cyan-500/30 transition-colors duration-300"><%= city %></span>
+                    <% }); %>
                 </p>
             </div>
         </div>
-
-        <!-- Error Handling -->
-        <% if (typeof status !== 'undefined' && status === "error") { %>
-            <div class="alert alert-danger">
-                <h4 class="alert-heading"><i class="bi bi-exclamation-triangle-fill me-2"></i>Error occurred</h4>
-                <p><%= message %></p>
-            </div>
-        <% } %>
-        
-        <!-- Show AI suggested cities -->
-        <% if (suggestedCities.length > 0) { %>
-            <div class="alert alert-info mb-4">
-                <h5 class="alert-heading"><i class="bi bi-lightbulb me-2"></i>Additional Suggested Destinations</h5>
-                <p>Based on your interests, we've included these additional places to create a more comprehensive itinerary:</p>
-                <ul class="mb-0">
-                    <% suggestedCities.forEach(city => { %>
-                        <li><strong><%= city %></strong></li>
-                    <% }); %>
-                </ul>
-            </div>
-        <% } %>
-        
-        <!-- Trip Plan -->
-        <% if (tripPlan && tripPlan.length > 0) { %>
-            <!-- Itinerary Navigation -->
-            <div class="mb-4 d-none d-md-block">
-                <div class="d-flex justify-content-between align-items-center bg-white p-3 rounded shadow-sm">
-                    <strong class="text-success">Quick Navigation:</strong>
-                    <div>
-                        <% tripPlan.forEach(day => { 
-                            const currentCity = day.location.toLowerCase();
-                            const isSuggested = !userCities.some(city => currentCity.includes(city));
-                        %>
-                            <a href="#day<%= day.day %>" class="btn btn-sm <%= isSuggested ? 'btn-outline-warning' : 'btn-outline-success' %> me-2">
-                                Day <%= day.day %>
-                                <% if (isSuggested) { %>
-                                    <i class="text-warning ms-1" title="AI suggested location"></i>
-                                <% } %>
-                            </a>
-                        <% }); %>
-                    </div>
-                    <div class="btn-group">
-                        <button class="btn btn-sm btn-success" onclick="window.print()">
-                            <i class="bi bi-printer me-1"></i> Print
-                        </button>
-                    </div>
-                </div>
-            </div>
+    <% } %>
+    
+    <!-- Trip Plan Timeline -->
+    <% if (tripPlan && tripPlan.length > 0) { %>
+        <div class="relative">
+            <!-- Vertical Line -->
+            <div class="absolute left-6 md:left-8 top-4 bottom-0 w-0.5 bg-gradient-to-b from-orange-300 via-orange-200 to-transparent dark:from-cyan-500/50 dark:via-purple-500/50 h-full z-0 transition-colors duration-300"></div>
             
-            <div class="row">
-                <!-- Daily Itineraries -->
-                <div class="col-12">
-                    <% tripPlan.forEach(day => { %>
-                        <div id="day<%= day.day %>" class="card mb-4 shadow-sm border-0">
-                            <div class="card-header bg-success bg-gradient text-white py-3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h2 class="mb-0 fs-4">
-                                        <span class="badge bg-white text-success me-2">Day <%= day.day %></span>
-                                        <%= day.location %>
-                                        
-                                        <% 
-                                        const currentCity = day.location.toLowerCase();
-                                        const isSuggested = !userCities.some(city => currentCity.includes(city));
-                                        
-                                        if (isSuggested) { %>
-                                            <span class="badge bg-warning text-dark ms-2 fs-6">AI Suggested</span>
-                                        <% } %>
-                                    </h2>
-                                    <span class="badge bg-light text-success">
-                                        <i class="bi bi-geo-alt-fill text-success"></i> <%= day.location %>
-                                    </span>
-                                </div>
-                            </div>
-                            
-                            <!-- Rest of your code remains the same -->
-                            <div class="card-body">
-                                <!-- Overview Section -->
-                                <div class="mb-4">
-                                    <h3 class="card-title h5 text-success">
-                                        <i class="bi bi-info-circle me-2"></i>Daily Overview
-                                    </h3>
-                                    <p class="card-text text-muted"><%= day.description %></p>
-                                </div>
-                                
-                                <hr>
-                                
-                                <!-- Activities Section -->
-                                <div class="mb-4">
-                                    <h3 class="h5 text-success">
-                                        <i class="bi bi-calendar-check me-2"></i>Activities
-                                    </h3>
-                                    <div class="list-group mb-4">
-                                        <% day.activities.forEach((activity, index) => { %>
-                                            <div class="list-group-item border-start border-3">
-                                                <div class="d-flex w-100 justify-content-between">
-                                                    <h6 class="mb-1">
-                                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                                        <%= activity %>
-                                                    </h6>
-                                                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill">Activity <%= index + 1 %></span>
-                                                </div>
-                                            </div>
-                                        <% }); %>
-                                    </div>
-                                </div>
-                                
-                                <!-- Meals Section -->
-                                <% if (day.meals) { %>
-                                    <div class="mb-4">
-                                        <h3 class="h5 text-success">
-                                            <i class="bi bi-cup-hot me-2"></i>Meals
-                                        </h3>
-                                        <div class="row g-3 mb-4">
-                                            <div class="col-md-4">
-                                                <div class="card h-100 border-0 shadow-sm">
-                                                    <div class="card-header bg-warning bg-opacity-10 border-bottom-0">
-                                                        <strong><i class="bi bi-sunrise me-2"></i>Breakfast</strong>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <%= day.meals.breakfast %>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="card h-100 border-0 shadow-sm">
-                                                    <div class="card-header bg-danger bg-opacity-10 border-bottom-0">
-                                                        <strong><i class="bi bi-sun me-2 text-success"></i>Lunch</strong>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <%= day.meals.lunch %>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="card h-100 border-0 shadow-sm">
-                                                    <div class="card-header bg-info bg-opacity-10 border-bottom-0">
-                                                        <strong><i class="bi bi-moon me-2 text-success"></i>Dinner</strong>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <%= day.meals.dinner %>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <% } %>
-                                
-                                <!-- Accommodation & Transportation -->
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <div class="card h-100 border-0 shadow-sm">
-                                            <div class="card-header bg-primary bg-opacity-10 border-bottom-0">
-                                                <h3 class="h5 mb-0">
-                                                    <i class="bi bi-house-door me-2"></i>Accommodation
-                                                </h3>
-                                            </div>
-                                            <div class="card-body">
-                                                <p class="card-text"><%= day.accommodation %></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="card h-100 border-0 shadow-sm">
-                                            <div class="card-header bg-primary bg-opacity-10 border-bottom-0">
-                                                <h3 class="h5 mb-0 ">
-                                                    <i class="bi bi-bus-front me-2"></i>Transportation Tips
-                                                </h3>
-                                            </div>
-                                            <div class="card-body">
-                                                <p class="card-text"><%= day.transportationTips %></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Hidden Gem Section -->
-                                <% if (day.hiddenPlaces && day.hiddenPlaces.length > 0) { %>
-                                    <div class="mt-4">
-                                        <div class="card border-0 shadow-sm">
-                                            <div class="card-header bg-danger bg-opacity-10 text-dark">
-                                                <h3 class="h5 mb-0">
-                                                    <i class="bi bi-gem text-dark"></i>Hidden Places
-                                                </h3>
-                                            </div>
-                                            <div class="card-body">
-                                                <ul class="list-group list-group-flush">
-                                                    <% day.hiddenPlaces.forEach(place => { %>
-                                                        <li class="list-group-item px-0 py-2 border-bottom">
-                                                            <div class="d-flex align-items-center">
-                                                                <span class="badge bg-light me-2">
-                                                                    <i class="bi bi-compass text-dark"></i>
-                                                                </span>
-                                                                <span><%= place %></span>
-                                                            </div>
-                                                        </li>
-                                                    <% }); %>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <% } else if (day.hiddenPlace) { %>
-                                    <!-- Fallback for old format -->
-                                    <div class="mt-4">
-                                        <div class="card border-0 shadow-sm">
-                                            <div class="card-header bg-success bg-gradient text-white">
-                                                <h3 class="h5 mb-0">
-                                                    <i class="bi bi-gem me-2"></i>Hidden Place
-                                                </h3>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="d-flex align-items-center">
-                                                    <span class="badge bg-light me-2">
-                                                        <i class="bi bi-compass text-dark"></i>
-                                                    </span>
-                                                    <span><%= day.hiddenPlace %></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <% } %>
-                            </div>
-                            <div class="card-footer bg-white text-end border-top-0">
-                                <a href="#" class="btn btn-sm btn-outline-success">Back to Top</a>
+            <div class="space-y-12 relative z-10">
+                <% tripPlan.forEach((day, index) => { 
+                    const currentCity = day.location.toLowerCase();
+                    const isSuggested = !userCities.some(city => currentCity.includes(city));
+                %>
+                    <div id="day<%= day.day %>" class="flex group scroll-mt-24">
+                        <!-- Number Circle -->
+                        <div class="flex-shrink-0 mr-6 md:mr-10">
+                            <div class="flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-orange-400 to-orange-500 dark:from-slate-800 dark:to-slate-800 text-white dark:text-cyan-400 font-bold text-xl md:text-2xl shadow-lg border-4 border-white dark:border-slate-700 ring-1 ring-orange-100 dark:ring-cyan-500/50 transform transition-all group-hover:scale-110 duration-300">
+                                <%= day.day %>
                             </div>
                         </div>
-                    <% }); %>
-                </div>
+                        
+                        <!-- Content Card -->
+                        <div class="flex-grow bg-white dark:bg-slate-800/50 dark:backdrop-blur-md rounded-3xl shadow-[0_0_40px_rgba(0,0,0,0.05)] dark:shadow-xl overflow-hidden border-t-4 border-cyan-500 dark:border-t-0 dark:border dark:border-slate-700 hover:shadow-[0_0_50px_rgba(0,0,0,0.1)] dark:hover:border-cyan-500/50 transition-all duration-300">
+                            <div class="p-6 md:p-8">
+                                <!-- Grid Layout: Left for Main Info, Right for Logistics -->
+                                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                                    
+                                    <!-- Left Column: Main Content (Span 2) -->
+                                    <div class="lg:col-span-2">
+                                        <div class="flex flex-col md:flex-row md:items-start gap-6">
+                                            <!-- Image Placeholder -->
+                                            <div class="w-full md:w-48 h-32 bg-gray-200 rounded-2xl flex-shrink-0 relative overflow-hidden border border-gray-200 dark:border-slate-600 shadow-inner">
+                                                <img 
+                                                    src="https://images.unsplash.com/photo-1586861635167-e5223aeb4227?auto=format&fit=crop&w=400&q=80" 
+                                                    alt="<%= day.location %>" 
+                                                    class="location-image absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-0 z-10" 
+                                                    data-location="<%= day.location %>"
+                                                >
+                                                <div class="absolute inset-0 bg-gray-200 dark:bg-slate-700 animate-pulse z-0"></div> 
+                                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-3 z-20 pointer-events-none">
+                                                    <div class="text-white">
+                                                        <i class="bi bi-geo-alt-fill text-lg mb-0.5 block text-cyan-400"></i>
+                                                        <span class="text-xs font-bold uppercase tracking-wider text-shadow"><%= day.location %></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <!--<div class="w-full md:w-48 h-32 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-slate-700/50 dark:to-slate-700/50 rounded-2xl flex items-center justify-center flex-shrink-0 border border-gray-200 dark:border-slate-600 shadow-inner transition-colors duration-300">
+                                                <div class="text-center text-gray-400 dark:text-slate-500">
+                                                    <i class="bi bi-geo-alt-fill text-3xl mb-1 block text-gray-300 dark:text-slate-600"></i>
+                                                    <span class="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-slate-500"><%= day.location %></span>
+                                                </div>
+                                            </div>-->
+                                            
+                                            <div class="flex-grow">
+                                                <div class="flex justify-between items-start mb-2">
+                                                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-700 dark:group-hover:text-cyan-400 transition-colors duration-300">
+                                                       Day-<%= day.day %> <%= day.location %>
+                                                    </h2>
+                                                    <% if (isSuggested) { %>
+                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-cyan-100 dark:bg-cyan-500/20 text-cyan-800 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-500/30 transition-colors duration-300">
+                                                            <i class="bi bi-stars mr-1"></i> AI Suggested
+                                                        </span>
+                                                    <% } %>
+                                                </div>
+                                                
+                                                <p class="text-gray-600 dark:text-slate-300 text-sm mb-5 leading-relaxed transition-colors duration-300"><%= day.description %></p>
+                                                
+                                                <!-- Activities Tags -->
+                                                <div class="mb-5 mt-8">
+                                                    <h4 class="text-xs font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider mb-2 transition-colors duration-300">Highlights</h4>
+                                                    <div class="flex flex-wrap gap-2">
+                                                        <% day.activities.forEach(activity => { %>
+                                                            <span class="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium bg-cyan-50 dark:bg-slate-700/50 text-cyan-800 dark:text-cyan-300 border border-cyan-100 dark:border-slate-600 hover:bg-cyan-100 dark:hover:bg-slate-700 transition-colors duration-300">
+                                                                <i class="bi bi-check-circle-fill text-cyan-500 mr-2 text-xs"></i>
+                                                                <%= activity %>
+                                                            </span>
+                                                        <% }); %>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Hidden Places (if any) -->
+                                                <% if (day.hiddenPlaces && day.hiddenPlaces.length > 0) { %>
+                                                    <div class="mt-2 flex items-center text-sm font-medium bg-gradient-to-r from-purple-50 to-white dark:from-purple-900/20 dark:to-purple-900/20 border border-purple-100 dark:border-purple-500/30 text-purple-800 dark:text-purple-300 px-4 py-2 rounded-xl inline-block shadow-sm transition-colors duration-300">
+                                                        <i class="bi bi-gem mr-2 text-purple-500 dark:text-purple-400"></i>
+                                                        Hidden Gem: <span class="font-bold ml-1"><%= day.hiddenPlaces[0] %></span>
+                                                    </div>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Right Column: Meals & Logistics (Span 1) -->
+                                    <div class="lg:col-span-1 space-y-4">
+                                        <!-- Meals -->
+                                        <% if (day.meals) { %>
+                                            <div class="bg-orange-50 dark:bg-slate-700/30 border border-orange-100 dark:border-slate-600 p-5 rounded-xl transition-colors duration-300">
+                                                <h4 class="font-bold text-orange-900 dark:text-orange-300 mb-3 flex items-center border-b border-orange-200 dark:border-slate-600 pb-2 transition-colors duration-300">
+                                                   <i class="bi bi-cup-hot-fill mr-2 text-orange-500 dark:text-orange-400"></i> Culinary
+                                                </h4>
+                                                <div class="space-y-3 text-sm text-gray-700 dark:text-slate-300 transition-colors duration-300">
+                                                    <div>
+                                                        <span class="font-bold text-xs text-orange-400 dark:text-orange-400/80 uppercase block mb-1">Breakfast</span>
+                                                        <div class="flex items-start">
+                                                            <i class="bi bi-sunrise text-orange-400 mr-2 mt-0.5"></i>
+                                                            <%= day.meals.breakfast %>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <span class="font-bold text-xs text-orange-400 dark:text-orange-400/80 uppercase block mb-1">Lunch</span>
+                                                        <div class="flex items-start">
+                                                            <i class="bi bi-sun text-orange-400 mr-2 mt-0.5"></i>
+                                                            <%= day.meals.lunch %>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <span class="font-bold text-xs text-orange-400 dark:text-orange-400/80 uppercase block mb-1">Dinner</span>
+                                                        <div class="flex items-start">
+                                                            <i class="bi bi-moon-stars text-orange-400 mr-2 mt-0.5"></i>
+                                                            <%= day.meals.dinner %>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <% } %>
+                                        
+                                        <!-- Logistics -->
+                                        <div class="bg-indigo-50 dark:bg-slate-700/30 border border-indigo-100 dark:border-slate-600 p-5 rounded-xl transition-colors duration-300">
+                                            <h4 class="font-bold text-indigo-900 dark:text-indigo-300 mb-3 flex items-center border-b border-indigo-200 dark:border-slate-600 pb-2 transition-colors duration-300">
+                                                <i class="bi bi-briefcase-fill mr-2 text-indigo-500 dark:text-indigo-400"></i> Logistics
+                                            </h4>
+                                            <div class="space-y-3 text-sm text-gray-700 dark:text-slate-300 transition-colors duration-300">
+                                                <div>
+                                                    <span class="font-bold text-xs text-indigo-400 dark:text-indigo-400/80 uppercase block mb-1">Accommodation</span>
+                                                    <div class="flex items-start">
+                                                        <i class="bi bi-house-door text-indigo-400 mr-2 mt-0.5"></i>
+                                                        <%= day.accommodation %>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <span class="font-bold text-xs text-indigo-400 dark:text-indigo-400/80 uppercase block mb-1">Transport Tip</span>
+                                                    <div class="flex items-start">
+                                                        <i class="bi bi-car-front text-indigo-400 mr-2 mt-0.5"></i>
+                                                        <%= day.transportationTips %>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
             </div>
-        <% } else { %>
-            <div class="alert alert-warning">
-                <h4 class="alert-heading">No trip plan found</h4>
-                <p>We couldn't generate a trip plan with your criteria. Please try again with different parameters.</p>
+        </div>
+    <% } else { %>
+        <div class="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 dark:border-yellow-500 p-6 rounded-r-xl shadow-sm text-center dark:backdrop-blur-sm transition-colors duration-300">
+            <i class="bi bi-exclamation-circle text-yellow-400 dark:text-yellow-500 text-4xl mb-3 block"></i>
+            <h3 class="text-lg font-bold text-yellow-800 dark:text-yellow-200">No trip plan found</h3>
+            <p class="mt-2 text-yellow-700 dark:text-yellow-100/80">We couldn't generate a trip plan with your criteria. Please try again.</p>
+            <a href="/generate-trip" class="mt-4 inline-block text-yellow-800 dark:text-yellow-400 font-bold underline">Go Back</a>
+        </div>
+    <% } %>
+    
+    <!-- Footer CTA -->
+    <div class="text-center mt-16 mb-8">
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 transition-colors duration-300">Want to explore more?</h3>
+        <p class="text-gray-500 dark:text-slate-400 mb-6 transition-colors duration-300">Customize your preferences to get a different experience.</p>
+        <a href="/generate-trip" class="inline-flex items-center px-8 py-3 border border-gray-200 dark:border-transparent text-base font-bold rounded-full text-gray-700 dark:text-slate-900 bg-white hover:bg-gray-50 hover:border-gray-300 focus:outline-none transition-all shadow-sm">
+            Plan Another Trip
+        </a>
+    </div>
+</div>
+
+<!-- Popup Modal (Hidden by default) -->
+<div id="featurePopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 max-w-md mx-4 shadow-2xl transform transition-all duration-300 scale-95">
+        <div class="text-center">
+            <div class="mb-4">
+                <i class="bi bi-tools text-cyan-600 text-4xl"></i>
             </div>
-        <% } %>
-        
-        <div class="text-center my-5">
-            <a href="/generate-trip" class="btn btn-success btn-lg px-4 gap-3">
-                <i class="bi bi-plus-circle me-2"></i>Plan Another Trip
-            </a>
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Feature Coming Soon!</h3>
+            <p class="text-gray-600 dark:text-slate-300 mb-6">We're working hard to bring you the ability to save your trip plans. This feature will be available soon!</p>
+            <button id="closePopup" class="inline-flex items-center px-6 py-3 bg-cyan-600 text-white font-bold rounded-full hover:bg-cyan-700 transition-colors duration-300">
+                <i class="bi bi-check-circle mr-2"></i>
+                Got it
+            </button>
         </div>
     </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const saveBtn = document.getElementById('saveItineraryBtn');
+    const shareBtn = document.getElementById('shareBtn'); // Added this line
+    const popup = document.getElementById('featurePopup');
+    const closeBtn = document.getElementById('closePopup');
     
-    <!-- Footer -->
-    <footer class="footer mt-auto py-3 bg-success text-white">
-        <div class="container text-center">
-            <span>© 2025 Sri Lanka Trip Planner</span>
-        </div>
-    </footer>
+    // Show popup when Save button is clicked
+    saveBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        popup.classList.remove('hidden');
+        // Add animation
+        setTimeout(() => {
+            popup.querySelector('div').classList.remove('scale-95');
+            popup.querySelector('div').classList.add('scale-100');
+        }, 10);
+    });
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    // Show popup when Share button is clicked - Added this section
+    shareBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        popup.classList.remove('hidden');
+        // Add animation
+        setTimeout(() => {
+            popup.querySelector('div').classList.remove('scale-95');
+            popup.querySelector('div').classList.add('scale-100');
+        }, 10);
+    });
+    
+    // Close popup when "Got it" button is clicked
+    closeBtn.addEventListener('click', function() {
+        popup.querySelector('div').classList.remove('scale-100');
+        popup.querySelector('div').classList.add('scale-95');
+        setTimeout(() => {
+            popup.classList.add('hidden');
+        }, 300);
+    });
+    
+    // Close popup when clicking outside the modal
+    popup.addEventListener('click', function(e) {
+        if (e.target === popup) {
+            popup.querySelector('div').classList.remove('scale-100');
+            popup.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                popup.classList.add('hidden');
+            }, 300);
+        }
+    });
+
+    // Unsplash API Integration for Dynamic Images
+    // ✅ Get API key from server-rendered variable
+    const UNSPLASH_ACCESS_KEY = '<%= unsplashApiKey %>';
+
+    const locationImages = document.querySelectorAll('.location-image');
+
+    locationImages.forEach(async (img) => {
+        const location = img.getAttribute('data-location');
+        if (!location) return;
+
+        try {
+            const query = encodeURIComponent(`${location} Sri Lanka`);
+            const url = `https://api.unsplash.com/search/photos?query=${query}&per_page=1&orientation=landscape&client_id=${UNSPLASH_ACCESS_KEY}`;
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (data.results && data.results.length > 0) {
+                const imageUrl = data.results[0].urls.small;
+                const tempImg = new Image();
+                tempImg.src = imageUrl;
+                
+                tempImg.onload = () => {
+                    img.src = imageUrl;
+                    img.classList.remove('opacity-0');
+                };
+            } else {
+                img.classList.remove('opacity-0');
+            }
+        } catch (error) {
+            console.error('Unsplash API error:', error);
+            img.classList.remove('opacity-0');
+        }
+    });
+});
+</script>
+
+
+
