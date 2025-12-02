@@ -44,6 +44,22 @@
         -webkit-text-fill-color: white !important;
         caret-color: white;
     }
+
+    /* Fade-up animation */
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .fade-up {
+        animation: fadeUp 0.6s ease-out forwards;
+    }
 </style>
 
 <!-- Loading Overlay -->
@@ -71,14 +87,14 @@
             
             <!-- Right Section - Form -->
             <div class="bg-white dark:bg-slate-900 p-8 lg:p-12 lg:col-span-3 transition-colors duration-300">
-                <div class="mb-8">
+                <div class="mb-8 fade-up">
                     <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-3">Plan Your Dream Trip to Sri Lanka</h1>
                     <p class="text-teal-600 dark:text-teal-400 text-base">Fill in your preferences below, and we'll craft a personalized itinerary just for you.</p>
                 </div>
                 
-                <form action="/generate-trip" method="POST" class="validated-form space-y-6 dark:from-slate-900 dark:to-slate-900" novalidate>
+                <form action="/generate-trip" method="POST" class="validated-form space-y-6">
                     <!-- Cities Input -->
-                    <div class="relative">
+                    <div class="relative fade-up">
                         <label for="cities" class="block text-sm font-semibold text-gray-800 dark:text-slate-200 mb-2">Cities to Visit</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -92,7 +108,7 @@
                         <p id="citiesError" class="absolute -bottom-5 left-0 text-red-500 text-xs italic hidden">Please enter at least one city.</p>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 fade-up">
                         <!-- Duration Input -->
                         <div class="relative">
                             <label for="duration" class="block text-sm font-semibold text-gray-800 dark:text-slate-200 mb-2">Duration (Days)</label>
@@ -130,7 +146,7 @@
                     </div>
 
                     <!-- Interests Input -->
-                    <div class="relative">
+                    <div class="relative fade-up">
                         <label for="interests" class="block text-sm font-semibold text-gray-800 dark:text-slate-200 mb-2">What are your interests?</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -144,7 +160,7 @@
                     </div>
                     
                     <!-- Hidden Gems Toggle -->
-                    <div class="flex items-center justify-between bg-white dark:bg-slate-700/50 p-5 rounded-xl border border-gray-200 dark:border-slate-600 shadow-sm hover:shadow-md transition-all">
+                    <div class="flex items-center justify-between bg-white dark:bg-slate-700/50 p-5 rounded-xl border border-gray-200 dark:border-slate-600 shadow-sm hover:shadow-md transition-all fade-up">
                         <div>
                             <label for="includeHiddenPlace" class="font-semibold text-gray-900 dark:text-white flex items-center cursor-pointer">
                                 <i class="bi bi-gem text-cyan-600 dark:text-cyan-400 mr-2 text-lg"></i>Suggest Hidden Places
@@ -158,7 +174,7 @@
                     </div>
 
                     <!-- AI Suggestions Toggle -->
-                    <div class="flex items-center justify-between bg-white dark:bg-slate-700/50 p-5 rounded-xl border border-gray-200 dark:border-slate-600 shadow-sm hover:shadow-md transition-all">
+                    <div class="flex items-center justify-between bg-white dark:bg-slate-700/50 p-5 rounded-xl border border-gray-200 dark:border-slate-600 shadow-sm hover:shadow-md transition-all fade-up">
                         <div>
                             <label for="allowAiSuggestions" class="font-semibold text-gray-900 dark:text-white flex items-center cursor-pointer">
                                 <i class="bi bi-magic text-cyan-600 dark:text-cyan-400 mr-2 text-lg"></i>Allow AI Suggestions
@@ -171,8 +187,8 @@
                         </div>
                     </div>
 
-                    <div class="pt-2">
-                        <button type="submit" class="w-full flex justify-center items-center py-4 px-6 border border-transparent rounded-xl shadow-lg text-base font-bold text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 transition-all duration-200 transform hover:scale-[1.02]">
+                    <div class="pt-2 fade-up">
+                        <button type="submit" class="w-full flex justify-center items-center py-4 px-6 border border-transparent rounded-xl shadow-lg text-base font-bold text-white bg-cyan-600 hover:bg-cyan-700 btn-animate focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
                             Plan My Trip <i class="bi bi-arrow-right ml-2"></i>
                         </button>
                     </div>
