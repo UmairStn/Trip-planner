@@ -6,6 +6,9 @@ const axios = require('axios');
 // Test mode flag - set to true when testing UI
 const TEST_MODE = false; // Toggle this to true when you want to skip API calls
 
+// API Selection - Choose which API to use
+const USE_OPENROUTER = true; // Set to true to use OpenRouter, false to use Gemini
+
 // Sample trip plan for testing
 // const sampleTripPlan = {
 //   tripPlan: [
@@ -140,9 +143,26 @@ const getTripPlan = async (userInput) => {
         const country = "Sri Lanka"; // Fixed country
         const citiesString = userInput.cities ? userInput.cities.split(',').map(city => city.trim()).join(', ') : "major cities";
 
-        //1. Get the api key and url
-        const geminiApiKey = process.env.GEMINI_API_KEY;
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`
+        // ============================================
+        // API CONFIGURATION
+        // ============================================
+        let apiUrl, payload, headers;
+
+        if (USE_OPENROUTER) {
+            // OPENROUTER API (ACTIVE)
+            console.log("🤖 Using OpenRouter API...");
+            const openRouterApiKey = process.env.OPEN_ROUTER_API_KEY;
+            apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
+            headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${openRouterApiKey}`
+            };
+        } else {
+            // GEMINI API (BACKUP)
+            console.log("🤖 Using Gemini API...");
+            const geminiApiKey = process.env.GEMINI_API_KEY;
+            apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.0-pro:generateContent?key=${geminiApiKey}`;
+        }
 
         //2. create the prompt
         const generatePrompt = `Create a detailed trip plan for a ${duration}-day trip to ${country} visiting these cities: ${citiesString}. The trip should be suitable for a ${budget} budget. The traveler is primarily interested in exploring ${interString}.`;
@@ -189,40 +209,88 @@ const getTripPlan = async (userInput) => {
                                   "IMPORTANT: For each destination, include 1-2 hidden places as an array in 'hiddenPlaces' that most tourists don't know about - these could be secret viewpoints, local-only restaurants, unmarked trails, or off-the-beaten-path attractions. Keep each hidden place description very brief (10-15 words maximum)." : 
                                   ""}`;
 
-        // 4. Structure the payload for Gemini
-        const payload = {
-        contents: [{
-            parts: [{
-            text: combinedPrompt
-            }]
-        }]
-        };
+        // ============================================
+        // CREATE PAYLOAD BASED ON SELECTED API
+        // ============================================
+        if (USE_OPENROUTER) {
+            // OpenRouter payload format with reasoning enabled
+            payload = {
+                model: "amazon/nova-2-lite-v1:free",
+                messages: [
+                    {
+                        role: "system",
+                        content: "You are a professional travel agent specializing in Sri Lankan tourism. Always respond with valid JSON only, no markdown or additional text."
+                    },
+                    {
+                        role: "user",
+                        content: combinedPrompt
+                    }
+                ],
+                reasoning: {
+                    enabled: true
+                }
+            };
+        } else {
+            // Gemini payload format
+            payload = {
+                contents: [{
+                    parts: [{
+                        text: combinedPrompt
+                    }]
+                }]
+            };
+        }
 
-        //5. Make the API request to Gemini
-        const response = await axios.post(apiUrl, payload);
-        const aiResponseText = response.data.candidates[0].content.parts[0].text;
+        //5. Make the API request
+        const response = await axios.post(apiUrl, payload, { headers });
+        
+        // ============================================
+        // PARSE RESPONSE BASED ON SELECTED API
+        // ============================================
+        let aiResponseText;
+        
+        if (USE_OPENROUTER) {
+            // OpenRouter response format
+            if (!response.data || !response.data.choices || !response.data.choices[0]) {
+                throw new Error("Invalid OpenRouter API response structure");
+            }
+            aiResponseText = response.data.choices[0].message.content;
+            console.log("✅ OpenRouter API responded successfully");
+        } else {
+            // Gemini response format
+            if (!response.data || !response.data.candidates || !response.data.candidates[0]) {
+                throw new Error("Invalid Gemini API response structure");
+            }
+            aiResponseText = response.data.candidates[0].content.parts[0].text;
+            console.log("✅ Gemini API responded successfully");
+        }
 
-        // Improved JSON extraction and parsing
+        // ============================================
+        // JSON PARSING (SAME FOR BOTH APIs)
+        // ============================================
         try {
+          // Remove markdown code blocks if present
+          let cleanJson = aiResponseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+          
           // First try direct parsing
-          const tripPlanJson = JSON.parse(aiResponseText);
-          console.log("Direct parsing successful");
+          const tripPlanJson = JSON.parse(cleanJson);
+          console.log("✅ Direct parsing successful");
 
           // Validate the response structure
           if (!tripPlanJson.tripPlan || !Array.isArray(tripPlanJson.tripPlan) || tripPlanJson.tripPlan.length === 0) {
-            console.error("Invalid response structure");
+            console.error("❌ Invalid response structure");
             throw new Error("The AI returned an invalid trip plan structure");
           }
 
           // Check if we have the right number of days
           if (tripPlanJson.tripPlan.length < duration) {
-            console.log("Warning: AI returned fewer days than requested, adding placeholder days");
+            console.log("⚠️  AI returned fewer days than requested, adding placeholder days");
             
             // Fill in missing days with generic content
             for (let i = tripPlanJson.tripPlan.length + 1; i <= duration; i++) {
               tripPlanJson.tripPlan.push({
                 day: i,
-                location: `${citiesString.split(',')[0]} - Day ${i}`, // Use first city from list
+                location: `${citiesString.split(',')[0]} - Day ${i}`,
                 description: "Details for this day will be provided soon.",
                 activities: ["Exploring local attractions", "Free time for personal interests"],
                 meals: {
@@ -236,9 +304,9 @@ const getTripPlan = async (userInput) => {
             }
           }
 
-          // Add this validation in your parsing section
+          // Validate hiddenPlaces if requested
           if (tripPlanJson.tripPlan.some(day => userInput.includeHiddenPlace && !day.hiddenPlaces)) {
-            console.log("Converting hiddenPlace to hiddenPlaces array if needed");
+            console.log("🔄 Converting hiddenPlace to hiddenPlaces array if needed");
             
             // Convert any single hiddenPlace strings to arrays
             tripPlanJson.tripPlan.forEach(day => {
@@ -246,7 +314,7 @@ const getTripPlan = async (userInput) => {
                 if (day.hiddenPlace && !day.hiddenPlaces) {
                   // If there's only hiddenPlace but not hiddenPlaces, convert it
                   day.hiddenPlaces = [day.hiddenPlace];
-                  delete day.hiddenPlace; // Remove the old property
+                  delete day.hiddenPlace;
                 } else if (!day.hiddenPlaces) {
                   // If neither exists, add empty array
                   day.hiddenPlaces = ["Hidden gem information not available"];
@@ -255,9 +323,11 @@ const getTripPlan = async (userInput) => {
             });
           }
           
+          console.log(`✅ Trip plan validated: ${tripPlanJson.tripPlan.length} days`);
           return tripPlanJson;
+          
         } catch (parseError) {
-          console.log("Direct parsing failed, attempting to extract JSON");
+          console.log("⚠️  Direct parsing failed, attempting to extract JSON");
           try {
             // Find JSON using regex pattern matching
             const jsonRegex = /{[\s\S]*}/g;
@@ -265,19 +335,19 @@ const getTripPlan = async (userInput) => {
             
             if (jsonMatch && jsonMatch[0]) {
               const extractedJson = JSON.parse(jsonMatch[0]);
-              console.log("JSON extraction successful");
+              console.log("✅ JSON extraction successful");
               return extractedJson;
             } else {
               throw new Error("Could not extract valid JSON from response");
             }
           } catch (extractError) {
-            console.error("JSON extraction failed:", extractError);
+            console.error("❌ JSON extraction failed:", extractError);
             throw new Error("Failed to parse AI response into valid JSON format");
           }
         }
         
-     }catch (error){
-        console.error("Error calling Gemini API:", error.response ? error.response.data : error.message);
+     } catch (error) {
+        console.error("❌ Error calling AI API:", error.response ? error.response.data : error.message);
         
         // Create fallback response with error info
         return {
