@@ -2,6 +2,8 @@
 
 **Trip Planner** is an intelligent web application that generates personalized travel itineraries using advanced AI. By leveraging **OpenAI's GPT-4o / Google Gemini** models, it solves the "analysis paralysis" travelers face when planning trips, providing detailed day-by-day plans, hidden gems, and local recommendations in seconds.
 
+🌐 **Live Demo:** [https://trip-planner-three-tau.vercel.app/](https://trip-planner-three-tau.vercel.app/)
+
 ---
 
 ## 🤔 Problem Space
