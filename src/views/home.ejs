@@ -49,9 +49,9 @@
             </a>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger-parent">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 stagger-parent">
             <!-- Card 1: Sigiriya -->
-            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer" 
+            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-xl md:rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer" 
                  data-category="culture"
                  data-title="Sigiriya"
                  data-image="/images/sigiriya.webp"
@@ -59,26 +59,26 @@
                  data-description="The 'Lion Rock' is an ancient rock fortress known for its massive column of rock nearly 200 meters high. A UNESCO World Heritage site featuring ancient frescoes and the Mirror Wall."
                  data-best-time="January to April"
                  data-tips="Climb early morning to avoid heat and crowds. Wear comfortable shoes.">
-                <div class="relative h-64 overflow-hidden">
+                <div class="relative h-32 md:h-48 overflow-hidden">
                     <img src="/images/sigiriya.webp" alt="Sigiriya" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute top-4 right-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-cyan-700 dark:text-cyan-400 shadow-sm">
-                        <i class="bi bi-star-fill text-yellow-400 mr-1"></i> Must Visit
+                    <div class="absolute top-2 right-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-bold text-cyan-700 dark:text-cyan-400 shadow-sm">
+                        <i class="bi bi-star-fill text-yellow-400 mr-1"></i> <span class="hidden sm:inline">Must Visit</span>
                     </div>
                 </div>
-                <div class="p-8">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Sigiriya</h3>
-                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Central</span>
+                <div class="p-2 md:p-4">
+                    <div class="flex justify-between items-start mb-1 md:mb-2">
+                        <h3 class="text-sm md:text-lg font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Sigiriya</h3>
+                        <span class="text-xs text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> <span class="hidden md:inline">Central</span></span>
                     </div>
-                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">The 'Lion Rock' is an ancient rock fortress known for its massive column of rock nearly 200 meters high. A UNESCO World Heritage site.</p>
-                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
-                        View Details <i class="bi bi-arrow-right ml-2"></i>
+                    <p class="text-xs md:text-sm text-gray-600 dark:text-slate-400 mb-2 md:mb-3 line-clamp-2">The 'Lion Rock' is an ancient rock fortress. A UNESCO World Heritage site.</p>
+                    <button class="inline-flex items-center text-xs md:text-sm text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
+                        <span class="hidden sm:inline">View Details</span><span class="sm:hidden">Details</span> <i class="bi bi-arrow-right ml-1"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Card 2: Ella -->
-            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-xl md:rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
                  data-category="mountains"
                  data-title="Ella"
                  data-image="/images/ella.webp"
@@ -86,23 +86,23 @@
                  data-description="Famous for the Nine Arch Bridge, Little Adam's Peak, and stunning tea plantations. A hiker's paradise with cool climate and laid-back vibe."
                  data-best-time="January to March"
                  data-tips="Take the scenic train ride from Kandy. Try the local cafes.">
-                <div class="relative h-64 overflow-hidden">
+                <div class="relative h-32 md:h-48 overflow-hidden">
                     <img src="/images/ella.webp" alt="Ella" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 </div>
-                <div class="p-8">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Ella</h3>
-                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Badulla</span>
+                <div class="p-2 md:p-4">
+                    <div class="flex justify-between items-start mb-1 md:mb-2">
+                        <h3 class="text-sm md:text-lg font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Ella</h3>
+                        <span class="text-xs text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> <span class="hidden md:inline">Badulla</span></span>
                     </div>
-                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">Famous for the Nine Arch Bridge, Little Adam's Peak, and stunning tea plantations. A hiker's paradise with cool climate.</p>
-                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
-                        View Details <i class="bi bi-arrow-right ml-2"></i>
+                    <p class="text-xs md:text-sm text-gray-600 dark:text-slate-400 mb-2 md:mb-3 line-clamp-2">Famous for the Nine Arch Bridge and stunning tea plantations.</p>
+                    <button class="inline-flex items-center text-xs md:text-sm text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
+                        <span class="hidden sm:inline">View Details</span><span class="sm:hidden">Details</span> <i class="bi bi-arrow-right ml-1"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Card 3: Galle Fort -->
-             <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+             <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-xl md:rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
                  data-category="culture"
                  data-title="Galle Fort"
                  data-image="/images/galle.webp"
@@ -110,81 +110,90 @@
                  data-description="A historic Dutch colonial town featuring a fortified old city founded by Portuguese colonists in the 16th century. Cobblestone streets lined with cafes and boutiques."
                  data-best-time="December to April"
                  data-tips="Walk the ramparts at sunset. Visit the lighthouse.">
-                <div class="relative h-64 overflow-hidden">
+                <div class="relative h-32 md:h-48 overflow-hidden">
                     <img src="/images/galle.webp" alt="Galle Fort" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 </div>
-                <div class="p-8">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Galle Fort</h3>
-                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> South</span>
+                <div class="p-2 md:p-4">
+                    <div class="flex justify-between items-start mb-1 md:mb-2">
+                        <h3 class="text-sm md:text-lg font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Galle Fort</h3>
+                        <span class="text-xs text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> <span class="hidden md:inline">South</span></span>
                     </div>
-                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">A historic Dutch colonial town featuring a fortified old city founded by Portuguese colonists in the 16th century.</p>
-                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
-                        View Details <i class="bi bi-arrow-right ml-2"></i>
+                    <p class="text-xs md:text-sm text-gray-600 dark:text-slate-400 mb-2 md:mb-3 line-clamp-2">A historic Dutch colonial town with fortified old city.</p>
+                    <button class="inline-flex items-center text-xs md:text-sm text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
+                        <span class="hidden sm:inline">View Details</span><span class="sm:hidden">Details</span> <i class="bi bi-arrow-right ml-1"></i>
                     </button>
                 </div>
             </div>
-            <!-- <div class="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                <div class="relative h-64 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=800&auto=format&fit=crop" alt="Galle Fort" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+
+            <!-- Card 4: Nuwara Eliya -->
+            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-xl md:rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+                 data-category="mountains"
+                 data-title="Nuwara Eliya"
+                 data-image="/images/NuwaraEliya.webp"
+                 data-location="Central Highlands"
+                 data-description="Often called 'Little England', this city is famous for its temperate, cool climate, colonial architecture, and endless tea estates."
+                 data-best-time="February to May"
+                 data-tips="Bring warm clothes. Visit a tea factory.">
+                <div class="relative h-32 md:h-48 overflow-hidden">
+                    <img src="/images/NuwaraEliya.webp" alt="Nuwara Eliya" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 </div>
-                <div class="p-8">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Galle Fort</h3>
-                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> South</span>
+                <div class="p-2 md:p-4">
+                    <div class="flex justify-between items-start mb-1 md:mb-2">
+                        <h3 class="text-sm md:text-lg font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Nuwara Eliya</h3>
+                        <span class="text-xs text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> <span class="hidden md:inline">Highlands</span></span>
                     </div>
-                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-2">Galle Fort, in the Bay of Galle on the southwest coast of Sri Lanka, was built first in 1588 by the Portuguese.</p>
-                    <a href="/generate-trip" class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
-                        Plan a trip here <i class="bi bi-arrow-right ml-2"></i>
-                    </a>
+                    <p class="text-xs md:text-sm text-gray-600 dark:text-slate-400 mb-2 md:mb-3 line-clamp-2">Often called 'Little England' with tea estates and cool climate.</p>
+                    <button class="inline-flex items-center text-xs md:text-sm text-cyan-600 dark:text-cyan-400 font-bold hover:underline">
+                        <span class="hidden sm:inline">View Details</span><span class="sm:hidden">Details</span> <i class="bi bi-arrow-right ml-1"></i>
+                    </button>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 
 
-    <!-- Destination Details Modal (Add this) -->
+    <!-- Destination Details Modal -->
     <div id="detailsModal" class="fixed inset-0 z-50 hidden">
-        <div id="modalBackdrop" class="absolute inset-0 bg-black bg-opacity-50 opacity-0 transition-opacity duration-300"></div>
-        <div class="relative min-h-screen flex items-center justify-center p-4">
-            <div id="modalPanel" class="bg-white dark:bg-slate-800 rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl transform opacity-0 scale-95 transition-all duration-300">
+        <div id="modalBackdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+        <div class="relative min-h-screen flex items-center justify-center p-4 overflow-y-auto">
+            <div id="modalPanel" class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl transform opacity-0 scale-95 transition-all duration-300 my-4">
                 <!-- Modal Header -->
-                <div class="relative h-64 overflow-hidden">
+                <div class="relative h-40 sm:h-48 overflow-hidden">
                     <img id="modalImage" src="" alt="" class="w-full h-full object-cover">
-                    <button id="closeModal" class="absolute top-4 right-4 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center text-gray-600 hover:text-gray-900 transition-all">
-                        <i class="bi bi-x text-xl"></i>
+                    <button id="closeModal" class="absolute top-2 right-2 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center text-gray-600 hover:text-gray-900 transition-all shadow-lg">
+                        <i class="bi bi-x text-xl sm:text-2xl"></i>
                     </button>
                 </div>
                 
                 <!-- Modal Content -->
-                <div class="p-8">
-                    <div class="flex justify-between items-start mb-4">
-                        <h2 id="modalTitle" class="text-3xl font-bold text-gray-900 dark:text-white"></h2>
-                        <span id="modalLocation" class="text-gray-500 dark:text-slate-400 flex items-center">
+                <div class="p-4 sm:p-6">
+                    <div class="flex justify-between items-start mb-3 gap-2">
+                        <h2 id="modalTitle" class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white"></h2>
+                        <span id="modalLocation" class="text-gray-500 dark:text-slate-400 flex items-center text-xs sm:text-sm shrink-0">
                             <i class="bi bi-geo-alt mr-1"></i>
                         </span>
                     </div>
                     
-                    <p id="modalDescription" class="text-gray-600 dark:text-slate-300 mb-6 leading-relaxed"></p>
+                    <p id="modalDescription" class="text-xs sm:text-sm text-gray-600 dark:text-slate-300 mb-4 line-clamp-3"></p>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-cyan-50 dark:bg-slate-700/50 p-4 rounded-xl">
-                            <h4 class="font-bold text-cyan-900 dark:text-cyan-400 mb-2 flex items-center">
+                    <div class="grid grid-cols-1 gap-3">
+                        <div class="bg-cyan-50 dark:bg-slate-700/50 p-3 rounded-lg">
+                            <h4 class="font-bold text-cyan-900 dark:text-cyan-400 mb-1 flex items-center text-xs sm:text-sm">
                                 <i class="bi bi-calendar-event mr-2"></i>Best Time to Visit
                             </h4>
-                            <p id="modalBestTime" class="text-gray-700 dark:text-slate-300"></p>
+                            <p id="modalBestTime" class="text-xs sm:text-sm text-gray-700 dark:text-slate-300"></p>
                         </div>
                         
-                        <div class="bg-orange-50 dark:bg-slate-700/50 p-4 rounded-xl">
-                            <h4 class="font-bold text-orange-900 dark:text-orange-400 mb-2 flex items-center">
+                        <div class="bg-orange-50 dark:bg-slate-700/50 p-3 rounded-lg">
+                            <h4 class="font-bold text-orange-900 dark:text-orange-400 mb-1 flex items-center text-xs sm:text-sm">
                                 <i class="bi bi-lightbulb mr-2"></i>Travel Tips
                             </h4>
-                            <p id="modalTips" class="text-gray-700 dark:text-slate-300"></p>
+                            <p id="modalTips" class="text-xs sm:text-sm text-gray-700 dark:text-slate-300"></p>
                         </div>
                     </div>
                     
-                    <div class="flex justify-center mt-8">
-                        <a href="/generate-trip" class="px-8 py-3 bg-cyan-600 text-white font-bold rounded-full hover:bg-cyan-700 transition-colors">
+                    <div class="flex justify-center mt-4">
+                        <a href="/generate-trip" class="w-full sm:w-auto px-6 py-2.5 bg-cyan-600 text-white font-bold rounded-full hover:bg-cyan-700 transition-colors text-center text-xs sm:text-sm">
                             Plan a Trip Here
                         </a>
                     </div>

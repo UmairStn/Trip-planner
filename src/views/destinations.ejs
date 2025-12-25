@@ -29,12 +29,13 @@
             <button data-filter="beaches" class="filter-btn px-6 py-2 rounded-full bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-300 border border-gray-200 dark:border-slate-700 font-medium hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors btn-animate">Beaches</button>
             <button data-filter="mountains" class="filter-btn px-6 py-2 rounded-full bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-300 border border-gray-200 dark:border-slate-700 font-medium hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors btn-animate">Mountains</button>
             <button data-filter="wildlife" class="filter-btn px-6 py-2 rounded-full bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-300 border border-gray-200 dark:border-slate-700 font-medium hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors btn-animate">Wildlife</button>
+            <button data-filter="culture" class="filter-btn px-6 py-2 rounded-full bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-300 border border-gray-200 dark:border-slate-700 font-medium hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors btn-animate">Culture</button>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger-parent" id="destinationsGrid">
+        <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-8 stagger-parent" id="destinationsGrid">
             
             <!-- Sigiriya -->
-            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer" 
+            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer" 
                  data-category="culture"
                  data-title="Sigiriya"
                  data-image="/images/sigiriya.webp"
@@ -42,26 +43,26 @@
                  data-description="The 'Lion Rock' is an ancient rock fortress known for its massive column of rock nearly 200 meters high. A UNESCO World Heritage site featuring ancient frescoes and the Mirror Wall."
                  data-best-time="January to April"
                  data-tips="Climb early morning to avoid heat and crowds. Wear comfortable shoes.">
-                <div class="relative h-64 overflow-hidden">
+                <div class="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
                     <img src="/images/sigiriya.webp" alt="Sigiriya" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute top-4 right-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-cyan-700 dark:text-cyan-400 shadow-sm">
+                    <div class="absolute top-2 right-2 lg:top-4 lg:right-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm px-2 py-1 lg:px-3 rounded-full text-xs font-bold text-cyan-700 dark:text-cyan-400 shadow-sm">
                         <i class="bi bi-star-fill text-yellow-400 mr-1"></i> Must Visit
                     </div>
                 </div>
-                <div class="p-8">
+                <div class="p-4 sm:p-6 lg:p-8">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Sigiriya</h3>
-                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Central</span>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Sigiriya</h3>
+                        <span class="text-xs sm:text-sm text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Central</span>
                     </div>
-                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">The 'Lion Rock' is an ancient rock fortress known for its massive column of rock nearly 200 meters high. A UNESCO World Heritage site.</p>
-                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-slate-400 mb-4 sm:mb-6 line-clamp-2 sm:line-clamp-3">The 'Lion Rock' is an ancient rock fortress known for its massive column of rock nearly 200 meters high. A UNESCO World Heritage site.</p>
+                    <button class="inline-flex items-center text-sm sm:text-base text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
                         View Details <i class="bi bi-arrow-right ml-2 icon-hover"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Ella -->
-            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
                  data-category="mountains"
                  data-title="Ella"
                  data-image="/images/ella.webp"
@@ -69,23 +70,23 @@
                  data-description="Famous for the Nine Arch Bridge, Little Adam's Peak, and stunning tea plantations. A hiker's paradise with cool climate and laid-back vibe."
                  data-best-time="January to March"
                  data-tips="Take the scenic train ride from Kandy. Try the local cafes.">
-                <div class="relative h-64 overflow-hidden">
+                <div class="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
                     <img src="/images/ella.webp" alt="Ella" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 </div>
-                <div class="p-8">
+                <div class="p-4 sm:p-6 lg:p-8">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Ella</h3>
-                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Badulla</span>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Ella</h3>
+                        <span class="text-xs sm:text-sm text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Badulla</span>
                     </div>
-                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">Famous for the Nine Arch Bridge, Little Adam's Peak, and stunning tea plantations. A hiker's paradise with cool climate.</p>
-                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-slate-400 mb-4 sm:mb-6 line-clamp-2 sm:line-clamp-3">Famous for the Nine Arch Bridge, Little Adam's Peak, and stunning tea plantations. A hiker's paradise with cool climate.</p>
+                    <button class="inline-flex items-center text-sm sm:text-base text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
                         View Details <i class="bi bi-arrow-right ml-2 icon-hover"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Galle Fort -->
-            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
                  data-category="culture"
                  data-title="Galle Fort"
                  data-image="/images/galle.webp"
@@ -93,23 +94,23 @@
                  data-description="A historic Dutch colonial town featuring a fortified old city founded by Portuguese colonists in the 16th century. Cobblestone streets lined with cafes and boutiques."
                  data-best-time="December to April"
                  data-tips="Walk the ramparts at sunset. Visit the lighthouse.">
-                <div class="relative h-64 overflow-hidden">
+                <div class="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
                     <img src="/images/galle.webp" alt="Galle Fort" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 </div>
-                <div class="p-8">
+                <div class="p-4 sm:p-6 lg:p-8">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Galle Fort</h3>
-                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> South</span>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Galle Fort</h3>
+                        <span class="text-xs sm:text-sm text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> South</span>
                     </div>
-                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">A historic Dutch colonial town featuring a fortified old city founded by Portuguese colonists in the 16th century.</p>
-                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-slate-400 mb-4 sm:mb-6 line-clamp-2 sm:line-clamp-3">A historic Dutch colonial town featuring a fortified old city founded by Portuguese colonists in the 16th century.</p>
+                    <button class="inline-flex items-center text-sm sm:text-base text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
                         View Details <i class="bi bi-arrow-right ml-2 icon-hover"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Mirissa -->
-            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
                  data-category="beaches"
                  data-title="Mirissa"
                  data-image="/images/mirissa.webp"
@@ -117,23 +118,23 @@
                  data-description="Known for its beautiful beaches, whale watching tours, and vibrant nightlife. The perfect spot for relaxation and ocean adventures."
                  data-best-time="November to April"
                  data-tips="Book a whale watching tour early. Visit Coconut Tree Hill for photos.">
-                <div class="relative h-64 overflow-hidden">
+                <div class="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
                     <img src="/images/mirissa.webp" alt="Mirissa" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 </div>
-                <div class="p-8">
+                <div class="p-4 sm:p-6 lg:p-8">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Mirissa</h3>
-                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> South Coast</span>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Mirissa</h3>
+                        <span class="text-xs sm:text-sm text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> South Coast</span>
                     </div>
-                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">Known for its beautiful beaches, whale watching tours, and vibrant nightlife. The perfect spot for relaxation and ocean adventures.</p>
-                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-slate-400 mb-4 sm:mb-6 line-clamp-2 sm:line-clamp-3">Known for its beautiful beaches, whale watching tours, and vibrant nightlife. The perfect spot for relaxation and ocean adventures.</p>
+                    <button class="inline-flex items-center text-sm sm:text-base text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
                         View Details <i class="bi bi-arrow-right ml-2 icon-hover"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Nuwara Eliya -->
-            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
                  data-category="mountains"
                  data-title="Nuwara Eliya"
                  data-image="/images/NuwaraEliya.webp"
@@ -141,23 +142,23 @@
                  data-description="Often called 'Little England', this city is famous for its temperate, cool climate, colonial architecture, and endless tea estates."
                  data-best-time="February to May"
                  data-tips="Bring warm clothes. Visit a tea factory.">
-                <div class="relative h-64 overflow-hidden">
+                <div class="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
                     <img src="/images/NuwaraEliya.webp" alt="Nuwara Eliya" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 </div>
-                <div class="p-8">
+                <div class="p-4 sm:p-6 lg:p-8">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Nuwara Eliya</h3>
-                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Central Highlands</span>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Nuwara Eliya</h3>
+                        <span class="text-xs sm:text-sm text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Central Highlands</span>
                     </div>
-                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">Often called 'Little England', this city is famous for its temperate, cool climate, colonial architecture, and endless tea estates.</p>
-                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-slate-400 mb-4 sm:mb-6 line-clamp-2 sm:line-clamp-3">Often called 'Little England', this city is famous for its temperate, cool climate, colonial architecture, and endless tea estates.</p>
+                    <button class="inline-flex items-center text-sm sm:text-base text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
                         View Details <i class="bi bi-arrow-right ml-2 icon-hover"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Yala National Park -->
-            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
                  data-category="wildlife"
                  data-title="Yala National Park"
                  data-image="/images/yala.webp"
@@ -165,23 +166,23 @@
                  data-description="The most visited and second largest national park in Sri Lanka, famous for its high density of leopards and herds of elephants."
                  data-best-time="February to July"
                  data-tips="Book a full-day safari for better chances of spotting leopards.">
-                <div class="relative h-64 overflow-hidden">
+                <div class="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
                     <img src="/images/yala.webp" alt="Yala National Park" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 </div>
-                <div class="p-8">
+                <div class="p-4 sm:p-6 lg:p-8">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Yala National Park</h3>
-                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Southeast</span>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Yala National Park</h3>
+                        <span class="text-xs sm:text-sm text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Southeast</span>
                     </div>
-                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">The most visited and second largest national park in Sri Lanka, famous for its high density of leopards and herds of elephants.</p>
-                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-slate-400 mb-4 sm:mb-6 line-clamp-2 sm:line-clamp-3">The most visited and second largest national park in Sri Lanka, famous for its high density of leopards and herds of elephants.</p>
+                    <button class="inline-flex items-center text-sm sm:text-base text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
                         View Details <i class="bi bi-arrow-right ml-2 icon-hover"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Anuradhapura -->
-            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
                  data-category="culture"
                  data-title="Anuradhapura"
                  data-image="/images/anuradhapura.webp"
@@ -189,23 +190,23 @@
                  data-description="One of the ancient capitals of Sri Lanka, famous for its well-preserved ruins of an ancient Sinhala civilization. Home to the sacred Bodhi Tree."
                  data-best-time="April to September"
                  data-tips="Dress modestly when visiting temples. Rent a bicycle to explore.">
-                <div class="relative h-64 overflow-hidden">
+                <div class="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
                     <img src="/images/anuradhapura.webp" alt="Anuradhapura" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 </div>
-                <div class="p-8">
+                <div class="p-4 sm:p-6 lg:p-8">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Anuradhapura</h3>
-                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> North Central</span>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Anuradhapura</h3>
+                        <span class="text-xs sm:text-sm text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> North Central</span>
                     </div>
-                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">One of the ancient capitals of Sri Lanka, famous for its well-preserved ruins of an ancient Sinhala civilization.</p>
-                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-slate-400 mb-4 sm:mb-6 line-clamp-2 sm:line-clamp-3">One of the ancient capitals of Sri Lanka, famous for its well-preserved ruins of an ancient Sinhala civilization.</p>
+                    <button class="inline-flex items-center text-sm sm:text-base text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
                         View Details <i class="bi bi-arrow-right ml-2 icon-hover"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Polonnaruwa -->
-            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
                  data-category="culture"
                  data-title="Polonnaruwa"
                  data-image="/images/polonnaruwa.webp"
@@ -213,23 +214,23 @@
                  data-description="The second most ancient of Sri Lanka's kingdoms, featuring the monumental ruins of the fabulous garden-city created by Parakramabahu I."
                  data-best-time="May to September"
                  data-tips="Explore the Gal Vihara rock statues.">
-                <div class="relative h-64 overflow-hidden">
+                <div class="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
                     <img src="/images/polonnaruwa.webp" alt="Polonnaruwa" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 </div>
-                <div class="p-8">
+                <div class="p-4 sm:p-6 lg:p-8">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Polonnaruwa</h3>
-                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> North Central</span>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Polonnaruwa</h3>
+                        <span class="text-xs sm:text-sm text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> North Central</span>
                     </div>
-                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">The second most ancient of Sri Lanka's kingdoms, featuring the monumental ruins of the fabulous garden-city created by Parakramabahu I.</p>
-                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-slate-400 mb-4 sm:mb-6 line-clamp-2 sm:line-clamp-3">The second most ancient of Sri Lanka's kingdoms, featuring the monumental ruins of the fabulous garden-city created by Parakramabahu I.</p>
+                    <button class="inline-flex items-center text-sm sm:text-base text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
                         View Details <i class="bi bi-arrow-right ml-2 icon-hover"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Kandy -->
-            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
                  data-category="culture"
                  data-title="Kandy"
                  data-image="/images/kandy.webp"
@@ -237,16 +238,88 @@
                  data-description="A large city in central Sri Lanka. It's set on a plateau surrounded by mountains, which are home to tea plantations and biodiverse rainforest. Home to the Temple of the Tooth Relic."
                  data-best-time="December to April"
                  data-tips="Visit the Temple of the Tooth during a puja ceremony. Walk around Kandy Lake.">
-                <div class="relative h-64 overflow-hidden">
+                <div class="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
                     <img src="/images/kandy.webp" alt="Kandy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 </div>
-                <div class="p-8">
+                <div class="p-4 sm:p-6 lg:p-8">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Kandy</h3>
-                        <span class="text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Central</span>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Kandy</h3>
+                        <span class="text-xs sm:text-sm text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Central</span>
                     </div>
-                    <p class="text-gray-600 dark:text-slate-400 mb-6 line-clamp-3">A large city in central Sri Lanka. It's set on a plateau surrounded by mountains, which are home to tea plantations and biodiverse rainforest.</p>
-                    <button class="inline-flex items-center text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-slate-400 mb-4 sm:mb-6 line-clamp-2 sm:line-clamp-3">A large city in central Sri Lanka. It's set on a plateau surrounded by mountains, which are home to tea plantations and biodiverse rainforest.</p>
+                    <button class="inline-flex items-center text-sm sm:text-base text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
+                        View Details <i class="bi bi-arrow-right ml-2 icon-hover"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Arugam Bay -->
+            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+                 data-category="beaches"
+                 data-title="Arugam Bay"
+                 data-image="/images/arugambay.webp"
+                 data-location="East Coast"
+                 data-description="A world-renowned surfing destination with pristine beaches and laid-back atmosphere. Famous for its perfect waves, stunning sunrises over the Indian Ocean, and nearby lagoons for wildlife spotting."
+                 data-best-time="May to September"
+                 data-tips="Try surfing lessons for beginners. Visit nearby lagoons for wildlife spotting. Book accommodations early during peak season.">
+                <div class="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
+                    <img src="/images/arugambay.webp" alt="Arugam Bay" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="p-4 sm:p-6 lg:p-8">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Arugam Bay</h3>
+                        <span class="text-xs sm:text-sm text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> East Coast</span>
+                    </div>
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-slate-400 mb-4 sm:mb-6 line-clamp-2 sm:line-clamp-3">A world-renowned surfing destination with pristine beaches and laid-back atmosphere. Famous for its perfect waves and stunning sunrises.</p>
+                    <button class="inline-flex items-center text-sm sm:text-base text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
+                        View Details <i class="bi bi-arrow-right ml-2 icon-hover"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Horton Plains -->
+            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+                 data-category="mountains"
+                 data-title="Horton Plains"
+                 data-image="/images/hortonplains.webp"
+                 data-location="Central Highlands"
+                 data-description="A protected area and UNESCO World Heritage site featuring World's End, a dramatic cliff with a 4000-foot drop. Home to unique cloud forests, grasslands, and endemic wildlife including the sambar deer."
+                 data-best-time="January to March"
+                 data-tips="Start early to see World's End before clouds roll in. Bring warm clothing and water. The circular trail is about 9km and takes 3-4 hours.">
+                <div class="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
+                    <img src="/images/hortonplains.webp" alt="Horton Plains" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="p-4 sm:p-6 lg:p-8">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Horton Plains</h3>
+                        <span class="text-xs sm:text-sm text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> Central Highlands</span>
+                    </div>
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-slate-400 mb-4 sm:mb-6 line-clamp-2 sm:line-clamp-3">A protected area featuring World's End, a dramatic cliff with a 4000-foot drop. Home to unique cloud forests and endemic wildlife.</p>
+                    <button class="inline-flex items-center text-sm sm:text-base text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
+                        View Details <i class="bi bi-arrow-right ml-2 icon-hover"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Trincomalee -->
+            <div class="destination-card stagger-child group bg-white dark:bg-slate-800 rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+                 data-category="beaches"
+                 data-title="Trincomalee"
+                 data-image="/images/trincomalee.webp"
+                 data-location="East Coast"
+                 data-description="Home to some of Sri Lanka's most beautiful beaches including Nilaveli and Uppuveli. Famous for Pigeon Island National Park with excellent snorkeling, whale watching opportunities, and the historic Koneswaram Temple."
+                 data-best-time="March to October"
+                 data-tips="Visit Pigeon Island for snorkeling and coral reefs. Explore Koneswaram Temple on Swami Rock. Try whale watching from March to August.">
+                <div class="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
+                    <img src="/images/trincomalee.webp" alt="Trincomalee" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="p-4 sm:p-6 lg:p-8">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">Trincomalee</h3>
+                        <span class="text-xs sm:text-sm text-gray-400 dark:text-slate-500"><i class="bi bi-geo-alt"></i> East Coast</span>
+                    </div>
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-slate-400 mb-4 sm:mb-6 line-clamp-2 sm:line-clamp-3">Home to some of Sri Lanka's most beautiful beaches including Nilaveli and Uppuveli. Famous for Pigeon Island National Park.</p>
+                    <button class="inline-flex items-center text-sm sm:text-base text-cyan-600 dark:text-cyan-400 font-bold hover:underline btn-animate">
                         View Details <i class="bi bi-arrow-right ml-2 icon-hover"></i>
                     </button>
                 </div>
@@ -269,53 +342,48 @@
 </section>
 
 <!-- Details Modal -->
-<div id="detailsModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <!-- Backdrop -->
-    <div class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity opacity-0" id="modalBackdrop"></div>
-
-    <div class="flex min-h-screen items-center justify-center p-4 text-center sm:p-0">
-        <div class="relative transform overflow-hidden rounded-3xl bg-white dark:bg-slate-800 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-2xl opacity-0 scale-95" id="modalPanel">
-            <!-- Close Button -->
-            <button type="button" class="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/20 hover:bg-black/40 text-white transition-colors focus:outline-none icon-hover" id="closeModal">
-                <i class="bi bi-x-lg text-lg"></i>
-            </button>
-
-            <!-- Image -->
-            <div class="h-64 sm:h-80 w-full relative">
-                <img id="modalImage" src="" alt="" class="h-full w-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                <div class="absolute bottom-0 left-0 p-6 sm:p-8">
-                    <h3 class="text-3xl font-bold text-white drop-shadow-md" id="modalTitle"></h3>
-                    <p class="text-cyan-300 font-medium flex items-center mt-2">
-                        <i class="bi bi-geo-alt-fill mr-2"></i> <span id="modalLocation"></span>
-                    </p>
-                </div>
+<div id="detailsModal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div id="modalBackdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+    <div class="relative min-h-screen flex items-center justify-center p-4">
+        <div id="modalPanel" class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl transform opacity-0 scale-95 transition-all duration-300">
+            <!-- Modal Header -->
+            <div class="relative h-40 sm:h-48 overflow-hidden">
+                <img id="modalImage" src="" alt="" class="w-full h-full object-cover">
+                <button id="closeModal" class="absolute top-2 right-2 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center text-gray-600 hover:text-gray-900 transition-all shadow-lg">
+                    <i class="bi bi-x text-xl sm:text-2xl"></i>
+                </button>
             </div>
-
-            <!-- Content -->
-            <div class="p-6 sm:p-8">
-                <div class="prose dark:prose-invert max-w-none">
-                    <p id="modalDescription" class="text-gray-600 dark:text-slate-300 text-lg leading-relaxed mb-6"></p>
+            
+            <!-- Modal Content -->
+            <div class="p-4 sm:p-6">
+                <div class="flex justify-between items-start mb-3 gap-2">
+                    <h2 id="modalTitle" class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white"></h2>
+                    <span id="modalLocation" class="text-gray-500 dark:text-slate-400 flex items-center text-xs sm:text-sm shrink-0">
+                        <i class="bi bi-geo-alt mr-1"></i>
+                    </span>
+                </div>
+                
+                <p id="modalDescription" class="text-xs sm:text-sm text-gray-600 dark:text-slate-300 mb-4 line-clamp-3"></p>
+                
+                <div class="grid grid-cols-1 gap-3">
+                    <div class="bg-cyan-50 dark:bg-slate-700/50 p-3 rounded-lg">
+                        <h4 class="font-bold text-cyan-900 dark:text-cyan-400 mb-1 flex items-center text-xs sm:text-sm">
+                            <i class="bi bi-calendar-event mr-2"></i>Best Time to Visit
+                        </h4>
+                        <p id="modalBestTime" class="text-xs sm:text-sm text-gray-700 dark:text-slate-300"></p>
+                    </div>
                     
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-                        <div class="bg-cyan-50 dark:bg-cyan-900/20 p-4 rounded-xl border border-cyan-100 dark:border-cyan-800">
-                            <h4 class="font-bold text-cyan-900 dark:text-cyan-300 mb-2 flex items-center">
-                                <i class="bi bi-calendar-check mr-2"></i> Best Time to Visit
-                            </h4>
-                            <p id="modalBestTime" class="text-sm text-cyan-800 dark:text-cyan-200"></p>
-                        </div>
-                        <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-xl border border-yellow-100 dark:border-yellow-800">
-                            <h4 class="font-bold text-yellow-900 dark:text-yellow-300 mb-2 flex items-center">
-                                <i class="bi bi-lightbulb mr-2"></i> Travel Tip
-                            </h4>
-                            <p id="modalTips" class="text-sm text-yellow-800 dark:text-yellow-200"></p>
-                        </div>
+                    <div class="bg-orange-50 dark:bg-slate-700/50 p-3 rounded-lg">
+                        <h4 class="font-bold text-orange-900 dark:text-orange-400 mb-1 flex items-center text-xs sm:text-sm">
+                            <i class="bi bi-lightbulb mr-2"></i>Travel Tips
+                        </h4>
+                        <p id="modalTips" class="text-xs sm:text-sm text-gray-700 dark:text-slate-300"></p>
                     </div>
                 </div>
-
-                <div class="mt-6 flex justify-end">
-                    <a href="/generate-trip" id="saveItineraryBtn" class="inline-flex justify-center rounded-xl bg-cyan-600 px-6 py-3 text-base font-bold text-white shadow-sm hover:bg-cyan-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 transition-all transform hover:scale-105 btn-animate">
-                        Add to My Trip
+                
+                <div class="flex justify-center mt-4">
+                    <a href="/generate-trip" class="w-full sm:w-auto px-6 py-2.5 bg-cyan-600 text-white font-bold rounded-full hover:bg-cyan-700 transition-colors text-center text-xs sm:text-sm">
+                        Plan a Trip Here
                     </a>
                 </div>
             </div>
@@ -349,36 +417,39 @@ document.addEventListener('DOMContentLoaded', function() {
     const popup = document.getElementById('featurePopup');
     const closeBtn = document.getElementById('closePopup');
 
-     // Show popup when Save button is clicked
-    saveBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        popup.classList.remove('hidden');
-        // Add animation
-        setTimeout(() => {
-            popup.querySelector('div').classList.remove('scale-95');
-            popup.querySelector('div').classList.add('scale-100');
-        }, 10);
-    });
+    // Only add event listeners if elements exist
+    if (saveBtn && popup && closeBtn) {
+        // Show popup when Save button is clicked
+        saveBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            popup.classList.remove('hidden');
+            // Add animation
+            setTimeout(() => {
+                popup.querySelector('div').classList.remove('scale-95');
+                popup.querySelector('div').classList.add('scale-100');
+            }, 10);
+        });
 
-    // Close popup when "Got it" button is clicked
-    closeBtn.addEventListener('click', function() {
-        popup.querySelector('div').classList.remove('scale-100');
-        popup.querySelector('div').classList.add('scale-95');
-        setTimeout(() => {
-            popup.classList.add('hidden');
-        }, 300);
-    });
-    
-    // Close popup when clicking outside the modal
-    popup.addEventListener('click', function(e) {
-        if (e.target === popup) {
+        // Close popup when "Got it" button is clicked
+        closeBtn.addEventListener('click', function() {
             popup.querySelector('div').classList.remove('scale-100');
             popup.querySelector('div').classList.add('scale-95');
             setTimeout(() => {
                 popup.classList.add('hidden');
             }, 300);
-        }
-    });
+        });
+        
+        // Close popup when clicking outside the modal
+        popup.addEventListener('click', function(e) {
+            if (e.target === popup) {
+                popup.querySelector('div').classList.remove('scale-100');
+                popup.querySelector('div').classList.add('scale-95');
+                setTimeout(() => {
+                    popup.classList.add('hidden');
+                }, 300);
+            }
+        });
+    }
 
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -434,7 +505,6 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.classList.remove('hidden');
         
         // Animate in
-        // Small delay to allow display:block to apply before opacity transition
         requestAnimationFrame(() => {
             modalBackdrop.classList.remove('opacity-0');
             modalPanel.classList.remove('opacity-0', 'scale-95');
