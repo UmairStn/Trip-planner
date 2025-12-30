@@ -7,7 +7,7 @@ const axios = require('axios');
 const TEST_MODE = false; // Toggle this to true when you want to skip API calls
 
 // API Selection - Choose which API to use
-const USE_OPENROUTER = true; // Set to true to use OpenRouter, false to use Gemini
+const USE_OPENROUTER = false; // Set to true to use OpenRouter, false to use Gemini
 
 // Sample trip plan for testing
 // const sampleTripPlan = {
@@ -161,7 +161,7 @@ const getTripPlan = async (userInput) => {
             // GEMINI API (BACKUP)
             console.log("🤖 Using Gemini API...");
             const geminiApiKey = process.env.GEMINI_API_KEY;
-            apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.0-pro:generateContent?key=${geminiApiKey}`;
+            apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`;
         }
 
         //2. create the prompt
@@ -174,40 +174,58 @@ const getTripPlan = async (userInput) => {
         const needMoreCities = userInput.allowAiSuggestions && (citiesArray.length <= 2 && duration > 3);
 
         const combinedPrompt = `You are an expert travel agent creating a personalized itinerary for Sri Lanka. 
-                                Your response MUST be ONLY valid JSON with no additional text or markdown. 
-                                Return a JSON object with a single key named 'tripPlan' containing an array of day objects.
+                        Your response MUST be ONLY valid JSON with no additional text or markdown. 
+                        Return a JSON object with a single key named 'tripPlan' containing an array of day objects.
 
-                                Each day object MUST include:
-                                - 'day': number (1, 2, 3...)
-                                - 'location': string (specific area/city from Sri Lanka)
-                                - 'description': string (100-150 words about the day)
-                                - 'activities': array of 3-5 activity strings
-                                - 'meals': object with 'breakfast', 'lunch', and 'dinner' recommendations
-                                - 'accommodation': string (hotel/lodging suggestion with approximate ${budget} price)
-                                - 'transportationTips': string (how to get around)
-                                ${userInput.includeHiddenPlace ? 
-                                  "- 'hiddenPlaces': array of 2-3 strings (names of lesser-known local spots with brief 10-15 word descriptions)" : 
-                                  ""}
+                        Each day object MUST include:
+                        - 'day': number (1, 2, 3...)
+                        - 'location': string (specific area/city from Sri Lanka)
+                        - 'description': string (100-150 words about the day)
+                        - 'activities': array of 3-5 activity strings
+                        - 'meals': object with 'breakfast', 'lunch', and 'dinner' recommendations
+                        - 'accommodation': string (hotel/lodging suggestion with approximate ${budget} price)
+                        - 'transportationTips': string (how to get around)
+                        ${userInput.includeHiddenPlace ? 
+                          "- 'hiddenPlaces': array of 2-3 strings describing lesser-known local spots (each description should be concise)" : 
+                          ""}
 
-                                ${needMoreCities ? 
-                                  `The user has only specified ${citiesString} but the trip is ${duration} days long. Please suggest and include 2-3 additional nearby cities or attractions that match their interests in ${interString}.` : 
-                                  `Create a realistic ${duration}-day trip to Sri Lanka visiting these cities: ${citiesString}.`}
+                        ${needMoreCities ? 
+                          `The user has only specified ${citiesString} but the trip is ${duration} days long. Please suggest and include 2-3 additional nearby cities or attractions that match their interests in ${interString}.` : 
+                          `Create a realistic ${duration}-day trip to Sri Lanka visiting these cities: ${citiesString}.`}
 
-                                For a ${budget} budget focusing on ${interString}.
-                                Distribute the days across the cities in a logical order to minimize travel time.
-                                Include both popular highlights and hidden gems in each location.
-                                Balance the itinerary to avoid exhaustion (don't pack too many activities per day).
-                                Suggest specific restaurants, venues, and attractions with brief descriptions.
+                        For a ${budget} budget focusing on ${interString}.
+                        
+                        IMPORTANT INTEREST-BASED RECOMMENDATIONS:
+                        ${interString.toLowerCase().includes('partie') || interString.toLowerCase().includes('pub') || interString.toLowerCase().includes('nightlife') || interString.toLowerCase().includes('bar') ? 
+                          `- Include nightlife activities such as popular bars, clubs, beach parties, rooftop lounges, and evening entertainment venues
+                          - Recommend areas known for nightlife (e.g., Colombo Fort, Galle Road, Mirissa, Hikkaduwa)
+                          - Suggest specific venues for parties, live music, DJ nights, and social gatherings
+                          - Include late-night dining options and after-hours activities` : 
+                          ''}
+                        ${interString.toLowerCase().includes('beach') ? 
+                          '- Prioritize coastal locations and water activities' : 
+                          ''}
+                        ${interString.toLowerCase().includes('culture') || interString.toLowerCase().includes('temple') || interString.toLowerCase().includes('heritage') ? 
+                          '- Focus on historical sites, temples, and cultural experiences' : 
+                          ''}
+                        ${interString.toLowerCase().includes('adventure') || interString.toLowerCase().includes('hiking') ? 
+                          '- Include trekking, hiking, and adventure sports' : 
+                          ''}
+                        
+                        Distribute the days across the cities in a logical order to minimize travel time.
+                        Include both popular highlights and activities matching their specific interests (${interString}).
+                        Balance the itinerary to avoid exhaustion (don't pack too many activities per day).
+                        Suggest specific restaurants, venues, and attractions with brief descriptions.
 
-                                IMPORTANT: Plan the itinerary so that the final day is spent in or near Colombo, as the international airport is in Katunayake (close to Colombo). This will make departure more convenient for the traveler.
+                        IMPORTANT: Plan the itinerary so that the final day is spent in or near Colombo, as the international airport is in Katunayake (close to Colombo). This will make departure more convenient for the traveler.
 
-                                ${needMoreCities ? 
-                                  `Since this is a ${duration}-day trip, please add appropriate additional destinations beyond ${citiesString} that would complement their interests in ${interString}, but ensure the trip ends near Colombo for airport access.` : 
-                                  `Stay within the specified cities as requested by the user, but arrange the itinerary so the last day is in the location closest to Colombo/Katunayake for easy airport access.`}
+                        ${needMoreCities ? 
+                          `Since this is a ${duration}-day trip, please add appropriate additional destinations beyond ${citiesString} that would complement their interests in ${interString}, but ensure the trip ends near Colombo for airport access.` : 
+                          `Stay within the specified cities as requested by the user, but arrange the itinerary so the last day is in the location closest to Colombo/Katunayake for easy airport access.`}
 
-                                ${userInput.includeHiddenPlace ? 
-                                  "IMPORTANT: For each destination, include 1-2 hidden places as an array in 'hiddenPlaces' that most tourists don't know about - these could be secret viewpoints, local-only restaurants, unmarked trails, or off-the-beaten-path attractions. Keep each hidden place description very brief (10-15 words maximum)." : 
-                                  ""}`;
+                        ${userInput.includeHiddenPlace ? 
+                          "IMPORTANT: For each destination, include 2-3 hidden places in the 'hiddenPlaces' array that most tourists don't know about - these could be secret viewpoints, local-only restaurants, unmarked trails, off-the-beaten-path bars/clubs, or hidden beach spots. Keep descriptions concise and specific." : 
+                          ""}`;
 
         // ============================================
         // CREATE PAYLOAD BASED ON SELECTED API
