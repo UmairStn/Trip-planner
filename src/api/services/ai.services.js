@@ -367,29 +367,28 @@ const getTripPlan = async (userInput) => {
      } catch (error) {
         console.error("❌ Error calling AI API:", error.response ? error.response.data : error.message);
         
-        // Create fallback response with error info
-        return {
-          tripPlan: [
-            {
-              day: 1,
-              location: "Trip Planning Error",
-              description: "We encountered an issue while creating your trip plan. Please try again or modify your search criteria.",
-              activities: ["Please try again with different parameters"],
-              meals: {
-                breakfast: "N/A",
-                lunch: "N/A",
-                dinner: "N/A"
-              },
-              accommodation: "N/A",
-              transportationTips: "N/A",
-              error: error.message
-            }
-          ],
-          status: "error",
-          message: error.message
-        };
+        // Extract status code from the error
+        let statusCode = 500; // default
+        
+        if (error.response) {
+            // Axios error with response
+            statusCode = error.response.status;
+        } else if (error.response?.data?.error?.code) {
+            // Gemini API specific error format
+            statusCode = error.response.data.error.code;
+        }
+        
+        // Create error with proper status code
+        const err = new Error(
+            statusCode === 503 
+                ? 'The AI service is temporarily overloaded. Please try again in a few moments.'
+                : 'Failed to generate trip plan. Please try again.'
+        );
+        err.status = statusCode;
+        
+        // Throw the error so it can be caught by the error middleware
+        throw err;
    } 
-
 }
 
 module.exports = { getTripPlan };
