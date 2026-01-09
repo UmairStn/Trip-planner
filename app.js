@@ -32,7 +32,7 @@ const generalLimiter = rateLimit({
 
 const tripLimiter = rateLimit({
     windowMs: 60 * 1000, // 1 minute
-    max: 5,
+    max: 3,
     message: 'Too many trip generation requests. Please wait a minute before trying again.',
     standardHeaders: true,
     legacyHeaders: false,
