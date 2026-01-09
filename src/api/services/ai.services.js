@@ -6,8 +6,19 @@ const axios = require('axios');
 // Test mode flag - set to true when testing UI
 const TEST_MODE = false; // Toggle this to true when you want to skip API calls
 
-// API Selection - Choose which API to use
-const USE_OPENROUTER = false; // Set to true to use OpenRouter, false to use Gemini
+// API Providers configuration
+const AI_PROVIDERS = [
+    {
+        name: 'Gemini',
+        enabled: !!process.env.GEMINI_API_KEY,
+        apiKey: process.env.GEMINI_API_KEY
+    },
+    {
+        name: 'OpenRouter',
+        enabled: !!process.env.OPEN_ROUTER_API_KEY,
+        apiKey: process.env.OPEN_ROUTER_API_KEY
+    }
+];
 
 // Sample trip plan for testing
 // const sampleTripPlan = {
@@ -129,7 +140,6 @@ const USE_OPENROUTER = false; // Set to true to use OpenRouter, false to use Gem
 
 
 const getTripPlan = async (userInput) => {
-   // If in test mode, return the sample data immediately
    if (TEST_MODE) {
      console.log("TEST MODE: Returning sample trip plan instead of calling API");
      return sampleTripPlan;
@@ -140,39 +150,14 @@ const getTripPlan = async (userInput) => {
         const duration = userInput.duration;
         const interString = userInput.interests.join(", ");
         const budget = userInput.budget;
-        const country = "Sri Lanka"; // Fixed country
+        const country = "Sri Lanka";
         const citiesString = userInput.cities ? userInput.cities.split(',').map(city => city.trim()).join(', ') : "major cities";
-
-        // ============================================
-        // API CONFIGURATION
-        // ============================================
-        let apiUrl, payload, headers;
-
-        if (USE_OPENROUTER) {
-            // OPENROUTER API (ACTIVE)
-            console.log("🤖 Using OpenRouter API...");
-            const openRouterApiKey = process.env.OPEN_ROUTER_API_KEY;
-            apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
-            headers = {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${openRouterApiKey}`
-            };
-        } else {
-            // GEMINI API (BACKUP)
-            console.log("🤖 Using Gemini API...");
-            const geminiApiKey = process.env.GEMINI_API_KEY;
-            apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`;
-        }
-
-        //2. create the prompt
-        const generatePrompt = `Create a detailed trip plan for a ${duration}-day trip to ${country} visiting these cities: ${citiesString}. The trip should be suitable for a ${budget} budget. The traveler is primarily interested in exploring ${interString}.`;
-
-        //3. Create a combined prompt
         const citiesArray = citiesString.split(',').map(city => city.trim());
-        
-        // MODIFIED LOGIC: Only suggest more cities if the user ALLOWS it AND the logic deems it necessary
         const needMoreCities = userInput.allowAiSuggestions && (citiesArray.length <= 2 && duration > 3);
 
+        // ============================================
+        // BUILD THE PROMPT - YOUR COMPLETE PROMPT HERE
+        // ============================================
         const combinedPrompt = `You are an expert travel agent creating a personalized itinerary for Sri Lanka. 
                         Your response MUST be ONLY valid JSON with no additional text or markdown. 
                         Return a JSON object with a single key named 'tripPlan' containing an array of day objects.
@@ -181,7 +166,7 @@ const getTripPlan = async (userInput) => {
                         - 'day': number (1, 2, 3...)
                         - 'location': string (specific area/city from Sri Lanka)
                         - 'description': string (100-150 words about the day)
-                        - 'activities': array of 3-5 activity strings
+                        - 'activities': array of 3-5 activity strings DIRECTLY RELATED TO: ${interString}
                         - 'meals': object with 'breakfast', 'lunch', and 'dinner' recommendations
                         - 'accommodation': string (hotel/lodging suggestion with approximate ${budget} price)
                         - 'transportationTips': string (how to get around)
@@ -193,23 +178,49 @@ const getTripPlan = async (userInput) => {
                           `The user has only specified ${citiesString} but the trip is ${duration} days long. Please suggest and include 2-3 additional nearby cities or attractions that match their interests in ${interString}.` : 
                           `Create a realistic ${duration}-day trip to Sri Lanka visiting these cities: ${citiesString}.`}
 
-                        For a ${budget} budget focusing on ${interString}.
+                        Budget: ${budget}
+                        PRIMARY INTERESTS: ${interString}
+                        
+                        🔥 CRITICAL: EVERY DAY MUST FOCUS ON THESE INTERESTS: ${interString} 🔥
                         
                         IMPORTANT INTEREST-BASED RECOMMENDATIONS:
-                        ${interString.toLowerCase().includes('partie') || interString.toLowerCase().includes('pub') || interString.toLowerCase().includes('nightlife') || interString.toLowerCase().includes('bar') ? 
-                          `- Include nightlife activities such as popular bars, clubs, beach parties, rooftop lounges, and evening entertainment venues
-                          - Recommend areas known for nightlife (e.g., Colombo Fort, Galle Road, Mirissa, Hikkaduwa)
-                          - Suggest specific venues for parties, live music, DJ nights, and social gatherings
-                          - Include late-night dining options and after-hours activities` : 
+                        ${interString.toLowerCase().includes('partie') || interString.toLowerCase().includes('pub') || interString.toLowerCase().includes('nightlife') || interString.toLowerCase().includes('bar') || interString.toLowerCase().includes('club') ? 
+                          `🎉 NIGHTLIFE & PARTIES - MANDATORY:
+                          - Include specific nightlife activities: bars, clubs, beach parties, rooftop lounges
+                          - Recommend areas: Colombo Fort, Galle Road, Mirissa, Hikkaduwa, Unawatuna
+                          - Suggest specific venues: Ministry of Crab Bar, Barefoot Garden Cafe, The Empire nightclub
+                          - Include late-night dining, DJ nights, live music venues
+                          - Add beach parties and sunset bars` : 
                           ''}
-                        ${interString.toLowerCase().includes('beach') ? 
-                          '- Prioritize coastal locations and water activities' : 
+                        ${interString.toLowerCase().includes('beach') || interString.toLowerCase().includes('ocean') || interString.toLowerCase().includes('sea') ? 
+                          `🏖️ BEACHES - MANDATORY:
+                          - Prioritize coastal locations and beach towns
+                          - Include water activities: surfing, snorkeling, diving, whale watching
+                          - Recommend beach clubs and seaside restaurants` : 
                           ''}
-                        ${interString.toLowerCase().includes('culture') || interString.toLowerCase().includes('temple') || interString.toLowerCase().includes('heritage') ? 
-                          '- Focus on historical sites, temples, and cultural experiences' : 
+                        ${interString.toLowerCase().includes('culture') || interString.toLowerCase().includes('temple') || interString.toLowerCase().includes('heritage') || interString.toLowerCase().includes('history') ? 
+                          `🏛️ CULTURE & HERITAGE - MANDATORY:
+                          - Focus on UNESCO sites, ancient temples, cultural shows
+                          - Include local craft workshops and traditional performances
+                          - Visit museums and historical landmarks` : 
                           ''}
-                        ${interString.toLowerCase().includes('adventure') || interString.toLowerCase().includes('hiking') ? 
-                          '- Include trekking, hiking, and adventure sports' : 
+                        ${interString.toLowerCase().includes('adventure') || interString.toLowerCase().includes('hiking') || interString.toLowerCase().includes('trekking') ? 
+                          `⛰️ ADVENTURE - MANDATORY:
+                          - Include trekking, hiking trails, rock climbing
+                          - Add adventure sports: zip-lining, white water rafting
+                          - Recommend mountain peaks and jungle treks` : 
+                          ''}
+                        ${interString.toLowerCase().includes('wildlife') || interString.toLowerCase().includes('safari') || interString.toLowerCase().includes('nature') ? 
+                          `🐘 WILDLIFE & NATURE - MANDATORY:
+                          - Include national parks and safari experiences
+                          - Add wildlife watching opportunities
+                          - Recommend nature reserves and eco-lodges` : 
+                          ''}
+                        ${interString.toLowerCase().includes('food') || interString.toLowerCase().includes('cuisine') || interString.toLowerCase().includes('culinary') ? 
+                          `🍛 FOOD & CUISINE - MANDATORY:
+                          - Focus on cooking classes and food tours
+                          - Recommend street food markets and local eateries
+                          - Include tea plantation visits` : 
                           ''}
                         
                         Distribute the days across the cities in a logical order to minimize travel time.
@@ -228,165 +239,178 @@ const getTripPlan = async (userInput) => {
                           ""}`;
 
         // ============================================
-        // CREATE PAYLOAD BASED ON SELECTED API
+        // TRY EACH API WITH AUTOMATIC FALLBACK
         // ============================================
-        if (USE_OPENROUTER) {
-            // OpenRouter payload format with reasoning enabled
-            payload = {
-                model: "amazon/nova-2-lite-v1:free",
-                messages: [
-                    {
-                        role: "system",
-                        content: "You are a professional travel agent specializing in Sri Lankan tourism. Always respond with valid JSON only, no markdown or additional text."
-                    },
-                    {
-                        role: "user",
-                        content: combinedPrompt
+        const enabledProviders = AI_PROVIDERS.filter(p => p.enabled);
+        
+        if (enabledProviders.length === 0) {
+            throw new Error('No AI providers configured. Add API keys to .env file');
+        }
+
+        let lastError = null;
+
+        // Try each provider
+        for (const provider of enabledProviders) {
+            try {
+                console.log(`🤖 Trying ${provider.name} API...`);
+                
+                let apiUrl, payload, headers;
+
+                if (provider.name === 'Gemini') {
+                    apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${provider.apiKey}`;
+                    payload = {
+                        contents: [{
+                            parts: [{
+                                text: combinedPrompt
+                            }]
+                        }]
+                    };
+                } else if (provider.name === 'OpenRouter') {
+                    apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
+                    headers = {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${provider.apiKey}`
+                    };
+                    payload = {
+                        model: "amazon/nova-2-lite-v1:free",
+                        messages: [
+                            {
+                                role: "system",
+                                content: "You are a professional travel agent specializing in Sri Lankan tourism. Always respond with valid JSON only, no markdown or additional text."
+                            },
+                            {
+                                role: "user",
+                                content: combinedPrompt
+                            }
+                        ],
+                        reasoning: {
+                            enabled: true
+                        }
+                    };
+                }
+
+                // Make the API request with timeout
+                const response = await axios.post(apiUrl, payload, { 
+                    headers,
+                    timeout: 45000 // 45 second timeout
+                });
+                
+                // Parse response based on provider
+                let aiResponseText;
+                
+                if (provider.name === 'Gemini') {
+                    if (!response.data || !response.data.candidates || !response.data.candidates[0]) {
+                        throw new Error("Invalid Gemini API response structure");
                     }
-                ],
-                reasoning: {
-                    enabled: true
+                    aiResponseText = response.data.candidates[0].content.parts[0].text;
+                    console.log("✅ Gemini API responded successfully");
+                } else if (provider.name === 'OpenRouter') {
+                    if (!response.data || !response.data.choices || !response.data.choices[0]) {
+                        throw new Error("Invalid OpenRouter API response structure");
+                    }
+                    aiResponseText = response.data.choices[0].message.content;
+                    console.log("✅ OpenRouter API responded successfully");
                 }
-            };
-        } else {
-            // Gemini payload format
-            payload = {
-                contents: [{
-                    parts: [{
-                        text: combinedPrompt
-                    }]
-                }]
-            };
-        }
 
-        //5. Make the API request
-        const response = await axios.post(apiUrl, payload, { headers });
-        
-        // ============================================
-        // PARSE RESPONSE BASED ON SELECTED API
-        // ============================================
-        let aiResponseText;
-        
-        if (USE_OPENROUTER) {
-            // OpenRouter response format
-            if (!response.data || !response.data.choices || !response.data.choices[0]) {
-                throw new Error("Invalid OpenRouter API response structure");
-            }
-            aiResponseText = response.data.choices[0].message.content;
-            console.log("✅ OpenRouter API responded successfully");
-        } else {
-            // Gemini response format
-            if (!response.data || !response.data.candidates || !response.data.candidates[0]) {
-                throw new Error("Invalid Gemini API response structure");
-            }
-            aiResponseText = response.data.candidates[0].content.parts[0].text;
-            console.log("✅ Gemini API responded successfully");
-        }
+                // ============================================
+                // JSON PARSING (SAME FOR BOTH APIs)
+                // ============================================
+                try {
+                  // Remove markdown code blocks if present
+                  let cleanJson = aiResponseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+                  
+                  const tripPlanJson = JSON.parse(cleanJson);
+                  console.log("✅ Direct parsing successful");
 
-        // ============================================
-        // JSON PARSING (SAME FOR BOTH APIs)
-        // ============================================
-        try {
-          // Remove markdown code blocks if present
-          let cleanJson = aiResponseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-          
-          // First try direct parsing
-          const tripPlanJson = JSON.parse(cleanJson);
-          console.log("✅ Direct parsing successful");
+                  // Validate the response structure
+                  if (!tripPlanJson.tripPlan || !Array.isArray(tripPlanJson.tripPlan) || tripPlanJson.tripPlan.length === 0) {
+                    console.error("❌ Invalid response structure");
+                    throw new Error("The AI returned an invalid trip plan structure");
+                  }
 
-          // Validate the response structure
-          if (!tripPlanJson.tripPlan || !Array.isArray(tripPlanJson.tripPlan) || tripPlanJson.tripPlan.length === 0) {
-            console.error("❌ Invalid response structure");
-            throw new Error("The AI returned an invalid trip plan structure");
-          }
+                  // Check if we have the right number of days
+                  if (tripPlanJson.tripPlan.length < duration) {
+                    console.log("⚠️  AI returned fewer days than requested, adding placeholder days");
+                    
+                    for (let i = tripPlanJson.tripPlan.length + 1; i <= duration; i++) {
+                      tripPlanJson.tripPlan.push({
+                        day: i,
+                        location: `${citiesString.split(',')[0]} - Day ${i}`,
+                        description: "Details for this day will be provided soon.",
+                        activities: ["Exploring local attractions", "Free time for personal interests"],
+                        meals: {
+                          breakfast: "Local breakfast options",
+                          lunch: "Local lunch options",
+                          dinner: "Local dinner options"
+                        },
+                        accommodation: "Continued stay at previous accommodation",
+                        transportationTips: "Local transportation options"
+                      });
+                    }
+                  }
 
-          // Check if we have the right number of days
-          if (tripPlanJson.tripPlan.length < duration) {
-            console.log("⚠️  AI returned fewer days than requested, adding placeholder days");
-            
-            // Fill in missing days with generic content
-            for (let i = tripPlanJson.tripPlan.length + 1; i <= duration; i++) {
-              tripPlanJson.tripPlan.push({
-                day: i,
-                location: `${citiesString.split(',')[0]} - Day ${i}`,
-                description: "Details for this day will be provided soon.",
-                activities: ["Exploring local attractions", "Free time for personal interests"],
-                meals: {
-                  breakfast: "Local breakfast options",
-                  lunch: "Local lunch options",
-                  dinner: "Local dinner options"
-                },
-                accommodation: "Continued stay at previous accommodation",
-                transportationTips: "Local transportation options"
-              });
-            }
-          }
-
-          // Validate hiddenPlaces if requested
-          if (tripPlanJson.tripPlan.some(day => userInput.includeHiddenPlace && !day.hiddenPlaces)) {
-            console.log("🔄 Converting hiddenPlace to hiddenPlaces array if needed");
-            
-            // Convert any single hiddenPlace strings to arrays
-            tripPlanJson.tripPlan.forEach(day => {
-              if (userInput.includeHiddenPlace) {
-                if (day.hiddenPlace && !day.hiddenPlaces) {
-                  // If there's only hiddenPlace but not hiddenPlaces, convert it
-                  day.hiddenPlaces = [day.hiddenPlace];
-                  delete day.hiddenPlace;
-                } else if (!day.hiddenPlaces) {
-                  // If neither exists, add empty array
-                  day.hiddenPlaces = ["Hidden gem information not available"];
+                  // Validate hiddenPlaces if requested
+                  if (tripPlanJson.tripPlan.some(day => userInput.includeHiddenPlace && !day.hiddenPlaces)) {
+                    console.log("🔄 Converting hiddenPlace to hiddenPlaces array if needed");
+                    
+                    tripPlanJson.tripPlan.forEach(day => {
+                      if (userInput.includeHiddenPlace) {
+                        if (day.hiddenPlace && !day.hiddenPlaces) {
+                          day.hiddenPlaces = [day.hiddenPlace];
+                          delete day.hiddenPlace;
+                        } else if (!day.hiddenPlaces) {
+                          day.hiddenPlaces = ["Hidden gem information not available"];
+                        }
+                      }
+                    });
+                  }
+                  
+                  console.log(`✅ Trip plan validated: ${tripPlanJson.tripPlan.length} days`);
+                  return tripPlanJson; // ← SUCCESS! Return result
+                  
+                } catch (parseError) {
+                  console.log("⚠️  Direct parsing failed, attempting to extract JSON");
+                  const jsonRegex = /{[\s\S]*}/g;
+                  const jsonMatch = aiResponseText.match(jsonRegex);
+                  
+                  if (jsonMatch && jsonMatch[0]) {
+                    const extractedJson = JSON.parse(jsonMatch[0]);
+                    console.log("✅ JSON extraction successful");
+                    return extractedJson; // ← SUCCESS! Return result
+                  } else {
+                    throw new Error("Could not extract valid JSON from response");
+                  }
                 }
-              }
-            });
-          }
-          
-          console.log(`✅ Trip plan validated: ${tripPlanJson.tripPlan.length} days`);
-          return tripPlanJson;
-          
-        } catch (parseError) {
-          console.log("⚠️  Direct parsing failed, attempting to extract JSON");
-          try {
-            // Find JSON using regex pattern matching
-            const jsonRegex = /{[\s\S]*}/g;
-            const jsonMatch = aiResponseText.match(jsonRegex);
-            
-            if (jsonMatch && jsonMatch[0]) {
-              const extractedJson = JSON.parse(jsonMatch[0]);
-              console.log("✅ JSON extraction successful");
-              return extractedJson;
-            } else {
-              throw new Error("Could not extract valid JSON from response");
+
+            } catch (providerError) {
+                console.error(`❌ ${provider.name} failed:`, providerError.response?.data || providerError.message);
+                lastError = providerError;
+                // Continue to next provider
+                console.log(`⚠️  Trying next provider...`);
             }
-          } catch (extractError) {
-            console.error("❌ JSON extraction failed:", extractError);
-            throw new Error("Failed to parse AI response into valid JSON format");
-          }
         }
+
+        // All providers failed
+        throw lastError || new Error('All AI providers failed');
         
      } catch (error) {
         console.error("❌ Error calling AI API:", error.response ? error.response.data : error.message);
         
-        // Extract status code from the error
-        let statusCode = 500; // default
+        let statusCode = 500;
         
         if (error.response) {
-            // Axios error with response
             statusCode = error.response.status;
         } else if (error.response?.data?.error?.code) {
-            // Gemini API specific error format
             statusCode = error.response.data.error.code;
         }
         
-        // Create error with proper status code
         const err = new Error(
             statusCode === 503 
-                ? 'The AI service is temporarily overloaded. Please try again in a few moments.'
+                ? 'All AI services are temporarily overloaded. Please try again in a few moments.'
                 : 'Failed to generate trip plan. Please try again.'
         );
         err.status = statusCode;
         
-        // Throw the error so it can be caught by the error middleware
         throw err;
    } 
 }
