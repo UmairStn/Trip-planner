@@ -109,12 +109,15 @@ graph TD
 
 - **User Accounts:** Persistent history and "Wishlist" features using MongoDB for long-term storage.
 - **PDF Export:** Allow users to download their itinerary as a beautifully formatted PDF.
+- **🌤️ Real-time Weather Forecasts:** Integrate weather data for trip dates to help users plan better.
+- **💾 Database Integration:** Save and retrieve trip history for registered users.
 
 ### Long-Term (V3)
 
 - **Booking Integration:** Direct links to booking platforms (Booking.com/Expedia) for the suggested hotels to monetize the platform.
 - **Social Sharing:** Ability to share generated itineraries via public links so friends can collaborate.
-- **Real-time Weather:** Integrate OpenWeatherMap to warn users if their trip dates have predicted bad weather.
+- **🗺️ Google Maps Integration:** Embed interactive maps showing all destinations and routes.
+- **📅 Google Calendar Export:** Allow users to export their itinerary directly to Google Calendar.
 
 ---
 
