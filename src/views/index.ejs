@@ -198,6 +198,15 @@
     </div>
 </div>
 
+<% if (isAuthenticated) { %>
+    <form action="/auth/logout" method="post" class="mt-4">
+        <button type="submit" class="text-red-600 hover:text-red-800 font-medium px-4 py-2 border border-red-200 rounded-lg">Log Out Asgardeo</button>
+    </form>
+<% } else { %>
+    <div class="mt-4">
+        <a href="/login" class="text-cyan-600 hover:text-cyan-800 font-medium px-4 py-2 border border-cyan-200 rounded-lg">Login with Asgardeo</a>
+    </div>
+<% } %>
 <script>
     const loader = document.getElementById("loadingOverlay");
     const form = document.querySelector(".validated-form");

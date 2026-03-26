@@ -7,9 +7,14 @@ const crypto = require('crypto'); // For session security
 const express = require('express');
 const session = require('express-session');
 const rateLimit = require('express-rate-limit');
+//asgardeo
+var createError = require("http-errors");
+const passport = require('passport');
+var SQLiteStore = require("connect-sqlite3")(session);
 
 // Import routes and middleware
 const tripRoutes = require('./src/api/routes/trip.route.js');
+
 const { 
     errorHandler, 
     notFoundHandler, 
@@ -56,6 +61,7 @@ const sessionConfig = {
     name: 'tripPlanner.sid', // Custom session name
     resave: false,
     saveUninitialized: false, // More secure
+    store: new SQLiteStore({ db: "sessions.db", dir: "./var/db" }),
     rolling: true, // Extend session on activity
     cookie: {
         httpOnly: true, // Prevent XSS
@@ -66,11 +72,25 @@ const sessionConfig = {
 };
 app.use(session(sessionConfig));
 
+// ============ PASSPORT ASGARDEO SETUP ============
+require('./src/api/auth/auth.js');
+
+app.use(passport.initialize());
+app.use(passport.session());
+// ================================================
+
 // Static files
 app.use(express.static(path.join(__dirname, 'src/public')));
 
 // Apply trip-specific rate limiting
 app.use('/generate-trip', tripLimiter);
+
+// Make auth user available in all EJS views
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user || null;
+    res.locals.isAuthenticated = req.isAuthenticated ? req.isAuthenticated() : false;
+    next();
+});
 
 // Routes
 app.use('/', tripRoutes);
