@@ -1,0 +1,57 @@
+<!-- filepath: c:\Project\trip-planner\src\views\login.ejs -->
+<% layout('layout/boilerplate') %>
+
+<!-- Override the default container margins for a true full-bleed login experience -->
+<style>
+    main.container {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin-top: 0 !important;
+    }
+    
+    @keyframes shimmer {
+        100% { transform: translateX(200%); }
+    }
+</style>
+
+<!-- Adjust height manually because of navbar -->
+<div class="min-h-[calc(100vh-64px)] flex w-full">
+    <!-- Image Section (Hidden on mobile) -->
+    <div class="hidden lg:flex lg:w-1/2 relative">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent z-10 flex flex-col justify-end p-16">
+            <h2 class="text-white text-5xl font-bold mb-4 animate-fade-in leading-tight shadow-sm">Your Journeys, <br><span class="text-cyan-400">Perfectly Planned</span></h2>
+            <p class="text-slate-200 text-lg max-w-lg mb-8 animate-fade-in" style="animation-delay: 0.2s;">Let AI uncover hidden gems and tailor every trip uniquely to your travel style, pace, and budget.</p>
+        </div>
+        <!-- High-quality Unsplash image relevant to travel -->
+        <img src="https://images.unsplash.com/photo-1534353739409-c61daeb03f61?q=80&w=1333&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+             alt="Stunning Travel Destination" 
+             class="absolute inset-0 w-full h-full object-cover" />
+    </div>
+
+    <!-- Login Section -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-8 bg-slate-50 dark:bg-slate-900/95 relative overflow-hidden">
+        <!-- Subtle background decoration -->
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-cyan-200/20 dark:bg-cyan-900/20 blur-3xl mix-blend-multiply flex-none"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-blue-200/20 dark:bg-blue-900/20 blur-3xl mix-blend-multiply flex-none"></div>
+
+        <div class="w-full max-w-md bg-white dark:bg-slate-800/90 backdrop-blur-md rounded-3xl shadow-2xl p-10 transform transition-all hover:-translate-y-1 hover:shadow-cyan-500/10 border border-slate-100 dark:border-slate-700 relative z-20">
+            <div class="w-16 h-16 bg-gradient-to-br from-cyan-100 to-blue-50 dark:from-cyan-900/50 dark:to-blue-900/30 rounded-2xl flex items-center justify-center mb-8 shadow-inner mx-auto ring-1 ring-cyan-50 dark:ring-cyan-800">
+                <i class="bi bi-compass-fill text-3xl text-cyan-600 dark:text-cyan-400 pulse-glow rounded-full"></i>
+            </div>
+            
+            <h1 class="text-3xl font-extrabold mb-3 text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-blue-400">Welcome to Roamly</h1>
+            <p class="text-slate-500 dark:text-slate-400 mb-9 text-center leading-relaxed">Sign in to unlock personalized AI itineraries, explore hidden destinations, and save your epic adventures.</p>
+            
+            <a href="/auth/login" class="group relative flex items-center justify-center w-full px-6 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-2xl font-bold hover:from-cyan-500 hover:to-blue-500 transition-all shadow-[0_8px_30px_rgb(8,145,178,0.2)] hover:shadow-[0_8px_30px_rgb(8,145,178,0.4)] overflow-hidden">
+                <span class="absolute inset-0 w-full h-full bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-[shimmer_1s_forwards]"></span>
+                <i class="bi bi-shield-lock mr-3 text-xl transition-transform group-hover:scale-110"></i>
+                <span class="tracking-wide">Continue with Asgardeo</span>
+            </a>
+            
+            <div class="mt-8 flex items-center justify-center space-x-2 text-sm text-slate-500 dark:text-slate-400 font-medium">
+                <i class="bi bi-shield-check text-green-500 text-lg"></i>
+                <span>Secure Enterprise Authentication</span>
+            </div>
+        </div>
+    </div>
+</div>

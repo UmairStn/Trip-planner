@@ -4,6 +4,9 @@
 const AiPlan = require('../services/ai.services.js');
 const UserInputs = require('../models/UserInputs.js');
 const { asyncHandler } = require('../../middleware/error.middleware.js');
+const BASE_URL = 'https://api.asgardeo.io/t/roamly';
+const qs = require("querystring");
+const passport = require('passport');
 
 // Render pages
 module.exports.renderHomePage = (req, res) => {
@@ -117,5 +120,31 @@ module.exports.showSavedTrips = (req, res) => {
         savedTrips,
         tripCount: req.session.tripCount || 0,
         sessionId: req.sessionID
+    });
+};
+
+module.exports.loginPage = (req, res) => {
+    if (req.isAuthenticated()) {
+        res.render("index", { title: "Express", user: req.user });
+    } else {
+        res.render("login", { title: "Express" });
+    }
+}
+
+module.exports.authenticate = passport.authenticate("asgardeo", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+});
+
+module.exports.authLogout = (req, res, next) => {
+    req.logout(err => {
+        if (err) return next(err);
+
+        const params = {
+            post_logout_redirect_uri: 'http://localhost:5000',
+            client_id: process.env.CLIENT_ID
+        };
+
+        res.redirect(`${BASE_URL}/oidc/logout?${qs.stringify(params)}`);
     });
 };
