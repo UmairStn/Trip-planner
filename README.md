@@ -1,6 +1,6 @@
-# 🌍 Trip Planner (AI-Powered)
+# 🌍 Roamly (AI-Powered)
 
-**Trip Planner** is an intelligent web application that generates personalized travel itineraries using advanced AI. By leveraging **OpenAI's GPT-4o / Google Gemini** models, it solves the "analysis paralysis" travelers face when planning trips, providing detailed day-by-day plans, hidden gems, and local recommendations in seconds.
+**Roamly** is an intelligent web application that generates personalized travel itineraries using advanced AI. By leveraging **OpenAI's GPT-4o / Google Gemini** models, it solves the "analysis paralysis" travelers face when planning trips, providing detailed day-by-day plans, hidden gems, and local recommendations in seconds.
 
 🌐 **Live Demo:** [https://trip-planner-three-tau.vercel.app/](https://trip-planner-three-tau.vercel.app/)
 
@@ -18,7 +18,7 @@ Travel planning is often overwhelming. Travelers spend hours researching destina
 Generating personalized travel recommendations manually is slow and prone to bias. Users are bombarded with too much information, leading to decision fatigue. They want a unique experience but get stuck validating hundreds of options.
 
 **Current Solution:**
-Trip Planner uses **Generative AI** to act as an instant, expert travel agent. It analyzes user preferences (budget, interests, duration) and constructs a conflict-free, logically sequenced itinerary. We use prompt engineering to enforce structured JSON outputs from the LLM, ensuring the data is instantly usable by our frontend.
+Roamly uses **Generative AI** to act as an instant, expert travel agent. It analyzes user preferences (budget, interests, duration) and constructs a conflict-free, logically sequenced itinerary. We use prompt engineering to enforce structured JSON outputs from the LLM, ensuring the data is instantly usable by our frontend.
 
 **Why solve this?**
 
