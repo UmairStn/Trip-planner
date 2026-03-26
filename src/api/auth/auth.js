@@ -19,7 +19,9 @@ if (!clientId || !clientSecret) {
                 userInfoURL: `${BASE_URL}/oauth2/userinfo`,
                 clientID: clientId,
                 clientSecret: clientSecret,
-                callbackURL: '/oauth2/redirect',
+                callbackURL: process.env.VERCEL_URL 
+                    ? `https://${process.env.VERCEL_URL}/oauth2/redirect` 
+                    : 'http://localhost:3000/oauth2/redirect',
                 scope: ["profile internal_login"]
             },
             function verify(issuer, uiProfile, idProfile, context, idToken, accessToken, refreshToken, params, verified) {
