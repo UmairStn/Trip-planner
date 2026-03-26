@@ -61,7 +61,7 @@ const sessionConfig = {
     name: 'tripPlanner.sid', // Custom session name
     resave: false,
     saveUninitialized: false, // More secure
-    store: new SQLiteStore({ db: "sessions.db", dir: "./var/db" }),
+    store: new SQLiteStore({ db: "sessions.db", dir: process.env.NODE_ENV === 'production' ? '/tmp' : './var/db' }),
     rolling: true, // Extend session on activity
     cookie: {
         httpOnly: true, // Prevent XSS
@@ -117,12 +117,17 @@ app.use(errorHandler);   // General error handler
 app.use(notFoundHandler); // 404 handler (must be last)
 
 // Start server
-app.listen(PORT, () => {
-    console.log(`🚀 Server is running on http://localhost:${PORT}`);
-    console.log(`📁 Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`🔒 Session security enabled`);
-    console.log(`⚡ Rate limiting configured`);
-});
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`🚀 Server is running on http://localhost:${PORT}`);
+        console.log(`📁 Environment: ${process.env.NODE_ENV || 'development'}`);
+        console.log(`🔒 Session security enabled`);
+        console.log(`⚡ Rate limiting configured`);
+    });
+}
+
+// Export the app for Vercel
+module.exports = app;
 
 // Graceful shutdown handling
 process.on('SIGTERM', () => {
