@@ -139,3 +139,6 @@ process.on('SIGINT', () => {
     console.log('SIGINT received. Shutting down gracefully...');
     process.exit(0);
 });
+
+// Ensure this line is at the end of your app.js
+module.exports = app;
