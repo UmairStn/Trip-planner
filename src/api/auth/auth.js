@@ -5,7 +5,10 @@ const BASE_URL = 'https://api.asgardeo.io/t/roamly';
 
 // Use your Environment Variable for the redirect
 // Fallback to localhost if the variable is missing (helps prevent crashes)
-const redirectUri = process.env.ASGARDEO_REDIRECT_URL || 'http://localhost:5000/oauth2/redirect';
+let redirectUri = process.env.ASGARDEO_REDIRECT_URL || 'http://localhost:5000/oauth2/redirect';
+if (process.env.ASGARDEO_REDIRECT_URL && !process.env.ASGARDEO_REDIRECT_URL.endsWith('/oauth2/redirect')) {
+    redirectUri = `${process.env.ASGARDEO_REDIRECT_URL.replace(/\/$/, '')}/oauth2/redirect`;
+}
 
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
