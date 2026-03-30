@@ -15,11 +15,11 @@ var SQLiteStore = require("connect-sqlite3")(session);
 // Import routes and middleware
 const tripRoutes = require('./src/api/routes/trip.route.js');
 
-const { 
-    errorHandler, 
-    notFoundHandler, 
+const {
+    errorHandler,
+    notFoundHandler,
     rateLimitHandler,
-    dbErrorHandler 
+    dbErrorHandler
 } = require('./src/middleware/error.middleware.js');
 
 const app = express();
@@ -97,7 +97,7 @@ app.use('/', tripRoutes);
 
 // Test route
 app.get('/test', (req, res) => {
-    res.json({ 
+    res.json({
         message: 'API is working',
         timestamp: new Date().toISOString(),
         environment: process.env.NODE_ENV || 'development'

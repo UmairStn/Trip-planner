@@ -26,10 +26,10 @@ module.exports.generateTripPlan = async (req, res) => {
     try {
         //console.log('Session ID:', req.sessionID);
         //console.log('Form submitted with data:', req.body);
-        
+
         // Extract data from the request body
-        const rawInputs = req.body.userInputs; 
-        
+        const rawInputs = req.body.userInputs;
+
         // Process the data to match your Mongoose Schema
         const processedData = {
             cities: rawInputs.cities,
@@ -52,20 +52,20 @@ module.exports.generateTripPlan = async (req, res) => {
 
         // Store formData in session
         req.session.formData = processedData;
-        
+
         // Track user's trip generation count
         req.session.tripCount = (req.session.tripCount || 0) + 1;
-        
+
         // Call AI service using the processed data (REAL AI GENERATION)
         //console.log('Calling AI service with processed data:', processedData);
         const tripPlan = await AiPlan.getTripPlan(processedData);
-        
+
         // Store the AI result in session
         req.session.tripPlan = tripPlan;
-        
+
         // Redirect to results
         res.redirect('/trip-results');
-        
+
     } catch (error) {
         console.error("Error generating trip:", error);
         req.session.error = {
@@ -82,15 +82,15 @@ module.exports.showTripResults = (req, res) => {
     const tripPlan = req.session.tripPlan || { tripPlan: [] };
     const formData = req.session.formData || {};
     const error = req.session.error || {};
-    
+
     // console.log('Rendering results with:', {
     //     tripPlan: tripPlan.tripPlan || [],
     //     status: tripPlan.status || error.status || "success",
     //     formData
     // });
-    
+
     // Render the results page with REAL AI data
-    res.render('results', { 
+    res.render('results', {
         tripPlan: tripPlan.tripPlan || [],
         status: tripPlan.status || error.status || "success",
         message: tripPlan.message || error.message || "",
@@ -101,7 +101,7 @@ module.exports.showTripResults = (req, res) => {
             tripCount: req.session.tripCount || 0
         }
     });
-    
+
     // Clear session error after rendering
     req.session.error = null;
 };
@@ -114,7 +114,7 @@ module.exports.getTextMessage = (req, res) => {
 module.exports.showSavedTrips = (req, res) => {
     const savedTrips = req.session.savedTrips || [];
     const currentTripPlan = req.session.tripPlan;
-    
+
     res.json({
         currentTripPlan,
         savedTrips,

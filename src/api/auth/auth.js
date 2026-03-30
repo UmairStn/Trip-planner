@@ -3,12 +3,15 @@ const AsgardeoStrategy = require('@asgardeo/passport-asgardeo');
 
 const BASE_URL = 'https://api.asgardeo.io/t/roamly';
 
-// Fail-safe: Check if variables exist before initializing
+// Use your Environment Variable for the redirect
+// Fallback to localhost if the variable is missing (helps prevent crashes)
+const redirectUri = process.env.ASGARDEO_REDIRECT_URL || 'http://localhost:5000/oauth2/redirect';
+
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 
 if (!clientId || !clientSecret) {
-    console.error("CRITICAL ERROR: CLIENT_ID or CLIENT_SECRET is undefined in Vercel.");
+    console.error("CRITICAL ERROR: CLIENT_ID or CLIENT_SECRET is undefined.");
 } else {
     passport.use(
         new AsgardeoStrategy(
@@ -19,9 +22,8 @@ if (!clientId || !clientSecret) {
                 userInfoURL: `${BASE_URL}/oauth2/userinfo`,
                 clientID: clientId,
                 clientSecret: clientSecret,
-                callbackURL: process.env.VERCEL_URL 
-                    ? `https://${process.env.VERCEL_URL}/oauth2/redirect` 
-                    : 'http://localhost:3000/oauth2/redirect',
+                // CHANGE THIS LINE:
+                callbackURL: redirectUri, 
                 scope: ["profile internal_login"]
             },
             function verify(issuer, uiProfile, idProfile, context, idToken, accessToken, refreshToken, params, verified) {
@@ -30,6 +32,7 @@ if (!clientId || !clientSecret) {
         )
     );
 }
+// ... rest of your serialization code
 
 passport.serializeUser((user, cb) => {
     process.nextTick(() => {
