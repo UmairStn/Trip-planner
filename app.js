@@ -10,7 +10,6 @@ const rateLimit = require('express-rate-limit');
 //asgardeo
 var createError = require("http-errors");
 const passport = require('passport');
-var SQLiteStore = require("connect-sqlite3")(session);
 
 // Import routes and middleware
 const tripRoutes = require('./src/api/routes/trip.route.js');
@@ -24,6 +23,9 @@ const {
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Trust Vercel proxy so secure cookies are correctly generated over HTTPS
+app.set('trust proxy', 1);
 
 // RATE LIMITING CONFIGURATION
 const generalLimiter = rateLimit({
@@ -61,7 +63,7 @@ const sessionConfig = {
     name: 'tripPlanner.sid', // Custom session name
     resave: false,
     saveUninitialized: false, // More secure
-    store: new SQLiteStore({ db: "sessions.db", dir: process.env.NODE_ENV === 'production' ? '/tmp' : './var/db' }),
+    // SQLite removed for Vercel ephemeral file system. Falls back to MemoryStore
     rolling: true, // Extend session on activity
     cookie: {
         httpOnly: true, // Prevent XSS

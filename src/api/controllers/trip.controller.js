@@ -140,8 +140,15 @@ module.exports.authLogout = (req, res, next) => {
     req.logout(err => {
         if (err) return next(err);
 
+        // Determine the base URL dynamically based on the environment
+        const host = req.get('host');
+        const protocol = req.protocol === 'https' || req.get('x-forwarded-proto') === 'https' ? 'https' : 'http';
+        const baseUrl = process.env.ASGARDEO_REDIRECT_URL 
+            ? process.env.ASGARDEO_REDIRECT_URL.replace('/oauth2/redirect', '') 
+            : `${protocol}://${host}`;
+
         const params = {
-            post_logout_redirect_uri: 'http://localhost:5000',
+            post_logout_redirect_uri: baseUrl,
             client_id: process.env.CLIENT_ID
         };
 
