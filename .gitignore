@@ -1,6 +1,47 @@
+# Dependencies
+node_modules/
+jspm_packages/
+
 # Environment Variables
 .env
-.env.local
-.env.production
-node_modules/
+.env.*
+!.env.example
+
+# Database & Runtime Data
+var/
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs & Debugging
 *.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Vercel & Build Outputs
+.vercel
+dist/
+build/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.lnk
+
+# IDE & Editor Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Temporary & Working Files
+*.tmp
+*.temp
+implementation_plan.md
+INVESTIGATION_SUMMARY.txt
+
+INVESTIGATION_SUMMARY.txt

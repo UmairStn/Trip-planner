@@ -5,8 +5,11 @@ const crypto = require('crypto'); // For session security
 
 // const mongoose = require('mongoose');
 const express = require('express');
-const session = require('express-session');
+const cookieSession = require('cookie-session');
 const rateLimit = require('express-rate-limit');
+const { RedisStore } = require('connect-redis');
+const { RedisStore: RateLimitRedisStore } = require('rate-limit-redis');
+const { redisClient } = require('./src/config/redis.js');
 //asgardeo
 var createError = require("http-errors");
 const passport = require('passport');
@@ -27,10 +30,34 @@ const PORT = process.env.PORT || 5000;
 // Trust Vercel proxy so secure cookies are correctly generated over HTTPS
 app.set('trust proxy', 1);
 
+// Helper to initialize Redis store for rate limiters
+const createRateLimitStore = (prefix) => {
+    if (!redisClient) return undefined;
+    return new RateLimitRedisStore({
+        sendCommand: async (...args) => {
+            if (!redisClient.isReady) {
+                if (!redisClient.isOpen) {
+                    await redisClient.connect().catch(() => {});
+                }
+            }
+            if (redisClient.isReady) {
+                return redisClient.sendCommand(args);
+            }
+            // Return dummy SHA during startup script load if client is still connecting
+            if (args[0] === 'SCRIPT' && args[1] === 'LOAD') {
+                return 'offline-script-sha';
+            }
+            return [0, 0];
+        },
+        prefix
+    });
+};
+
 // RATE LIMITING CONFIGURATION
 const generalLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100,
+    store: createRateLimitStore('rl:general:'),
     message: 'Too many requests from this IP, please try again after 15 minutes.',
     standardHeaders: true,
     legacyHeaders: false,
@@ -40,6 +67,7 @@ const generalLimiter = rateLimit({
 const tripLimiter = rateLimit({
     windowMs: 60 * 1000, // 1 minute
     max: 3,
+    store: createRateLimitStore('rl:trip:'),
     message: 'Too many trip generation requests. Please wait a minute before trying again.',
     standardHeaders: true,
     legacyHeaders: false,
@@ -57,22 +85,30 @@ app.set('views', path.join(__dirname, 'src/views'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// SECURE SESSION CONFIGURATION
-const sessionConfig = {
-    secret: process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex'),
-    name: 'tripPlanner.sid', // Custom session name
-    resave: false,
-    saveUninitialized: false, // More secure
-    // SQLite removed for Vercel ephemeral file system. Falls back to MemoryStore
-    rolling: true, // Extend session on activity
-    cookie: {
-        httpOnly: true, // Prevent XSS
-        secure: process.env.NODE_ENV === 'production', // HTTPS only in production
-        sameSite: 'strict', // CSRF protection
-        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+// SECURE BROWSER COOKIE SESSION CONFIGURATION
+// Uses signed, tamper-proof, httpOnly cookies directly in the browser
+// Solves Vercel's stateless container wipes 100% without needing any Redis or external database!
+const sessionSecret = process.env.SESSION_SECRET || 'trip-planner-fallback-secret-key-32chars';
+
+app.use(cookieSession({
+    name: 'tripPlanner.sig',
+    keys: [sessionSecret],
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    secure: process.env.NODE_ENV === 'production', // HTTPS only in production
+    httpOnly: true, // Prevent client-side XSS access
+    sameSite: 'lax' // Preserves session on Asgardeo OAuth redirect callbacks
+}));
+
+// Polyfill Passport 0.6+ session methods for cookie-session compatibility
+app.use((req, res, next) => {
+    if (req.session && !req.session.regenerate) {
+        req.session.regenerate = (cb) => { if (cb) cb(); };
     }
-};
-app.use(session(sessionConfig));
+    if (req.session && !req.session.save) {
+        req.session.save = (cb) => { if (cb) cb(); };
+    }
+    next();
+});
 
 // ============ PASSPORT ASGARDEO SETUP ============
 require('./src/api/auth/auth.js');

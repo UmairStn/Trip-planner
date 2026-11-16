@@ -2,6 +2,22 @@
 // This function will handle the core logic of creating a trip plan.
 
 const axios = require('axios');
+const crypto = require('crypto');
+const { safeGet, safeSet } = require('../../config/redis.js');
+
+// Helper to create deterministic hash for user input
+const generatePlanCacheKey = (input) => {
+    const normalized = {
+        cities: (input.cities || '').toLowerCase().split(',').map(s => s.trim()).sort().join(','),
+        duration: Number(input.duration) || 0,
+        budget: (input.budget || '').toLowerCase().trim(),
+        interests: Array.isArray(input.interests) ? [...input.interests].map(s => s.toLowerCase().trim()).sort().join(',') : '',
+        includeHiddenPlace: Boolean(input.includeHiddenPlace),
+        allowAiSuggestions: Boolean(input.allowAiSuggestions)
+    };
+    const hash = crypto.createHash('sha256').update(JSON.stringify(normalized)).digest('hex');
+    return `ai:plan:${hash}`;
+};
 
 // Test mode flag - set to true when testing UI
 const TEST_MODE = false; // Toggle this to true when you want to skip API calls
@@ -143,6 +159,19 @@ const getTripPlan = async (userInput) => {
    if (TEST_MODE) {
      console.log("TEST MODE: Returning sample trip plan instead of calling API");
      return sampleTripPlan;
+   }
+   
+   // Check Redis cache first to avoid repeating identical AI calls
+   const cacheKey = generatePlanCacheKey(userInput);
+   const cachedPlanString = await safeGet(cacheKey);
+   if (cachedPlanString) {
+     try {
+       const cachedPlan = JSON.parse(cachedPlanString);
+       console.log(`⚡ [Redis Cache HIT] Returning cached trip plan (${cachedPlan.tripPlan?.length || 0} days) for: ${userInput.cities}`);
+       return cachedPlan;
+     } catch (e) {
+       console.warn('⚠️ Failed to parse cached trip plan from Redis:', e.message);
+     }
    }
    
    try {
@@ -366,6 +395,8 @@ const getTripPlan = async (userInput) => {
                   }
                   
                   console.log(`✅ Trip plan validated: ${tripPlanJson.tripPlan.length} days`);
+                  // Cache in Redis for 7 days (604800s)
+                  await safeSet(cacheKey, JSON.stringify(tripPlanJson), { EX: 604800 });
                   return tripPlanJson; // ← SUCCESS! Return result
                   
                 } catch (parseError) {
@@ -376,6 +407,8 @@ const getTripPlan = async (userInput) => {
                   if (jsonMatch && jsonMatch[0]) {
                     const extractedJson = JSON.parse(jsonMatch[0]);
                     console.log("✅ JSON extraction successful");
+                    // Cache in Redis for 7 days (604800s)
+                    await safeSet(cacheKey, JSON.stringify(extractedJson), { EX: 604800 });
                     return extractedJson; // ← SUCCESS! Return result
                   } else {
                     throw new Error("Could not extract valid JSON from response");

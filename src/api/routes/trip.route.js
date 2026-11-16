@@ -20,6 +20,11 @@ router.get('/destinations', tripController.renderDestinationsPage);
 router.get('/saved-trips', tripController.showSavedTrips);
 router.get('/test', tripController.getTextMessage);
 
+// Redis-backed feature routes
+router.get('/api/location-image', tripController.getLocationImage);
+router.post('/api/trips/share', tripController.createSharedTrip);
+router.get('/trip/shared/:id', tripController.showSharedTrip);
+
 // OAuth callback
 router.get("/oauth2/redirect", tripController.authenticate);
 
