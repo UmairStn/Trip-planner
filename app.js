@@ -110,6 +110,13 @@ app.use((req, res, next) => {
     next();
 });
 
+app.get('/health', (req, res) => {
+    res.status(200).json({
+        status : 'ok',
+        timestamp : new Date().toISOString()
+    });
+})
+
 // ============ PASSPORT ASGARDEO SETUP ============
 require('./src/api/auth/auth.js');
 
@@ -155,7 +162,7 @@ app.use(errorHandler);   // General error handler
 app.use(notFoundHandler); // 404 handler (must be last)
 
 // Start server
-if (process.env.NODE_ENV !== 'production') {
+if (require.main === module) {
     app.listen(PORT, () => {
         console.log(`🚀 Server is running on http://localhost:${PORT}`);
         console.log(`📁 Environment: ${process.env.NODE_ENV || 'development'}`);
@@ -177,6 +184,3 @@ process.on('SIGINT', () => {
     console.log('SIGINT received. Shutting down gracefully...');
     process.exit(0);
 });
-
-// Ensure this line is at the end of your app.js
-module.exports = app;

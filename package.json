@@ -4,7 +4,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "test": "node --test --test-force-exit"
   },
   "keywords": [],
   "author": "",
@@ -29,5 +30,8 @@
     "passport": "^0.7.0",
     "rate-limit-redis": "^4.2.2",
     "redis": "^5.8.3"
+  },
+  "devDependencies": {
+    "supertest": "^7.3.2"
   }
 }
